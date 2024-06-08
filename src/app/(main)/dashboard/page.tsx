@@ -7,7 +7,7 @@ export default function Dashboard() {
 
 	return (
 		<main>
-			<div className="flex items-center justify-between ">
+			<div className="flex items-center justify-between">
 				<div>Templates</div>
 				<button className="bg-slate-700">Add New Template</button>
 			</div>
