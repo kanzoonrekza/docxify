@@ -1,5 +1,5 @@
 {
-  "id": "97f37f97-08ac-4e17-a027-8d25dfbaf5f2",
+  "id": "8baaf8ec-df46-4162-ba25-012a1b691840",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -39,17 +39,31 @@
           "notNull": true,
           "default": false
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
+        "tags": {
+          "name": "tags",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "api": {
+          "name": "api",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
         "updated_at": {
           "name": "updated_at",
-          "type": "text",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
