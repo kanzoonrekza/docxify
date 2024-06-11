@@ -33,6 +33,32 @@ export const mockTemplateDetails: templateDetailType[] = [
 		],
 		api: undefined,
 	},
+	{
+		id: 3,
+		title: "Template M",
+		description: "Description of template M. It's a long description that will be truncated, and it will be truncated, but we don't know how long it will be.",
+		category: "General",
+		apiReady: false,
+		tags: [
+			{ raw: "INS some_variable", code: "some_variable", type: "INS" },
+			{ raw: "INS some_variable", code: "some_variableb", type: "INS" },
+			{ raw: "IMAGE svgImgFile()", code: "svgImgFile()", type: "IMAGE" },
+		],
+		api: undefined,
+	},
+	{
+		id: 4,
+		title: "Template B",
+		description: "Description of template B",
+		category: "General",
+		apiReady: false,
+		tags: [
+			{ raw: "INS some_variable", code: "some_variable", type: "INS" },
+			{ raw: "INS some_variable", code: "some_variableb", type: "INS" },
+			{ raw: "IMAGE svgImgFile()", code: "svgImgFile()", type: "IMAGE" },
+		],
+		api: undefined,
+	},
 ];
 
 export const apiData: any = {
