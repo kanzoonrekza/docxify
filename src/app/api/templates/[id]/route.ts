@@ -12,7 +12,7 @@ export async function GET(
 		.select()
 		.from(templates)
 		.where(eq(templates.id, Number(id)));
-	return NextResponse.json(response);
+	return NextResponse.json(response[0]);
 }
 
 export async function PATCH(
