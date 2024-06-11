@@ -5,7 +5,7 @@ export default function MainLayout({
 }>) {
 	return (
 		<>
-			<div className="sticky top-0 bg-neutral-800 z-10">Doxify</div>
+			<div className="sticky top-0 z-10 bg-neutral-800">Doxify</div>
 			{children}
 		</>
 	);
