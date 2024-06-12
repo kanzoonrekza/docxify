@@ -17,7 +17,14 @@ export const claudinaryUploadBuffer = async (
 
 	return await new Promise((resolve, reject) => {
 		cloudinary.uploader
-			.upload_stream({ resource_type: "auto", folder: "docxify" }, onDone)
+			.upload_stream(
+				{
+					resource_type: "auto",
+					folder: "docxify",
+					public_id: `${Date.now()}_${file.name}`,
+				},
+				onDone
+			)
 			.end(Buffer.from(buffer));
 
 		function onDone(
