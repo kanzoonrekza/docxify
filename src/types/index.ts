@@ -1,6 +1,8 @@
 export type templateDetailType = {
 	id: number;
 	title: string;
+	fileUrl: string;
+	file: File;
 	description: string;
 	category: string;
 	tags: {
