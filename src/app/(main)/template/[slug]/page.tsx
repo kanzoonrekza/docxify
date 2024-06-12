@@ -13,7 +13,6 @@ export default function TemplateSlugPage({
 
 	if (error) return <div>failed to load</div>;
 	if (isLoading) return <div>loading...</div>;
-	console.log(data?.tags);
 
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -50,10 +49,16 @@ export default function TemplateSlugPage({
 							))}
 						</ul>
 						<div className="grid grid-cols-2 gap-5">
-							<button className="p-2 border border-red-600" type="button" onClick={() => {}}>
+							<button
+								className="p-2 border border-red-600"
+								type="button"
+								onClick={() => {}}
+							>
 								Delete
 							</button>
-							<button className="p-2 border border-gray-400" type="submit">Generate</button>
+							<button className="p-2 border border-gray-400" type="submit">
+								Generate
+							</button>
 						</div>
 					</form>
 				</div>

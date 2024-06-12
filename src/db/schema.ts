@@ -9,6 +9,7 @@ import {
 
 export const templates = pgTable("templateTable", {
 	id: serial("id").primaryKey(),
+	fileUrl: text("file_url").notNull().default(""),
 	title: text("title").notNull(),
 	description: text("description"),
 	category: text("category").notNull(),

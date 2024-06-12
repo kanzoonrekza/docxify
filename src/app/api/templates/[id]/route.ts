@@ -3,16 +3,32 @@ import { templates } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
+type responseDetailType = {
+	id: number;
+	fileUrl: string;
+	title: string;
+	description: string | null;
+	category: string;
+	apiReady: boolean;
+	tags: string;
+	api: string;
+	createdAt: Date;
+	updatedAt: Date;
+}[];
+
 export async function GET(
 	request: NextRequest,
 	{ params }: { params: { id: string } }
 ) {
 	const id = params.id;
-	const response = await db
+	const response = (await db
 		.select()
 		.from(templates)
-		.where(eq(templates.id, Number(id)));
-	return NextResponse.json(response[0]);
+		.where(eq(templates.id, Number(id)))) as responseDetailType;
+	return NextResponse.json({
+		...response[0],
+		tags: JSON.parse(response[0].tags),
+	});
 }
 
 export async function PATCH(
