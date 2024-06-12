@@ -35,15 +35,17 @@ export async function POST(request: NextRequest) {
 
 	try {
 		const uploadResult: UploadApiResponse = await claudinaryUploadBuffer(file);
-		// TODO: process tags before inserting
+		const uniqueTags = JSON.parse(formData.get("tags") as string).filter(
+			(tag: any, index: number, self: any[]) =>
+				self.findIndex((t) => t.code === tag.code) === index
+		);
 		const newData: NewTemplate = {
 			title: formData.get("title") as string,
 			fileUrl: uploadResult.secure_url,
 			description: formData.get("description") as string,
 			category: formData.get("category") as string,
 			apiReady: (formData.get("apiReady") as string) === "true" ? true : false,
-			tags:
-				formData.get("tags") == "" ? null : (formData.get("tags") as object),
+			tags: formData.get("tags") == "" ? null : uniqueTags,
 			api: formData.get("api") === "" ? null : (formData.get("api") as object),
 		};
 
