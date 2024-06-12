@@ -27,7 +27,13 @@ export default function TemplateSlugPage({
 	return (
 		<div className="max-w-screen-xl mx-auto">
 			<main className="grid h-full grid-cols-2 gap-10 p-10">
-				<div className="h-[640px] bg-slate-900">Document Preview</div>
+				<div className="h-[640px] bg-slate-900">
+					Document Preview
+					<br />
+					<a href={data?.fileUrl} download>
+						Download document
+					</a>
+				</div>
 				<div className="overflow-y-auto">
 					<div className="text-4xl">{data?.title}</div>
 					<div>{data?.apiReady ? "API Ready" : "API Not Ready"}</div>

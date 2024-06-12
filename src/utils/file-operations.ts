@@ -42,3 +42,12 @@ export const claudinaryUploadBuffer = async (
 		}
 	});
 };
+
+export const getFileFromCloudinary = async (
+	url: string
+): Promise<File | undefined> => {
+	const rawFile = await fetch(url);
+	const blob = await rawFile.blob();
+	const file = new File([blob], "document.docx", { type: blob.type });
+	return file;
+};

@@ -1,5 +1,6 @@
 import db from "@/db/drizzle";
 import { templates } from "@/db/schema";
+import { getFileFromCloudinary } from "@/utils/file-operations";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,7 +13,10 @@ export async function GET(
 		.select()
 		.from(templates)
 		.where(eq(templates.id, Number(id)));
-	return NextResponse.json(response[0]);
+
+	const file = await getFileFromCloudinary(response[0].fileUrl);
+
+	return NextResponse.json({ ...response[0], file: file });
 }
 
 export async function PATCH(
