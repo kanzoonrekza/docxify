@@ -20,17 +20,31 @@ export async function POST(request: NextRequest) {
 	type NewTemplate = typeof templates.$inferInsert;
 
 	const insertTemplate: any = async (NewData: NewTemplate) => {
-		return db.insert(templates).values(NewData);
+		return db.insert(templates).values(NewData).returning();
 	};
 
 	const formData = await request.formData();
 	const file: File = formData.get("file") as File;
 
-	if (!file || file.size === 0) {
-		return NextResponse.json({
-			message:
-				"No file detected, please make sure your file uploaded correctly",
-		});
+	if (!file || !(file.size > 0)) {
+		return NextResponse.json(
+			{
+				status: 400,
+				message:
+					"No file detected, please make sure your file uploaded correctly",
+			},
+			{ status: 400 }
+		);
+	}
+
+	if (!formData.get("tags")) {
+		return NextResponse.json(
+			{
+				status: 400,
+				message: "No tags detected, please make sure your tags are correct",
+			},
+			{ status: 400 }
+		);
 	}
 
 	try {
@@ -46,14 +60,14 @@ export async function POST(request: NextRequest) {
 			category: formData.get("category") as string,
 			apiReady: (formData.get("apiReady") as string) === "true" ? true : false,
 			tags: formData.get("tags") == "" ? null : uniqueTags,
-			api: formData.get("api") === "" ? null : (formData.get("api") as object),
+			api: null,
 		};
 
 		try {
-			await insertTemplate(newData);
+			const returnedData = await insertTemplate(newData);
 			return Response.json({
 				message: "Success inserting data",
-				data: newData,
+				data: returnedData[0],
 			});
 		} catch (e) {
 			return Response.json(
@@ -63,6 +77,15 @@ export async function POST(request: NextRequest) {
 		}
 	} catch (error) {
 		// File failed to upload, abort request
-		return NextResponse.json({ message: "Error uploading file", error });
+		return NextResponse.json(
+			{
+				status: 400,
+				message: "Error uploading file",
+				error: error,
+				file,
+				statusFile: file.size,
+			},
+			{ status: 400 }
+		);
 	}
 }

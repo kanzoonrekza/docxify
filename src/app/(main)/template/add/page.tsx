@@ -1,11 +1,17 @@
-import React from "react";
-import DragnDropZone from "./dragnDropZone";
+import FormTemplate from "./(components)/formTemplate";
+import UploadFile from "../../../../components/uploadFile";
+import { ContextProviderSelectedFile } from "@/contexts/selectedFile";
 
 export default function AddTemplate() {
 	return (
-		<main className="flex flex-col gap-5 p-10">
-			<div className="text-4xl">Add New Template</div>
-			<DragnDropZone />
+		<main className="flex flex-col gap-5 p-10 h-full">
+			<h1 className="text-5xl font-medium mb-5">Add New Template</h1>
+			<div className="grid grid-cols-2 gap-5 h-full">
+				<ContextProviderSelectedFile>
+					<UploadFile />
+					<FormTemplate />
+				</ContextProviderSelectedFile>
+			</div>
 		</main>
 	);
 }
