@@ -11,6 +11,7 @@
     "migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.45.0",
     "cloudinary": "^2.2.0",
     "docx-templates": "^4.13.0",
     "drizzle-orm": "^0.31.2",
