@@ -18,22 +18,20 @@ export const ContextProviderSelectedFile = ({
 	const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 	const [selectedTags, setSelectedTags] = React.useState<object[] | null>([]);
 
+	const getTemplateTags = async (file: File) => {
+		if (!selectedFile) return;
+		const fileBuffer = await readFileBuffer(selectedFile);
+		const rawTags = await listCommands(fileBuffer as ArrayBuffer, ["{{", "}}"]);
+
+		const uniqueTags = rawTags.filter(
+			(tag: any, index: number, self: any[]) =>
+				self.findIndex((t) => t.code === tag.code) === index
+		);
+		setSelectedTags(uniqueTags);
+	};
+
 	React.useEffect(() => {
-		const getTemplateTags = async () => {
-			if (!selectedFile) return;
-			const fileBuffer = await readFileBuffer(selectedFile);
-
-			try {
-				const res = await listCommands(fileBuffer as ArrayBuffer, ["{{", "}}"]);
-				setSelectedTags(res);
-				return res;
-			} catch (e) {
-				console.log(e);
-				return e;
-			}
-		};
-
-		getTemplateTags();
+		getTemplateTags(selectedFile as File);
 	}, [selectedFile]);
 
 	return (
