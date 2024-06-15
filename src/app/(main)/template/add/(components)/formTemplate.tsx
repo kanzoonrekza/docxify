@@ -3,31 +3,25 @@
 import React from "react";
 import { FormField, TypeFormField } from "@/components/formField";
 import { ContextSelectedFile } from "@/contexts/selectedFile";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import useSWRMutation from "swr/mutation";
+import { fetcher } from "@/utils/fetcher";
 
 export default function FormTemplate() {
 	const router = useRouter();
 	const { selectedFile, selectedTags, tagsStatus } =
 		React.useContext(ContextSelectedFile);
-	const postTemplate = useMutation({
-		mutationFn: (formData: FormData) => {
-			return fetch("/api/templates", {
-				method: "POST",
-				body: formData,
-			}).then((res) => res.json());
-		},
-		onMutate: () => {
-			console.log("Mutating");
-		},
-		onError: (error, variables, context) => {
-			console.log(error);
-		},
-		onSuccess: (data, variables, context) => {
-			console.log(data);
-			router.push(`/template/${data.data.id}`);
-		},
-	});
+
+	const { trigger, isMutating } = useSWRMutation(
+		"/api/templates",
+		fetcher.post,
+		{
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: (data, variables, context) =>
+				router.push(`/template/${data.data.id}`),
+		}
+	);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -38,7 +32,7 @@ export default function FormTemplate() {
 		});
 		formData.append("file", selectedFile as File);
 
-		postTemplate.mutate(formData);
+		trigger(formData);
 	};
 
 	const formAddList: TypeFormField[] = [
@@ -65,7 +59,7 @@ export default function FormTemplate() {
 			<button
 				className="ml-auto mt-5 p-2 bg-green-700 rounded disabled:bg-slate-500 disabled:cursor-not-allowed"
 				type="submit"
-				disabled={postTemplate.isPending || tagsStatus?.status === "Error"}
+				disabled={isMutating || tagsStatus?.status === "Error"}
 			>
 				Submit
 			</button>

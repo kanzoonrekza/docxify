@@ -9,7 +9,7 @@ export default function TemplateSlugPage({
 	params: { slug: number };
 }) {
 	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
-		useSWR("/api/templates/" + params.slug, fetcher);
+		useSWR("/api/templates/" + params.slug, fetcher.get);
 
 	if (error) return <div>failed to load</div>;
 	if (isLoading) return <div>loading...</div>;
