@@ -1,4 +1,4 @@
-export const readFileBuffer = async (file: File) => {
+export const readFileBuffer = async (file: File): Promise<ArrayBuffer> => {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader();
 		reader.onload = (event: ProgressEvent<FileReader>) => {
