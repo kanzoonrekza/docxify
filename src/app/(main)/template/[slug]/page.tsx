@@ -1,6 +1,9 @@
 "use client";
 import { templateDetailType } from "@/types";
+import { readFileBuffer } from "@/utils/docs-templates";
 import { fetcher } from "@/utils/fetcher";
+import createReport from "docx-templates";
+import React from "react";
 import useSWR, { SWRResponse } from "swr";
 
 export default function TemplateSlugPage({
@@ -17,11 +20,36 @@ export default function TemplateSlugPage({
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-
+		let jsonData: any = {};
 		data?.tags.forEach((tag) => {
-			formData.append(tag.code, formData.get(tag.code) as string);
+			jsonData[tag.code] = formData.get(tag.code);
 		});
-		console.log("Generate");
+		const fetchedFile = await fetch(data?.fileUrl as string).then(
+			(res) => res.blob() as Promise<File>
+		);
+		const template: any = await readFileBuffer(fetchedFile);
+
+		const report: any = await createReport({
+			template,
+			cmdDelimiter: ["{{", "}}"],
+			data: jsonData,
+			errorHandler: (err, command_code) => {
+				console.log(err, command_code);
+
+				return "command failed!";
+			},
+		});
+
+		const blob = new Blob([report], {
+			type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+		});
+
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = url;
+		link.download = `${data?.title}_generated.docx`;
+		link.click();
+		URL.revokeObjectURL(url);
 	};
 
 	return (
