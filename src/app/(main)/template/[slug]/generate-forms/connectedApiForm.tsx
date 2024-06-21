@@ -3,12 +3,48 @@ import { templateDetailType } from "@/types";
 import { readFileBuffer } from "@/utils/docs-templates";
 import { log } from "console";
 import createReport from "docx-templates";
+import Link from "next/link";
 import React, { useEffect } from "react";
 
+export const mockApiData: any = {
+	api_link: "https://api.example.com/api/get-data",
+	api_params: ["param1", "param2"],
+	api_data: {
+		value_a: "result api 1",
+		value_b: "result api 2",
+		value_c: "result api 3",
+		value_d: {
+			inner_value1: "result api 4",
+			inner_value2: "result api 5",
+			inner_value3: "result api 6",
+		},
+	},
+	api_connected_tags: {
+		nomor_dokumen: "value_a",
+		nama: "value_b",
+		nip: "value_c",
+		pangkat: "value_d.inner_value1",
+		jabatan: "value_d.inner_value2",
+		tanggal_lahir: "value_d.inner_value3",
+	},
+};
+
+export const getNestedValue = (obj: any, path: string) => {
+	if(!path) return ""
+	return path
+		.split(".")
+		.reduce(
+			(o, key) => (o && o[key] !== "undefined" ? o[key] : undefined),
+			obj
+		);
+};
+
+
 export default function ConnectedApiForm({
-	data,
+	data,slug
 }: {
 	data: templateDetailType | undefined;
+	slug:number
 }) {
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -44,38 +80,7 @@ export default function ConnectedApiForm({
 		URL.revokeObjectURL(url);
 	};
 
-	const mockApiData: any = {
-		api_link: "https://api.example.com/api/get-data",
-		api_params: ["param1", "param2"],
-		api_data: {
-			value_a: "result api 1",
-			value_b: "result api 2",
-			value_c: "result api 3",
-			value_d: {
-				inner_value1: "result api 4",
-				inner_value2: "result api 5",
-				inner_value3: "result api 6",
-			},
-		},
-		api_connected_tags: {
-			nomor_dokumen: "value_a",
-			nama: "value_b",
-			nip: "value_c",
-			pangkat: "value_d.inner_value1",
-			jabatan: "value_d.inner_value2",
-			tanggal_lahir: "value_d.inner_value3",
-		},
-	};
-
-	const getNestedValue = (obj: any, path: string) => {
-		return path
-			.split(".")
-			.reduce(
-				(o, key) => (o && o[key] !== "undefined" ? o[key] : undefined),
-				obj
-			);
-	};
-
+	
 	const formGenerateList: TypeFormField[] =
 		data?.tags.map((tag: templateDetailType["tags"][number]) => {
 			return {
@@ -108,8 +113,8 @@ export default function ConnectedApiForm({
 			const input = document.getElementById(form.name) as HTMLInputElement;
 
 			if (input) {
-				const valuePath = mockApiData.api_connected_tags[form.name];
-				const value = getNestedValue(fetchedData, valuePath);
+				// const valuePath = mockApiData.api_connected_tags[form.name];
+				const value = getNestedValue(fetchedData, mockApiData.api_connected_tags[form.name]);
 				input.value = value;
 			}
 		});
@@ -121,7 +126,8 @@ export default function ConnectedApiForm({
 			{/* {data?.api && ( */}
 
 			<form onSubmit={handleGenerate}>
-				<section className="border px-2 py-1">
+				<section className="border px-2 py-1 relative rounded-lg">
+					<Link href={`/template/${slug}/connect-api`} className="absolute right-0 mr-2 border px-3 text-sm">Edit API</Link>
 					<FormField
 						item={{
 							name: "api_link",

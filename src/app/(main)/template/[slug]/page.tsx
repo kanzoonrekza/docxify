@@ -58,7 +58,7 @@ export default function TemplateSlugPage({
 					</button>
 				</div>
 				{generateMode === "manual" && <ManualForm data={data} />}
-				{generateMode === "api" && <ConnectedApiForm data={data} />}
+				{generateMode === "api" && <ConnectedApiForm data={data} slug={params.slug} />}
 			</div>
 		</main>
 	);
