@@ -47,7 +47,6 @@ export default function DragnDropZone() {
 				return "command failed!";
 			},
 		});
-		console.log(report);
 		const blob = new Blob([report], {
 			type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 		});

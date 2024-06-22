@@ -5,6 +5,7 @@ export type TypeFormField = {
 	readonly?: boolean;
 	type?: string;
 	value?: string;
+	initialValue?: string;
 	status?: "Success" | "Error";
 	footnote?: string;
 };
@@ -24,6 +25,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 					item.status === "Success" && "border border-green-500 bg-green-950"
 				}`}
 				value={item.value}
+				defaultValue={item.initialValue}
 				readOnly
 			/>
 		) : (
@@ -34,6 +36,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 				name={item.name}
 				value={item.value}
 				className="w-full bg-gray-800 rounded p-1"
+				readOnly={item.readonly}
 			/>
 		)}
 		{item.footnote && (
