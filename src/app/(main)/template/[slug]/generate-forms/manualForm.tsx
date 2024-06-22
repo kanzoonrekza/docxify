@@ -53,7 +53,7 @@ export default function ManualForm({
 	return (
 		<form onSubmit={handleGenerate}>
 			{formGenerateList.map((tag: TypeFormField) => (
-				<FormField item={tag} />
+				<FormField item={tag} key={tag.name} />
 			))}
 			<div className="grid grid-cols-2 gap-5 pt-5">
 				<button
