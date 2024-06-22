@@ -5,19 +5,11 @@ import fetcher from "@/utils/fetcher";
 import Link from "next/link";
 import React from "react";
 import useSWR, { SWRResponse } from "swr";
+import useSWRMutation from "swr/mutation";
 import {
 	getNestedValue,
 	mockApiData,
 } from "../generate-forms/connectedApiForm";
-
-const targetValue = {
-	nomor_dokumen: "value_a",
-	nama: "value_b",
-	nip: "value_c",
-	pangkat: "value_d.inner_value1",
-	jabatan: "value_d.inner_value2",
-	tanggal_lahir: "value_d.inner_value3",
-};
 
 export default function EditTemplatePage({
 	params,
@@ -41,6 +33,16 @@ export default function EditTemplatePage({
 				setConnectApiTagValue(jsonData);
 			},
 		});
+	const { trigger, isMutating } = useSWRMutation(
+		"/api/mock/phase-1",
+		fetcher.post,
+		{
+			onError: (error, variables, context) =>
+				console.error("Error on fetch conenction API", error, context, variables),
+			onSuccess: (data, variables, context) =>
+				console.log(data),
+		}
+	);
 
 	if (error) return <div>failed to load</div>;
 	if (isLoading) return <div>loading...</div>;
@@ -57,7 +59,16 @@ export default function EditTemplatePage({
 			console.error("Form not found");
 			return;
 		}
+		const formData = new FormData(form);
+
+		let jsonData: any = {};
+		mockApiData.api_params.forEach((param: string) => {
+			jsonData[`${param}`] = formData.get(`api_params_${param}`);
+		});
+
+		trigger(jsonData);
 	};
+	
 	const formGenerateList: TypeFormField[] =
 		data?.tags.map((tag: templateDetailType["tags"][number]) => {
 			return {
@@ -97,7 +108,7 @@ export default function EditTemplatePage({
 						/>
 						<span>
 							<label htmlFor="" className="text-lg">
-								Params
+								Body
 							</label>
 							<table className="w-full bg-neutral-900 border border-neutral-600 divide-y divide-neutral-600">
 								<tr className="divide-x divide-neutral-600 bg-neutral-950">

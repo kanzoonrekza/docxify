@@ -13,7 +13,9 @@ type Fetcher = {
 const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 	const options: RequestInit = {
 		method: method,
-		headers: {},
+		headers: {
+			"Content-Type": "application/json",
+		},
 	};
 
 	if (method !== "GET") {
@@ -23,8 +25,6 @@ const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 	return fetch(url, options)
 		.then((r) => r.json())
 		.catch((e) => {
-			console.log(options);
-
 			console.error(`Error in fetcher.${method.toLowerCase()}:`, e);
 			throw e;
 		});

@@ -1,14 +1,13 @@
 import { FormField, TypeFormField } from "@/components/formField";
 import { templateDetailType } from "@/types";
 import { readFileBuffer } from "@/utils/docs-templates";
-import { log } from "console";
 import createReport from "docx-templates";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 
 export const mockApiData: any = {
 	api_link: "https://api.example.com/api/get-data",
-	api_params: ["param1", "param2"],
+	api_params: ["nip"],
 	api_data: {
 		value_a: "result api 1",
 		value_b: "result api 2",

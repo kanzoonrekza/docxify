@@ -11,10 +11,16 @@ export type templateDetailType = {
 		type: string;
 	}[];
 	apiReady: boolean;
-	api:
-		| {
-				url: string;
-				dataTag: { docxTagCode: string; docxTagValue: string }[];
-		  }
-		| undefined;
+	api: apiDataType | undefined;
+};
+
+export type apiDataType = {
+	api_link: string;
+	api_params: string[];
+	api_data: {
+		[key: string]: string;
+	};
+	api_connected_tags: {
+		[key: string]: string;
+	};
 };
