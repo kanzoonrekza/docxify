@@ -16,7 +16,6 @@ export default function EditTemplatePage({
 }: {
 	params: { slug: number };
 }) {
-	const [selectedTags, setSelectedTags] = React.useState<object | null>({}); 
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
 	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
@@ -34,25 +33,25 @@ export default function EditTemplatePage({
 				setConnectApiTagValue(jsonData);
 			},
 		});
-	const { trigger, isMutating } = useSWRMutation(
-		"/api/mock/phase-1",
-		fetcher.post,
-		{
-			onError: (error, variables, context) => {
-				setSelectedTags(null);
-				console.error(
-					"Error on fetch conenction API",
-					error,
-					context,
-					variables
-				);
-			},
-			onSuccess: (data, variables, context) => {
-				console.log(data);
-				setSelectedTags(data.data || {});
-			},
-		}
-	);
+	const {
+		data: fetchApiData,
+		trigger,
+		isMutating,
+	} = useSWRMutation("/api/mock/phase-1", fetcher.post, {
+		onError: (error, variables, context) => {
+			console.error("Error on fetch conenction API", error, context, variables);
+		},
+		onSuccess: (data, variables, context) => {
+			const newValues = formGenerateList.reduce((acc: any, item) => {
+				acc[item.name] = getNestedValue(data, connectApiTag[item.name]) || "";
+				return acc;
+			}, {});
+			setConnectApiTagValue((prevValues: any) => ({
+				...prevValues,
+				...newValues,
+			}));
+		},
+	});
 
 	if (error) return <div>failed to load</div>;
 	if (isLoading) return <div>loading...</div>;
@@ -87,18 +86,6 @@ export default function EditTemplatePage({
 				required: true,
 			};
 		}) || [];
-
-		React.useEffect(() => {
-			const newValues = formGenerateList.reduce((acc:any, item) => {
-				acc[item.name] = getNestedValue(selectedTags, connectApiTag[item.name]) || "";
-				return acc;
-			}, {});
-			setConnectApiTagValue((prevValues:any) => ({
-				...prevValues,
-				...newValues,
-			}));
-		}, [selectedTags]);
-	
 
 	return (
 		<main className="grid h-full max-w-screen-xl grid-cols-2 gap-10 p-10 mx-auto">
@@ -170,9 +157,12 @@ export default function EditTemplatePage({
 								label: "Tags",
 								readonly: true,
 								type: "textarea",
-								value: JSON.stringify(selectedTags, null, 2),
-								// status: tagsStatus?.status,
-								// footnote: tagsStatus?.message,
+								value: JSON.stringify(fetchApiData, null, 2),
+								status: !fetchApiData
+									? undefined
+									: fetchApiData.status === 200
+									? "Success"
+									: "Error",
 							}}
 						/>
 					</section>
@@ -200,7 +190,7 @@ export default function EditTemplatePage({
 											setConnectApiTagValue({
 												...connectApiTagValue,
 												[item.name]:
-													getNestedValue(selectedTags, e.target.value) || "",
+													getNestedValue(fetchApiData, e.target.value) || "",
 											});
 										}}
 									/>
