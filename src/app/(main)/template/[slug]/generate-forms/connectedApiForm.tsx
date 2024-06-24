@@ -123,11 +123,11 @@ export default function ConnectedApiForm({
 	return (
 		<>
 			{!data?.api && (
-				<div className="text-center grid">
+				<div className="grid text-center">
 					There are no API connected to this template
 					<Link
 						href={`/template/${slug}/connect-api`}
-						className="border px-3 text-sm"
+						className="px-3 text-sm border"
 					>
 						Connect Now
 					</Link>
@@ -135,10 +135,10 @@ export default function ConnectedApiForm({
 			)}
 			{data?.api && (
 				<form onSubmit={handleGenerate}>
-					<section className="border px-2 py-1 relative rounded-lg">
+					<section className="relative px-2 py-1 border rounded-lg">
 						<Link
 							href={`/template/${slug}/connect-api`}
-							className="absolute right-0 mr-2 border px-3 text-sm"
+							className="absolute right-0 px-3 mr-2 text-sm border"
 						>
 							Edit API
 						</Link>
@@ -155,13 +155,13 @@ export default function ConnectedApiForm({
 							<label htmlFor="" className="text-lg">
 								Params
 							</label>
-							<table className="w-full bg-neutral-900 border border-neutral-600 divide-y divide-neutral-600">
+							<table className="w-full border divide-y bg-neutral-900 border-neutral-600 divide-neutral-600">
 								<tr className="divide-x divide-neutral-600 bg-neutral-950">
 									<th>Key</th>
 									<th>Value</th>
 								</tr>
 								{mockApiData.api_params.map((param: string) => (
-									<tr className="divide-x divide-neutral-600">
+									<tr className="divide-x divide-neutral-600" key={param}>
 										<td className="w-1/2">
 											<label htmlFor={`api_params_${param}`} className="w-full">
 												<div className="w-full p-1">{param}</div>
@@ -179,10 +179,10 @@ export default function ConnectedApiForm({
 								))}
 							</table>
 						</span>
-						<div className="w-full flex justify-end">
+						<div className="flex justify-end w-full">
 							<button
 								type="button"
-								className="py-1 px-4 border border-neutral-400"
+								className="px-4 py-1 border border-neutral-400"
 								onClick={handleFetchAPI}
 							>
 								Fetch
@@ -200,13 +200,10 @@ export default function ConnectedApiForm({
 							}}
 						/>
 					</section>
-					{/* <section className="border px-2 py-1 grid grid-cols-2 gap-x-2 mt-3"> */}
-					<section className="border px-2 py-1 mt-3">
+					{/* <section className="grid grid-cols-2 px-2 py-1 mt-3 border gap-x-2"> */}
+					<section className="px-2 py-1 mt-3 border">
 						{formGenerateList.map((tag: TypeFormField) => (
-							<>
-								{/* <FormField item={tag} /> */}
-								<FormField item={tag} />
-							</>
+							<FormField item={tag} key={tag.name} />
 						))}
 					</section>
 

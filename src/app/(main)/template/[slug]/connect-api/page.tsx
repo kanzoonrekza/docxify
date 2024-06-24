@@ -131,13 +131,13 @@ export default function EditTemplatePage({
 							<label htmlFor="" className="text-lg">
 								Body
 							</label>
-							<table className="w-full bg-neutral-900 border border-neutral-600 divide-y divide-neutral-600">
+							<table className="w-full border divide-y bg-neutral-900 border-neutral-600 divide-neutral-600">
 								<tr className="divide-x divide-neutral-600 bg-neutral-950">
 									<th>Key</th>
 									<th>Value</th>
 								</tr>
 								{mockApiData.api_params.map((param: string) => (
-									<tr className="divide-x divide-neutral-600">
+									<tr className="divide-x divide-neutral-600" key={param}>
 										<td className="w-1/2">
 											<label htmlFor={`api_params_${param}`} className="w-full">
 												<div className="w-full p-1">{param}</div>
@@ -155,10 +155,10 @@ export default function EditTemplatePage({
 								))}
 							</table>
 						</span>
-						<div className="w-full flex justify-end">
+						<div className="flex justify-end w-full">
 							<button
 								type="button"
-								className="py-1 px-4 border border-neutral-400"
+								className="px-4 py-1 border border-neutral-400"
 								onClick={handleFetchAPI}
 							>
 								Fetch
@@ -190,7 +190,7 @@ export default function EditTemplatePage({
 										id={item.name}
 										name={item.name}
 										value={item.value}
-										className="w-full bg-gray-800 rounded p-1"
+										className="w-full p-1 bg-gray-800 rounded"
 										placeholder="tag"
 										onChange={(e) => {
 											setConnectApiTag({
@@ -210,7 +210,7 @@ export default function EditTemplatePage({
 										name={`value_${item.name}`}
 										value={connectApiTagValue[item.name]}
 										placeholder="preview value"
-										className="w-full bg-gray-800 rounded p-1"
+										className="w-full p-1 bg-gray-800 rounded"
 										readOnly
 									/>
 								</div>
@@ -221,7 +221,7 @@ export default function EditTemplatePage({
 					<div className="grid grid-cols-2 gap-5 pt-5">
 						<Link
 							href={`/template/${params.slug}`}
-							className="p-2 border border-red-600 flex justify-center"
+							className="flex justify-center p-2 border border-red-600"
 							type="button"
 							onClick={() => {}}
 						>

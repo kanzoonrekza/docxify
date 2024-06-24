@@ -1,14 +1,29 @@
 import { FormField, TypeFormField } from "@/components/formField";
 import { templateDetailType } from "@/types";
 import { readFileBuffer } from "@/utils/docs-templates";
+import fetcher from "@/utils/fetcher";
 import createReport from "docx-templates";
 import React from "react";
+import useSWRMutation from "swr/mutation";
 
 export default function ManualForm({
 	data,
 }: {
 	data: templateDetailType | undefined;
 }) {
+	const { trigger, isMutating } = useSWRMutation("/api/convert", fetcher.post, {
+		onError: (error, variables, context) =>
+			console.error(error, context, variables),
+		onSuccess: (data, variables, context) => {
+			const url = URL.createObjectURL(data);
+			const link = document.createElement("a");
+			link.href = url;
+			link.download = `generated.pdf`;
+			link.click();
+			URL.revokeObjectURL(url);
+		},
+	});
+
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -34,13 +49,11 @@ export default function ManualForm({
 		const blob = new Blob([report], {
 			type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 		});
+		const file = new File([blob], "default.docx", { type: blob.type });
 
-		const url = URL.createObjectURL(blob);
-		const link = document.createElement("a");
-		link.href = url;
-		link.download = `${data?.title}_generated.docx`;
-		link.click();
-		URL.revokeObjectURL(url);
+		const convertFormData = new FormData();
+		convertFormData.append("files", file);
+		trigger(convertFormData);
 	};
 
 	const formGenerateList: TypeFormField[] =
@@ -53,7 +66,7 @@ export default function ManualForm({
 	return (
 		<form onSubmit={handleGenerate}>
 			{formGenerateList.map((tag: TypeFormField) => (
-				<FormField item={tag} />
+				<FormField item={tag} key={tag.name} />
 			))}
 			<div className="grid grid-cols-2 gap-5 pt-5">
 				<button

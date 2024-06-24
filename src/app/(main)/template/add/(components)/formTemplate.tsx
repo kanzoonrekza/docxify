@@ -54,10 +54,10 @@ export default function FormTemplate() {
 	return (
 		<form onSubmit={handleSubmit} className="flex flex-col gap-3">
 			{formAddList.map((item: TypeFormField) => (
-				<FormField item={item} />
+				<FormField item={item} key={item.name} />
 			))}
 			<button
-				className="ml-auto mt-5 p-2 bg-green-700 rounded disabled:bg-slate-500 disabled:cursor-not-allowed"
+				className="p-2 mt-5 ml-auto bg-green-700 rounded disabled:bg-slate-500 disabled:cursor-not-allowed"
 				type="submit"
 				disabled={isMutating || tagsStatus?.status === "Error"}
 			>
