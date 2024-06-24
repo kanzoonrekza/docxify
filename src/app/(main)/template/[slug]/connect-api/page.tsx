@@ -16,6 +16,7 @@ export default function EditTemplatePage({
 }: {
 	params: { slug: number };
 }) {
+	const [selectedTags, setSelectedTags] = React.useState<object | null>({}); 
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
 	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
@@ -37,10 +38,19 @@ export default function EditTemplatePage({
 		"/api/mock/phase-1",
 		fetcher.post,
 		{
-			onError: (error, variables, context) =>
-				console.error("Error on fetch conenction API", error, context, variables),
-			onSuccess: (data, variables, context) =>
-				console.log(data),
+			onError: (error, variables, context) => {
+				setSelectedTags(null);
+				console.error(
+					"Error on fetch conenction API",
+					error,
+					context,
+					variables
+				);
+			},
+			onSuccess: (data, variables, context) => {
+				console.log(data);
+				setSelectedTags(data.data || {});
+			},
 		}
 	);
 
@@ -68,7 +78,7 @@ export default function EditTemplatePage({
 
 		trigger(jsonData);
 	};
-	
+
 	const formGenerateList: TypeFormField[] =
 		data?.tags.map((tag: templateDetailType["tags"][number]) => {
 			return {
@@ -77,6 +87,18 @@ export default function EditTemplatePage({
 				required: true,
 			};
 		}) || [];
+
+		React.useEffect(() => {
+			const newValues = formGenerateList.reduce((acc:any, item) => {
+				acc[item.name] = getNestedValue(selectedTags, connectApiTag[item.name]) || "";
+				return acc;
+			}, {});
+			setConnectApiTagValue((prevValues:any) => ({
+				...prevValues,
+				...newValues,
+			}));
+		}, [selectedTags]);
+	
 
 	return (
 		<main className="grid h-full max-w-screen-xl grid-cols-2 gap-10 p-10 mx-auto">
@@ -96,7 +118,6 @@ export default function EditTemplatePage({
 				<div className="text-4xl">{data?.title}</div>
 				<form onSubmit={handleGenerate}>
 					<section className="border px-2 py-1 relative rounded-lg">
-						{/* <Link href={`/template/${slug}/connect-api`} className="absolute right-0 mr-2 border px-3 text-sm">Edit API</Link> */}
 						<FormField
 							item={{
 								name: "api_link",
@@ -149,13 +170,12 @@ export default function EditTemplatePage({
 								label: "Tags",
 								readonly: true,
 								type: "textarea",
-								value: JSON.stringify(mockApiData.api_data, null, 2),
+								value: JSON.stringify(selectedTags, null, 2),
 								// status: tagsStatus?.status,
 								// footnote: tagsStatus?.message,
 							}}
 						/>
 					</section>
-					{/* <section className="border px-2 py-1 grid grid-cols-2 gap-x-2 mt-3"> */}
 					<section className="border px-2 py-1 mt-3">
 						{formGenerateList.map((item: TypeFormField) => (
 							<span key={item.name}>
@@ -179,10 +199,8 @@ export default function EditTemplatePage({
 											});
 											setConnectApiTagValue({
 												...connectApiTagValue,
-												[item.name]: getNestedValue(
-													mockApiData.api_data,
-													e.target.value
-												),
+												[item.name]:
+													getNestedValue(selectedTags, e.target.value) || "",
 											});
 										}}
 									/>
