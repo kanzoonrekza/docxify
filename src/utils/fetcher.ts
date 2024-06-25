@@ -25,7 +25,10 @@ const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 	return fetch(url, options)
 		.then((r) => {
 			if (r.status === 404) {
-				throw new Error("URL Not found");
+				throw new Error("URL Not Found");
+			}
+			if (r.status === 500) {
+				throw new Error("Internal Server Error");
 			}
 
 			const contentType = r.headers.get("Content-Type");
