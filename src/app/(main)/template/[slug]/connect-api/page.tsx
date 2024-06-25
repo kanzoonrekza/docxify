@@ -4,40 +4,35 @@ import { templateDetailType } from "@/types";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
 import React from "react";
-import useSWR, { SWRResponse } from "swr";
 import useSWRMutation from "swr/mutation";
 import {
 	getNestedValue,
 	mockApiData,
 } from "../generate-forms/connectedApiForm";
+import { useData } from "../layout";
 
 export default function EditTemplatePage({
 	params,
 }: {
 	params: { slug: number };
 }) {
+	const data = useData();
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
 	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
-	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
-		useSWR("/api/templates/" + params.slug, fetcher.get, {
-			revalidateIfStale: false,
-			revalidateOnFocus: false,
-			revalidateOnReconnect: false,
 
-			onSuccess: (data: any) => {
-				const jsonData: any = {};
-				const jsonDataEmpty: any = {};
-				data?.tags.map((tag: templateDetailType["tags"][number]) => {
-					jsonData[tag.code] = data.apiReady
-						? data?.api_connected_tags[tag.code] || ""
-						: "";
-					jsonDataEmpty[tag.code] = "";
-				});
-				setConnectApiTag(jsonData);
-				setConnectApiTagValue(jsonDataEmpty);
-			},
+	React.useEffect(() => {
+		const jsonData: any = {};
+		const jsonDataEmpty: any = {};
+		data?.tags.map((tag: templateDetailType["tags"][number]) => {
+			jsonData[tag.code] = data.apiReady
+				? data?.api_connected_tags[tag.code] || ""
+				: "";
+			jsonDataEmpty[tag.code] = "";
 		});
+		setConnectApiTag(jsonData);
+		setConnectApiTagValue(jsonDataEmpty);
+	}, []);
 
 	const {
 		data: fetchApiData,
@@ -59,9 +54,6 @@ export default function EditTemplatePage({
 			}));
 		},
 	});
-
-	if (error) return <div>failed to load</div>;
-	if (isLoading) return <div>loading...</div>;
 
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

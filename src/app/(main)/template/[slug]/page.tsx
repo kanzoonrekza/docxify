@@ -1,24 +1,18 @@
 "use client";
-import { templateDetailType } from "@/types";
-import { fetcher } from "@/utils/fetcher";
 import React from "react";
-import useSWR, { SWRResponse } from "swr";
 import ConnectedApiForm from "./generate-forms/connectedApiForm";
 import ManualForm from "./generate-forms/manualForm";
+import { useData } from "./layout";
 
 export default function TemplateSlugPage({
 	params,
 }: {
 	params: { slug: number };
 }) {
+	const data = useData();
 	const [generateMode, setGenerateMode] = React.useState<"manual" | "api">(
 		"manual"
 	);
-	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
-		useSWR("/api/templates/" + params.slug, fetcher.get);
-
-	if (error) return <div>failed to load</div>;
-	if (isLoading) return <div>loading...</div>;
 
 	return (
 		<main className="grid h-full max-w-screen-xl grid-cols-2 gap-10 p-10 mx-auto">
@@ -58,7 +52,9 @@ export default function TemplateSlugPage({
 					</button>
 				</div>
 				{generateMode === "manual" && <ManualForm data={data} />}
-				{generateMode === "api" && <ConnectedApiForm data={data} slug={params.slug} />}
+				{generateMode === "api" && (
+					<ConnectedApiForm data={data} slug={params.slug} />
+				)}
 			</div>
 		</main>
 	);
