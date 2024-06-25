@@ -27,11 +27,15 @@ export default function EditTemplatePage({
 
 			onSuccess: (data: any) => {
 				const jsonData: any = {};
+				const jsonDataEmpty: any = {};
 				data?.tags.map((tag: templateDetailType["tags"][number]) => {
-					jsonData[tag.code] = "";
+					jsonData[tag.code] = data.apiReady
+						? data?.api_connected_tags[tag.code] || ""
+						: "";
+					jsonDataEmpty[tag.code] = "";
 				});
 				setConnectApiTag(jsonData);
-				setConnectApiTagValue(jsonData);
+				setConnectApiTagValue(jsonDataEmpty);
 			},
 		});
 
@@ -192,7 +196,7 @@ export default function EditTemplatePage({
 										type="text"
 										id={item.name}
 										name={item.name}
-										value={item.value}
+										value={connectApiTag[item.name]}
 										className="w-full p-1 bg-gray-800 rounded"
 										placeholder="tag"
 										onChange={(e) => {
