@@ -122,7 +122,7 @@ export default function ConnectedApiForm({
 
 	return (
 		<>
-			{!data?.api && (
+			{!data?.apiReady && (
 				<div className="grid text-center">
 					There are no API connected to this template
 					<Link
@@ -133,7 +133,7 @@ export default function ConnectedApiForm({
 					</Link>
 				</div>
 			)}
-			{data?.api && (
+			{data?.apiReady && (
 				<form onSubmit={handleGenerate}>
 					<section className="relative px-2 py-1 border rounded-lg">
 						<Link
@@ -147,7 +147,7 @@ export default function ConnectedApiForm({
 								name: "api_link",
 								label: "API Link",
 								required: true,
-								value: mockApiData.api_link,
+								value: data?.api_url,
 								readonly: true,
 							}}
 						/>

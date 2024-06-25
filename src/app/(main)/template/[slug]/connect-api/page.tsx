@@ -17,6 +17,7 @@ export default function EditTemplatePage({
 	params: { slug: number };
 }) {
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
+	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
 	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
 		useSWR("/api/templates/" + params.slug, fetcher.get, {
@@ -33,13 +34,15 @@ export default function EditTemplatePage({
 				setConnectApiTagValue(jsonData);
 			},
 		});
+
 	const {
 		data: fetchApiData,
 		trigger,
 		isMutating,
-	} = useSWRMutation("/api/mock/phase-1", fetcher.post, {
+		error: fetchApiError,
+	} = useSWRMutation(targetAPI, fetcher.get, {
 		onError: (error, variables, context) => {
-			console.error("Error on fetch conenction API", error, context, variables);
+			console.log("Error on fetch conenction API", error, context, variables);
 		},
 		onSuccess: (data, variables, context) => {
 			const newValues = formGenerateList.reduce((acc: any, item) => {
@@ -58,8 +61,8 @@ export default function EditTemplatePage({
 
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(connectApiTag);
 	};
+
 	const handleFetchAPI = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
@@ -69,13 +72,19 @@ export default function EditTemplatePage({
 			return;
 		}
 		const formData = new FormData(form);
+		const fetchUrl = formData.get("api_url");
+		const params = new URLSearchParams();
 
-		let jsonData: any = {};
 		mockApiData.api_params.forEach((param: string) => {
-			jsonData[`${param}`] = formData.get(`api_params_${param}`);
+			const value = formData.get(`api_params_${param}`) as string;
+			if (value) {
+				params.append(param, value);
+			}
 		});
 
-		trigger(jsonData);
+		await setTargetAPI(`${fetchUrl}?${params.toString()}`);
+
+		trigger();
 	};
 
 	const formGenerateList: TypeFormField[] =
@@ -107,11 +116,10 @@ export default function EditTemplatePage({
 					<section className="border px-2 py-1 relative rounded-lg">
 						<FormField
 							item={{
-								name: "api_link",
-								label: "API Link",
+								name: "api_url",
+								label: "API URL",
 								required: true,
-								value: mockApiData.api_link,
-								readonly: true,
+								defaultValue: data?.api_url,
 							}}
 						/>
 						<span>
@@ -157,12 +165,17 @@ export default function EditTemplatePage({
 								label: "Tags",
 								readonly: true,
 								type: "textarea",
-								value: JSON.stringify(fetchApiData, null, 2),
-								status: !fetchApiData
-									? undefined
-									: fetchApiData.status === 200
-									? "Success"
-									: "Error",
+								value: fetchApiError
+									? fetchApiError.message
+									: JSON.stringify(fetchApiData, null, 2),
+								status:
+									!fetchApiData && !fetchApiError
+										? undefined
+										: fetchApiError
+										? "Error"
+										: fetchApiData.status === 200
+										? "Success"
+										: "Error",
 							}}
 						/>
 					</section>
