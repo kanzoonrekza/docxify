@@ -127,7 +127,7 @@ export default function EditTemplatePage({
 									<th>Key</th>
 									<th>Value</th>
 								</tr>
-								{mockApiData.api_params.map((param: string) => (
+								{data?.api_param.map((param: string) => (
 									<tr className="divide-x divide-neutral-600" key={param}>
 										<td className="w-1/2">
 											<label htmlFor={`api_params_${param}`} className="w-full">

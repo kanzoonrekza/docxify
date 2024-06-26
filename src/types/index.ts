@@ -15,5 +15,5 @@ export type templateDetailType = {
 	api_connected_tags: {
 		[key: string]: string;
 	};
-	api_params: string[];
+	api_param: string[];
 };
