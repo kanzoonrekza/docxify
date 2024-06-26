@@ -9,7 +9,7 @@ export default function TemplateSlugPage({
 }: {
 	params: { slug: number };
 }) {
-	const data = useData();
+	const { data } = useData();
 	const [generateMode, setGenerateMode] = React.useState<"manual" | "api">(
 		"manual"
 	);

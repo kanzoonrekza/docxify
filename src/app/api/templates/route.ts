@@ -60,7 +60,6 @@ export async function POST(request: NextRequest) {
 			category: formData.get("category") as string,
 			apiReady: (formData.get("apiReady") as string) === "true" ? true : false,
 			tags: formData.get("tags") == "" ? null : uniqueTags,
-			api: null,
 		};
 
 		try {

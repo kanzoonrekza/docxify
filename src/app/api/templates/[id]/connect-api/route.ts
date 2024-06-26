@@ -20,8 +20,8 @@ export async function PATCH(
 	}
 
 	const formData = await request.formData();
-
-	const updatedData: NewTemplate = {
+	
+	const updatedData: any = {
 		api_url: formData.get("api_url") as string,
 		api_connected_tags: JSON.parse(
 			formData.get("api_connected_tags") as string
@@ -29,7 +29,6 @@ export async function PATCH(
 		apiReady: formData.get("api_url") !== "" ? true : false,
 		api_param: JSON.parse(formData.get("api_param") as string),
 	};
-
 
 	const updateTemplate: any = async () => {
 		return db

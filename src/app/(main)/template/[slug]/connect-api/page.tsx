@@ -10,13 +10,15 @@ import {
 	mockApiData,
 } from "../generate-forms/connectedApiForm";
 import { useData } from "../layout";
+import { useRouter } from "next/navigation";
 
 export default function EditTemplatePage({
 	params,
 }: {
 	params: { slug: number };
 }) {
-	const data = useData();
+	const router = useRouter();
+	const { data, mutate } = useData();
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
 	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
@@ -59,8 +61,37 @@ export default function EditTemplatePage({
 		},
 	});
 
+	const { trigger: connectAPI, isMutating: isConnectAPILoading } =
+		useSWRMutation(
+			"/api/templates/" + params.slug + "/connect-api",
+			fetcher.patch,
+			{
+				onError: (error, variables, context) =>
+					console.error(
+						">error",
+						error,
+						">context",
+						context,
+						">variables",
+						variables
+					),
+				onSuccess: (data, variables, context) => {
+					mutate();
+					router.push(`/template/${params.slug}`, {});
+				},
+			}
+		);
+
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		const existingFormData = new FormData(e.currentTarget);
+		const formData: FormData = new FormData();
+		formData.append("api_url", existingFormData.get("api_url") as string);
+		formData.append("api_param", JSON.stringify(fetchParams));
+		formData.append("api_connected_tags", JSON.stringify(connectApiTag));
+
+		connectAPI(formData);
 	};
 
 	const handleFetchAPI = async (e: React.MouseEvent<HTMLButtonElement>) => {

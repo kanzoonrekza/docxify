@@ -13,9 +13,7 @@ type Fetcher = {
 const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 	const options: RequestInit = {
 		method: method,
-		headers: {
-			"Content-Type": "application/json",
-		},
+		headers: {},
 	};
 
 	if (method !== "GET") {
