@@ -20,6 +20,10 @@ export default function EditTemplatePage({
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
 	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
+	const [fetchParams, setFetchParams] = React.useState<string[]>(
+		data?.api_param || []
+	);
+	const newParamRef = React.useRef<any>(null);
 
 	React.useEffect(() => {
 		const jsonData: any = {};
@@ -71,7 +75,7 @@ export default function EditTemplatePage({
 		const fetchUrl = formData.get("api_url");
 		const params = new URLSearchParams();
 
-		mockApiData.api_params.forEach((param: string) => {
+		fetchParams.forEach((param: string) => {
 			const value = formData.get(`api_params_${param}`) as string;
 			if (value) {
 				params.append(param, value);
@@ -120,19 +124,35 @@ export default function EditTemplatePage({
 						/>
 						<span>
 							<label htmlFor="" className="text-lg">
-								Body
+								Params
 							</label>
 							<table className="w-full border divide-y bg-neutral-900 border-neutral-600 divide-neutral-600">
 								<tr className="divide-x divide-neutral-600 bg-neutral-950">
-									<th>Key</th>
-									<th>Value</th>
+									<th className="w-1/2">Key</th>
+									<th className="w-1/2">Value</th>
 								</tr>
-								{data?.api_param.map((param: string) => (
+								{fetchParams.map((param: string) => (
 									<tr className="divide-x divide-neutral-600" key={param}>
 										<td className="w-1/2">
-											<label htmlFor={`api_params_${param}`} className="w-full">
-												<div className="w-full p-1">{param}</div>
-											</label>
+											<div className="flex">
+												<label
+													htmlFor={`api_params_${param}`}
+													className="w-full"
+												>
+													<div className="w-full p-1">{param}</div>
+												</label>
+												<button
+													type="button"
+													className=" bg-neutral-500 px-2"
+													onClick={() => {
+														setFetchParams(
+															fetchParams.filter((item) => item !== param)
+														);
+													}}
+												>
+													X
+												</button>
+											</div>
 										</td>
 										<td className="w-1/2">
 											<input
@@ -144,6 +164,39 @@ export default function EditTemplatePage({
 										</td>
 									</tr>
 								))}
+								<tr className="divide-x divide-neutral-600 bg-neutral-950">
+									<td className="w-1/2">
+										<input
+											type="text"
+											id={`new_param`}
+											name={`new_param`}
+											ref={newParamRef}
+											className="w-full p-1 bg-inherit"
+											placeholder="Type param name"
+										/>
+									</td>
+									<td className="w-1/2 hover:bg-neutral-800">
+										<button
+											type="button"
+											className="w-full h-full"
+											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+												if (newParamRef.current.value === "") {
+													console.log("empty ref");
+													return;
+												}
+												if (!fetchParams.includes(newParamRef.current.value)) {
+													setFetchParams([
+														...fetchParams,
+														newParamRef.current.value,
+													]);
+												}
+												newParamRef.current.value = "";
+											}}
+										>
+											Add new params
+										</button>
+									</td>
+								</tr>
 							</table>
 						</span>
 						<div className="flex justify-end w-full">
