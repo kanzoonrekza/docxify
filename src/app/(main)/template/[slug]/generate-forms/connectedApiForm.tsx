@@ -76,9 +76,6 @@ export default function ConnectedApiForm({
 			jsonData[tag.code] = formData.get(tag.code);
 		});
 
-		console.log("jsonData = ",jsonData);
-		return
-		
 		const fetchedFile = await fetch(data?.fileUrl as string).then(
 			(res) => res.blob() as Promise<File>
 		);

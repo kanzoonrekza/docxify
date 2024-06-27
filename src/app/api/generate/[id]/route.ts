@@ -1,11 +1,10 @@
 import db from "@/db/drizzle";
 import { templates } from "@/db/schema";
-import { readFileBuffer } from "@/utils/docs-templates";
 import createReport from "docx-templates";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export const getNestedValue = (obj: any, path: string) => {
+const getNestedValue = (obj: any, path: string) => {
 	if (!path) return "";
 	return path
 		.split(".")
