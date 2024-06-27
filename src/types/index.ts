@@ -11,10 +11,9 @@ export type templateDetailType = {
 		type: string;
 	}[];
 	apiReady: boolean;
-	api:
-		| {
-				url: string;
-				dataTag: { docxTagCode: string; docxTagValue: string }[];
-		  }
-		| undefined;
+	api_url: string | undefined;
+	api_connected_tags: {
+		[key: string]: string;
+	};
+	api_param: string[];
 };

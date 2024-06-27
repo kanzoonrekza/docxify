@@ -1,8 +1,42 @@
-{
-  "nama": "Sri Wahyuningsih Dianelo, S.Pd",
-  "nip": "198103022009012006",
-  "tanggal_lahir": "02 Maret 1981",
-  "pangkat": "Penata Tk. I (III/d)",
-  "jabatan": "Guru Muda Bidang Studi Bahasa Inggris, pada MTsN 2 Boalemo Kabupaten Boalemo",
-  "nomor_dokumen": "6538/Kw.30/1-c/KP.01/11/2022"
-}
+[
+  {
+    "nama": "Dwi Rahayu Pratiwi, S.Pd",
+    "nip": "198705021983032001",
+    "tanggal_lahir": "02 Mei 1983",
+    "pangkat": "Pemula (III/a)",
+    "jabatan": "Guru Muda Bidang Studi Matematika, pada SDN 1 Kota Samarinda",
+    "nomor_dokumen": "4234/Kw.01/1-c/KP.01/08/2023"
+  },
+  {
+    "nama": "Muhammad Iqbal, S.Kom",
+    "nip": "199006032012042001",
+    "tanggal_lahir": "03 Juni 1990",
+    "pangkat": "Penata Muda (III/b)",
+    "jabatan": "Guru Muda Bidang Studi Teknologi Informasi dan Komputer, pada SMA Negeri 1 Yogyakarta",
+    "nomor_dokumen": "7890/Kw.02/1-c/KP.01/10/2022"
+  },
+  {
+    "nama": "Nurhayati, S.Pd.SD",
+    "nip": "198507042005062001",
+    "tanggal_lahir": "04 Juli 1985",
+    "pangkat": "Penata Tk. I (III/d)",
+    "jabatan": "Guru Kelas VI, pada SDN 2 Kota Malang",
+    "nomor_dokumen": "1234/Kw.03/1-c/KP.01/02/2024"
+  },
+  {
+    "nama": "Agus Setiawan, S.Pd",
+    "nip": "198608052007082001",
+    "tanggal_lahir": "05 Agustus 1986",
+    "pangkat": "Pembina (III/c)",
+    "jabatan": "Guru Muda Bidang Studi Bahasa Inggris, pada SMP Negeri 1 Surakarta",
+    "nomor_dokumen": "5678/Kw.04/1-c/KP.01/05/2023"
+  },
+  {
+    "nama": "Rini Puspita Sari, S.Pd.Si",
+    "nip": "198909062009102001",
+    "tanggal_lahir": "06 September 1989",
+    "pangkat": "Penata Muda (III/b)",
+    "jabatan": "Guru Muda Bidang Studi Ilmu Pengetahuan Alam, pada SMA Negeri 2 Denpasar",
+    "nomor_dokumen": "9012/Kw.05/1-c/KP.01/07/2022"
+  }
+]

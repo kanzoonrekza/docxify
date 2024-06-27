@@ -22,20 +22,22 @@ const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 
 	return fetch(url, options)
 		.then((r) => {
+			if (r.status === 404) {
+				throw new Error("URL Not Found");
+			}
+			if (r.status === 500) {
+				throw new Error("Internal Server Error");
+			}
+
 			const contentType = r.headers.get("Content-Type");
-			
+
 			if (contentType && contentType.includes("application/json")) {
 				return r.json();
-		} else if (contentType && contentType.includes("application/pdf")) {
+			} else if (contentType && contentType.includes("application/pdf")) {
 				return r.blob();
-		} else {
-				throw new Error("Unsupported content type");
-		}
-
+			}
 		})
 		.catch((e) => {
-			console.log(options);
-
 			console.error(`Error in fetcher.${method.toLowerCase()}:`, e);
 			throw e;
 		});
