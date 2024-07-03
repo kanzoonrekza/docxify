@@ -3,14 +3,13 @@ import { FormField, TypeFormField } from "@/components/formField";
 import { templateDetailType } from "@/types";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import useSWRMutation from "swr/mutation";
 import {
-	getNestedValue,
-	mockApiData,
+	getNestedValue
 } from "../generate-forms/connectedApiForm";
-import { useData } from "../layout";
-import { useRouter } from "next/navigation";
+import { useData } from "@/contexts/dataContext";
 
 export default function EditTemplatePage({
 	params,
