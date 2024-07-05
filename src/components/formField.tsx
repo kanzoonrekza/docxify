@@ -31,7 +31,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 		) : (
 			<input
 				required={item.required}
-				type="text"
+				type={item.type || "text"}
 				id={item.name}
 				name={item.name}
 				defaultValue={item.defaultValue}

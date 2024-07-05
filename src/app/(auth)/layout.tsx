@@ -1,18 +1,16 @@
-import Link from "next/link";
-
 export default function AuthLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
-		<>
-			<div className="sticky top-0 bg-neutral-800 z-10">Doxify</div>
-			<div>
-				<Link href={"/login"}>Login </Link>
-				<Link href={"/signup"}>Sign Up</Link>
-			</div>
-			{children}
-		</>
+		<div className="h-screen">
+			<section className="mx-auto px-4 py-16 max-w-lg bg-slate-950 h-full">
+				<div className="mb-5 mx-auto text-center text-4xl font-bold ">
+					Docxify
+				</div>
+				{children}
+			</section>
+		</div>
 	);
 }
