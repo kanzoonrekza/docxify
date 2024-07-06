@@ -1,30 +1,26 @@
 "use client";
 import { FormField } from "@/components/formField";
-import fetcher from "@/utils/fetcher";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import useSWRMutation from "swr/mutation";
 
 export default function Login() {
 	const router = useRouter();
-	const { trigger, isMutating } = useSWRMutation(
-		"/api/auth/users/login",
-		fetcher.post,
-		{
-			onError: (error, variables, context) =>
-				console.error(error, context, variables),
-			onSuccess: (data, variables, context) => router.push(`/dashboard`),
-		}
-	);
-
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData: FormData = new FormData(e.currentTarget);
 
-		formData.append("username-email", formData.get("username-email") as string);
-		formData.append("password", formData.get("password") as string);
+		const result = await signIn("credentials", {
+			username: formData.get("username-email") as string,
+			password: formData.get("password") as string,
+			redirect: false,
+		});
 
-		trigger(formData);
+		if (result?.error) {
+			console.log(result.error);
+		} else {
+			router.push("/dashboard");
+		}
 	};
 	return (
 		<>
