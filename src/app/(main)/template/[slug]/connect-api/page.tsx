@@ -4,51 +4,96 @@ import { templateDetailType } from "@/types";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
 import React from "react";
-import useSWR, { SWRResponse } from "swr";
+import useSWRMutation from "swr/mutation";
 import {
 	getNestedValue,
 	mockApiData,
 } from "../generate-forms/connectedApiForm";
-
-const targetValue = {
-	nomor_dokumen: "value_a",
-	nama: "value_b",
-	nip: "value_c",
-	pangkat: "value_d.inner_value1",
-	jabatan: "value_d.inner_value2",
-	tanggal_lahir: "value_d.inner_value3",
-};
+import { useData } from "../layout";
+import { useRouter } from "next/navigation";
 
 export default function EditTemplatePage({
 	params,
 }: {
 	params: { slug: number };
 }) {
+	const router = useRouter();
+	const { data, mutate } = useData();
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
+	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
-	const { data, error, isLoading }: SWRResponse<templateDetailType, Error> =
-		useSWR("/api/templates/" + params.slug, fetcher.get, {
-			revalidateIfStale: false,
-			revalidateOnFocus: false,
-			revalidateOnReconnect: false,
+	const [fetchParams, setFetchParams] = React.useState<string[]>(
+		data?.api_param || []
+	);
+	const newParamRef = React.useRef<any>(null);
 
-			onSuccess: (data: any) => {
-				const jsonData: any = {};
-				data?.tags.map((tag: templateDetailType["tags"][number]) => {
-					jsonData[tag.code] = "";
-				});
-				setConnectApiTag(jsonData);
-				setConnectApiTagValue(jsonData);
-			},
+	React.useEffect(() => {
+		const jsonData: any = {};
+		const jsonDataEmpty: any = {};
+		data?.tags.map((tag: templateDetailType["tags"][number]) => {
+			jsonData[tag.code] = data.apiReady
+				? data?.api_connected_tags[tag.code] || ""
+				: "";
+			jsonDataEmpty[tag.code] = "";
 		});
+		setConnectApiTag(jsonData);
+		setConnectApiTagValue(jsonDataEmpty);
+	}, []);
 
-	if (error) return <div>failed to load</div>;
-	if (isLoading) return <div>loading...</div>;
+	const {
+		data: fetchApiData,
+		trigger,
+		isMutating,
+		error: fetchApiError,
+	} = useSWRMutation(targetAPI, fetcher.get, {
+		onError: (error, variables, context) => {
+			console.log("Error on fetch conenction API", error, context, variables);
+		},
+		onSuccess: (data, variables, context) => {
+			const newValues = formGenerateList.reduce((acc: any, item) => {
+				acc[item.name] = getNestedValue(data, connectApiTag[item.name]) || "";
+				return acc;
+			}, {});
+			setConnectApiTagValue((prevValues: any) => ({
+				...prevValues,
+				...newValues,
+			}));
+		},
+	});
+
+	const { trigger: connectAPI, isMutating: isConnectAPILoading } =
+		useSWRMutation(
+			"/api/templates/" + params.slug + "/connect-api",
+			fetcher.patch,
+			{
+				onError: (error, variables, context) =>
+					console.error(
+						">error",
+						error,
+						">context",
+						context,
+						">variables",
+						variables
+					),
+				onSuccess: (data, variables, context) => {
+					mutate();
+					router.push(`/template/${params.slug}`, {});
+				},
+			}
+		);
 
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(connectApiTag);
+
+		const existingFormData = new FormData(e.currentTarget);
+		const formData: FormData = new FormData();
+		formData.append("api_url", existingFormData.get("api_url") as string);
+		formData.append("api_param", JSON.stringify(fetchParams));
+		formData.append("api_connected_tags", JSON.stringify(connectApiTag));
+
+		connectAPI(formData);
 	};
+
 	const handleFetchAPI = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
@@ -57,7 +102,22 @@ export default function EditTemplatePage({
 			console.error("Form not found");
 			return;
 		}
+		const formData = new FormData(form);
+		const fetchUrl = formData.get("api_url");
+		const params = new URLSearchParams();
+
+		fetchParams.forEach((param: string) => {
+			const value = formData.get(`api_params_${param}`) as string;
+			if (value) {
+				params.append(param, value);
+			}
+		});
+
+		await setTargetAPI(`${fetchUrl}?${params.toString()}`);
+
+		trigger();
 	};
+
 	const formGenerateList: TypeFormField[] =
 		data?.tags.map((tag: templateDetailType["tags"][number]) => {
 			return {
@@ -84,15 +144,13 @@ export default function EditTemplatePage({
 				</aside>
 				<div className="text-4xl">{data?.title}</div>
 				<form onSubmit={handleGenerate}>
-					<section className="relative px-2 py-1 border rounded-lg">
-						{/* <Link href={`/template/${slug}/connect-api`} className="absolute right-0 px-3 mr-2 text-sm border">Edit API</Link> */}
+					<section className="border px-2 py-1 relative rounded-lg">
 						<FormField
 							item={{
-								name: "api_link",
-								label: "API Link",
+								name: "api_url",
+								label: "API URL",
 								required: true,
-								value: mockApiData.api_link,
-								readonly: true,
+								defaultValue: data?.api_url,
 							}}
 						/>
 						<span>
@@ -101,15 +159,31 @@ export default function EditTemplatePage({
 							</label>
 							<table className="w-full border divide-y bg-neutral-900 border-neutral-600 divide-neutral-600">
 								<tr className="divide-x divide-neutral-600 bg-neutral-950">
-									<th>Key</th>
-									<th>Value</th>
+									<th className="w-1/2">Key</th>
+									<th className="w-1/2">Value</th>
 								</tr>
-								{mockApiData.api_params.map((param: string) => (
+								{fetchParams.map((param: string) => (
 									<tr className="divide-x divide-neutral-600" key={param}>
 										<td className="w-1/2">
-											<label htmlFor={`api_params_${param}`} className="w-full">
-												<div className="w-full p-1">{param}</div>
-											</label>
+											<div className="flex">
+												<label
+													htmlFor={`api_params_${param}`}
+													className="w-full"
+												>
+													<div className="w-full p-1">{param}</div>
+												</label>
+												<button
+													type="button"
+													className=" bg-neutral-500 px-2"
+													onClick={() => {
+														setFetchParams(
+															fetchParams.filter((item) => item !== param)
+														);
+													}}
+												>
+													X
+												</button>
+											</div>
 										</td>
 										<td className="w-1/2">
 											<input
@@ -121,6 +195,39 @@ export default function EditTemplatePage({
 										</td>
 									</tr>
 								))}
+								<tr className="divide-x divide-neutral-600 bg-neutral-950">
+									<td className="w-1/2">
+										<input
+											type="text"
+											id={`new_param`}
+											name={`new_param`}
+											ref={newParamRef}
+											className="w-full p-1 bg-inherit"
+											placeholder="Type param name"
+										/>
+									</td>
+									<td className="w-1/2 hover:bg-neutral-800">
+										<button
+											type="button"
+											className="w-full h-full"
+											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+												if (newParamRef.current.value === "") {
+													console.log("empty ref");
+													return;
+												}
+												if (!fetchParams.includes(newParamRef.current.value)) {
+													setFetchParams([
+														...fetchParams,
+														newParamRef.current.value,
+													]);
+												}
+												newParamRef.current.value = "";
+											}}
+										>
+											Add new params
+										</button>
+									</td>
+								</tr>
 							</table>
 						</span>
 						<div className="flex justify-end w-full">
@@ -138,14 +245,21 @@ export default function EditTemplatePage({
 								label: "Tags",
 								readonly: true,
 								type: "textarea",
-								value: JSON.stringify(mockApiData.api_data, null, 2),
-								// status: tagsStatus?.status,
-								// footnote: tagsStatus?.message,
+								value: fetchApiError
+									? fetchApiError.message
+									: JSON.stringify(fetchApiData, null, 2),
+								status:
+									!fetchApiData && !fetchApiError
+										? undefined
+										: fetchApiError
+										? "Error"
+										: fetchApiData.status === 200
+										? "Success"
+										: "Error",
 							}}
 						/>
 					</section>
-					{/* <section className="grid grid-cols-2 px-2 py-1 mt-3 border gap-x-2"> */}
-					<section className="px-2 py-1 mt-3 border">
+					<section className="border px-2 py-1 mt-3">
 						{formGenerateList.map((item: TypeFormField) => (
 							<span key={item.name}>
 								<label htmlFor={item.name} className="text-lg">
@@ -158,7 +272,7 @@ export default function EditTemplatePage({
 										type="text"
 										id={item.name}
 										name={item.name}
-										value={item.value}
+										value={connectApiTag[item.name]}
 										className="w-full p-1 bg-gray-800 rounded"
 										placeholder="tag"
 										onChange={(e) => {
@@ -168,10 +282,8 @@ export default function EditTemplatePage({
 											});
 											setConnectApiTagValue({
 												...connectApiTagValue,
-												[item.name]: getNestedValue(
-													mockApiData.api_data,
-													e.target.value
-												),
+												[item.name]:
+													getNestedValue(fetchApiData, e.target.value) || "",
 											});
 										}}
 									/>

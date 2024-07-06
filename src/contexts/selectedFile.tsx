@@ -1,7 +1,7 @@
 "use client";
 import { readFileBuffer } from "@/utils/docs-templates";
 import { listCommands } from "docx-templates";
-import React, { use } from "react";
+import React from "react";
 
 export const ContextSelectedFile = React.createContext<{
 	selectedFile: File | null;

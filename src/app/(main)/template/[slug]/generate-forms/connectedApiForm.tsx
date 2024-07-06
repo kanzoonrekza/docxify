@@ -1,13 +1,15 @@
 import { FormField, TypeFormField } from "@/components/formField";
 import { templateDetailType } from "@/types";
 import { readFileBuffer } from "@/utils/docs-templates";
+import fetcher from "@/utils/fetcher";
 import createReport from "docx-templates";
 import Link from "next/link";
 import React from "react";
+import useSWRMutation from "swr/mutation";
 
 export const mockApiData: any = {
 	api_link: "https://api.example.com/api/get-data",
-	api_params: ["param1", "param2"],
+	api_params: ["nip"],
 	api_data: {
 		value_a: "result api 1",
 		value_b: "result api 2",
@@ -45,6 +47,27 @@ export default function ConnectedApiForm({
 	data: templateDetailType | undefined;
 	slug: number;
 }) {
+	const [targetAPI, setTargetAPI] = React.useState<string>("");
+	const {
+		data: fetchApiData,
+		trigger,
+		isMutating,
+		error: fetchApiError,
+	} = useSWRMutation(targetAPI, fetcher.get, {
+		onError: (error, variables, context) => {
+			console.log("Error on fetch conenction API", error, context, variables);
+		},
+		onSuccess: (res, variables, context) => {
+			formGenerateList.map((form: any) => {
+				const input = document.getElementById(form.name) as HTMLInputElement;
+				if (input) {
+					input.value =
+						getNestedValue(res, data?.api_connected_tags[form.name] || "") ||
+						"";
+				}
+			});
+		},
+	});
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -52,6 +75,7 @@ export default function ConnectedApiForm({
 		data?.tags.forEach((tag) => {
 			jsonData[tag.code] = formData.get(tag.code);
 		});
+
 		const fetchedFile = await fetch(data?.fileUrl as string).then(
 			(res) => res.blob() as Promise<File>
 		);
@@ -97,32 +121,24 @@ export default function ConnectedApiForm({
 		}
 
 		const formData = new FormData(form);
+		const fetchUrl = formData.get("api_url");
+		const params = new URLSearchParams();
 
-		let jsonData: any = {};
-		mockApiData.api_params.forEach((param: string) => {
-			jsonData[`api_params_${param}`] = formData.get(`api_params_${param}`);
-		});
-
-		// TODO: Fetch API
-		const fetchedData = mockApiData.api_data;
-
-		formGenerateList.map((form: any) => {
-			const input = document.getElementById(form.name) as HTMLInputElement;
-
-			if (input) {
-				// const valuePath = mockApiData.api_connected_tags[form.name];
-				const value = getNestedValue(
-					fetchedData,
-					mockApiData.api_connected_tags[form.name]
-				);
-				input.value = value;
+		data?.api_param.forEach((param: string) => {
+			const value = formData.get(`api_params_${param}`) as string;
+			if (value) {
+				params.append(param, value);
 			}
 		});
+
+		await setTargetAPI(`${fetchUrl}?${params.toString()}`);
+
+		trigger();
 	};
 
 	return (
 		<>
-			{!data?.api && (
+			{!data?.apiReady && (
 				<div className="grid text-center">
 					There are no API connected to this template
 					<Link
@@ -133,7 +149,7 @@ export default function ConnectedApiForm({
 					</Link>
 				</div>
 			)}
-			{data?.api && (
+			{data?.apiReady && (
 				<form onSubmit={handleGenerate}>
 					<section className="relative px-2 py-1 border rounded-lg">
 						<Link
@@ -144,10 +160,10 @@ export default function ConnectedApiForm({
 						</Link>
 						<FormField
 							item={{
-								name: "api_link",
-								label: "API Link",
+								name: "api_url",
+								label: "API URL",
 								required: true,
-								value: mockApiData.api_link,
+								value: data?.api_url,
 								readonly: true,
 							}}
 						/>
@@ -160,7 +176,7 @@ export default function ConnectedApiForm({
 									<th>Key</th>
 									<th>Value</th>
 								</tr>
-								{mockApiData.api_params.map((param: string) => (
+								{data?.api_param.map((param: string) => (
 									<tr className="divide-x divide-neutral-600" key={param}>
 										<td className="w-1/2">
 											<label htmlFor={`api_params_${param}`} className="w-full">
@@ -194,9 +210,17 @@ export default function ConnectedApiForm({
 								label: "Tags",
 								readonly: true,
 								type: "textarea",
-								value: JSON.stringify(mockApiData.api_data, null, 2),
-								// status: tagsStatus?.status,
-								// footnote: tagsStatus?.message,
+								value: fetchApiError
+									? fetchApiError.message
+									: JSON.stringify(fetchApiData, null, 2),
+								status:
+									!fetchApiData && !fetchApiError
+										? undefined
+										: fetchApiError
+										? "Error"
+										: fetchApiData.status === 200
+										? "Success"
+										: "Error",
 							}}
 						/>
 					</section>

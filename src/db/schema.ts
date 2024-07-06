@@ -15,7 +15,9 @@ export const templates = pgTable("templateTable", {
 	category: text("category").notNull(),
 	apiReady: boolean("api_ready").default(false).notNull(),
 	tags: jsonb("tags").notNull(),
-	api: jsonb("api"),
+	api_url: text("api_url"),
+	api_param: text("api_param").array(),
+	api_connected_tags: jsonb("api_connected_tags"),
 	createdAt: timestamp("created_at", { withTimezone: true })
 		.defaultNow()
 		.notNull(),
