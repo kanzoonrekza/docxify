@@ -2,7 +2,7 @@
 import React from "react";
 import ConnectedApiForm from "./generate-forms/connectedApiForm";
 import ManualForm from "./generate-forms/manualForm";
-import { useData } from "./layout";
+import { useData } from "@/contexts/dataContext";
 
 export default function TemplateSlugPage({
 	params,

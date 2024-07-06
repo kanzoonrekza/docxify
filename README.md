@@ -1,5 +1,29 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Deployment Using Docker Compose
+
+After cloning the repository, run the following command to build the Docker image:
+
+```bash
+docker compose build
+```
+
+Then, run the following command to start the Docker container:
+
+```bash
+docker compose up
+```
+
+The application will be available at http://localhost:3000.
+
+After the container is running, make sure to run the following command to migrate the database:
+
+```bash
+docker exec -it docxify-nextjs-1 /bin/bash
+
+pnpm migrate
+```
+
 ## Getting Started
 
 First, run the development server:

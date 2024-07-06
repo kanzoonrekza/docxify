@@ -1,15 +1,9 @@
 "use client";
+import { DataContext } from "@/contexts/dataContext";
 import { templateDetailType } from "@/types";
 import fetcher from "@/utils/fetcher";
 import React from "react";
 import useSWR, { SWRResponse } from "swr";
-
-const DataContext = React.createContext<{
-	data: templateDetailType | undefined;
-	mutate: () => void;
-}>({ data: undefined, mutate: () => {} });
-
-export const useData = () => React.useContext(DataContext);
 
 export default function DetailTemplateLayout({
 	params,
