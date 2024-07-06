@@ -44,7 +44,7 @@ export default function Login() {
 				/>
 
 				<button className="w-full p-2 bg-slate-900 rounded mt-4">
-					Register
+					Login
 				</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm">
