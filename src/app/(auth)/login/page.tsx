@@ -48,7 +48,7 @@ export default function Login() {
 				</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm">
-				Don't have an account? <a href="/signup">Signup</a>
+				Don&apos;t have an account? <a href="/signup">Signup</a>
 			</aside>
 		</>
 	);
