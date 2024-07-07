@@ -7,28 +7,28 @@ import Link from "next/link";
 import React from "react";
 import useSWRMutation from "swr/mutation";
 
-export const mockApiData: any = {
-	api_link: "https://api.example.com/api/get-data",
-	api_params: ["nip"],
-	api_data: {
-		value_a: "result api 1",
-		value_b: "result api 2",
-		value_c: "result api 3",
-		value_d: {
-			inner_value1: "result api 4",
-			inner_value2: "result api 5",
-			inner_value3: "result api 6",
-		},
-	},
-	api_connected_tags: {
-		nomor_dokumen: "value_a",
-		nama: "value_b",
-		nip: "value_c",
-		pangkat: "value_d.inner_value1",
-		jabatan: "value_d.inner_value2",
-		tanggal_lahir: "value_d.inner_value3",
-	},
-};
+// export const mockApiData: any = {
+// 	api_link: "https://api.example.com/api/get-data",
+// 	api_params: ["nip"],
+// 	api_data: {
+// 		value_a: "result api 1",
+// 		value_b: "result api 2",
+// 		value_c: "result api 3",
+// 		value_d: {
+// 			inner_value1: "result api 4",
+// 			inner_value2: "result api 5",
+// 			inner_value3: "result api 6",
+// 		},
+// 	},
+// 	api_connected_tags: {
+// 		nomor_dokumen: "value_a",
+// 		nama: "value_b",
+// 		nip: "value_c",
+// 		pangkat: "value_d.inner_value1",
+// 		jabatan: "value_d.inner_value2",
+// 		tanggal_lahir: "value_d.inner_value3",
+// 	},
+// };
 
 export const getNestedValue = (obj: any, path: string) => {
 	if (!path) return "";
@@ -68,6 +68,21 @@ export default function ConnectedApiForm({
 			});
 		},
 	});
+
+	const { trigger: triggerConvert, isMutating: isMutatingConvert } =
+		useSWRMutation("/api/convert", fetcher.post, {
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: (data, variables, context) => {
+				const url = URL.createObjectURL(data);
+				const link = document.createElement("a");
+				link.href = url;
+				link.download = `generated.pdf`;
+				link.click();
+				URL.revokeObjectURL(url);
+			},
+		});
+
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -94,13 +109,12 @@ export default function ConnectedApiForm({
 		const blob = new Blob([report], {
 			type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 		});
+		const file = new File([blob], "default.docx", { type: blob.type });
 
-		const url = URL.createObjectURL(blob);
-		const link = document.createElement("a");
-		link.href = url;
-		link.download = `${data?.title}_generated.docx`;
-		link.click();
-		URL.revokeObjectURL(url);
+		const convertFormData = new FormData();
+		convertFormData.append("files", file);
+
+		triggerConvert(convertFormData);
 	};
 
 	const formGenerateList: TypeFormField[] =
