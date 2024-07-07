@@ -23,7 +23,7 @@ export default function TemplateSlugPage({
 					Download document
 				</a>
 			</div>
-			<div>
+			<div className="pb-5">
 				<aside
 					className={`flex w-fit text-xs leading-snug rounded-full px-3 py-1 ${
 						data?.apiReady ? "bg-green-500" : "bg-red-500"
