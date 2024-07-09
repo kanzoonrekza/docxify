@@ -10,9 +10,6 @@ import useSWRMutation from "swr/mutation";
 export default function FormOrganization() {
 	const router = useRouter();
 	const session = useSession();
-
-	if (!session) return <div>Loading...</div>;
-
 	const { trigger, isMutating } = useSWRMutation(
 		"/api/core/organizations",
 		fetcher.post,
@@ -22,6 +19,9 @@ export default function FormOrganization() {
 			onSuccess: (data, variables, context) => router.push(`/dashboard`),
 		}
 	);
+
+	if (!session) return <div>Loading...</div>;
+
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
