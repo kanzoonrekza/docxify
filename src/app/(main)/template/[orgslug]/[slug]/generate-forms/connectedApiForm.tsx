@@ -45,6 +45,21 @@ export default function ConnectedApiForm({
 			});
 		},
 	});
+
+	const { trigger: triggerConvert, isMutating: isMutatingConvert } =
+		useSWRMutation("/api/convert", fetcher.post, {
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: (data, variables, context) => {
+				const url = URL.createObjectURL(data);
+				const link = document.createElement("a");
+				link.href = url;
+				link.download = `generated.pdf`;
+				link.click();
+				URL.revokeObjectURL(url);
+			},
+		});
+
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -71,13 +86,12 @@ export default function ConnectedApiForm({
 		const blob = new Blob([report], {
 			type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 		});
+		const file = new File([blob], "default.docx", { type: blob.type });
 
-		const url = URL.createObjectURL(blob);
-		const link = document.createElement("a");
-		link.href = url;
-		link.download = `${data?.title}_generated.docx`;
-		link.click();
-		URL.revokeObjectURL(url);
+		const convertFormData = new FormData();
+		convertFormData.append("files", file);
+
+		triggerConvert(convertFormData);
 	};
 
 	const formGenerateList: TypeFormField[] =
