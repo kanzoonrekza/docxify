@@ -11,7 +11,7 @@ export default function ManualForm({
 }: {
 	data: templateDetailType | undefined;
 }) {
-	const { trigger, isMutating } = useSWRMutation("/api/convert", fetcher.post, {
+	const { trigger, isMutating } = useSWRMutation("/api/core/convert", fetcher.post, {
 		onError: (error, variables, context) =>
 			console.error(error, context, variables),
 		onSuccess: (data, variables, context) => {

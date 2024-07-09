@@ -6,7 +6,7 @@ import React from "react";
 import useSWR from "swr";
 
 export default function TemplateList() {
-	const { data, error, isLoading } = useSWR("/api/templates", fetcher.get);
+	const { data, error, isLoading } = useSWR("/api/core/templates", fetcher.get);
 	
 	if (error) return <div>failed to load</div>;
 	if (isLoading) return <div>loading...</div>;

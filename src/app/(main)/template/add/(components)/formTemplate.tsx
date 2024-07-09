@@ -13,7 +13,7 @@ export default function FormTemplate() {
 		React.useContext(ContextSelectedFile);
 
 	const { trigger, isMutating } = useSWRMutation(
-		"/api/templates",
+		"/api/core/templates",
 		fetcher.post,
 		{
 			onError: (error, variables, context) =>

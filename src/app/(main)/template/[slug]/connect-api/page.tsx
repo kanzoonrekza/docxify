@@ -62,7 +62,7 @@ export default function EditTemplatePage({
 
 	const { trigger: connectAPI, isMutating: isConnectAPILoading } =
 		useSWRMutation(
-			"/api/templates/" + params.slug + "/connect-api",
+			"/api/core/templates/" + params.slug + "/connect-api",
 			fetcher.patch,
 			{
 				onError: (error, variables, context) =>
