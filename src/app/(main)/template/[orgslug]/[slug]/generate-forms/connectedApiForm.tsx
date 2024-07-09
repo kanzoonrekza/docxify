@@ -7,29 +7,6 @@ import Link from "next/link";
 import React from "react";
 import useSWRMutation from "swr/mutation";
 
-export const mockApiData: any = {
-	api_link: "https://api.example.com/api/get-data",
-	api_params: ["nip"],
-	api_data: {
-		value_a: "result api 1",
-		value_b: "result api 2",
-		value_c: "result api 3",
-		value_d: {
-			inner_value1: "result api 4",
-			inner_value2: "result api 5",
-			inner_value3: "result api 6",
-		},
-	},
-	api_connected_tags: {
-		nomor_dokumen: "value_a",
-		nama: "value_b",
-		nip: "value_c",
-		pangkat: "value_d.inner_value1",
-		jabatan: "value_d.inner_value2",
-		tanggal_lahir: "value_d.inner_value3",
-	},
-};
-
 export const getNestedValue = (obj: any, path: string) => {
 	if (!path) return "";
 	return path
@@ -42,10 +19,10 @@ export const getNestedValue = (obj: any, path: string) => {
 
 export default function ConnectedApiForm({
 	data,
-	slug,
+	params,
 }: {
 	data: templateDetailType | undefined;
-	slug: number;
+	params: { orgslug: number; slug: number };
 }) {
 	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const {
@@ -142,7 +119,7 @@ export default function ConnectedApiForm({
 				<div className="grid text-center">
 					There are no API connected to this template
 					<Link
-						href={`/template/${slug}/connect-api`}
+						href={`/template/${params.orgslug}/${params.slug}/connect-api`}
 						className="px-3 text-sm border"
 					>
 						Connect Now
@@ -153,7 +130,7 @@ export default function ConnectedApiForm({
 				<form onSubmit={handleGenerate}>
 					<section className="relative px-2 py-1 border rounded-lg">
 						<Link
-							href={`/template/${slug}/connect-api`}
+							href={`/template/${params.orgslug}/${params.slug}/connect-api`}
 							className="absolute right-0 px-3 mr-2 text-sm border"
 						>
 							Edit API
