@@ -7,7 +7,7 @@ import { useData } from "@/contexts/dataContext";
 export default function TemplateSlugPage({
 	params,
 }: {
-	params: { slug: number };
+	params: { orgslug: number; slug: number };
 }) {
 	const { data } = useData();
 	const [generateMode, setGenerateMode] = React.useState<"manual" | "api">(
@@ -53,7 +53,7 @@ export default function TemplateSlugPage({
 				</div>
 				{generateMode === "manual" && <ManualForm data={data} />}
 				{generateMode === "api" && (
-					<ConnectedApiForm data={data} slug={params.slug} />
+					<ConnectedApiForm data={data} params={params} />
 				)}
 			</div>
 		</main>

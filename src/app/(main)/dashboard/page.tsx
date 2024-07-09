@@ -1,17 +1,28 @@
+"use client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import TemplateList from "./templateList";
+import OrganizationList from "./organizationList";
 
 export default function Dashboard() {
+	const session = useSession();
+
+	// @ts-ignore
+	if (!session.data?.user?.id) return <div>loading...</div>;
+
 	return (
 		<main className="flex flex-col gap-10 p-10">
 			<div className="flex items-center justify-between ">
-				<div className="text-4xl">All Templates</div>
-				<Link href={"/template/add"} className="p-2 rounded-md bg-slate-700">
-					Add New Template
+				{/* @ts-ignore */}
+				<div className="text-4xl">Hello, {session?.data?.user?.id}!</div>
+
+				<Link
+					href={"/organization/add"}
+					className="p-2 rounded-md bg-slate-700"
+				>
+					Add New Organization
 				</Link>
 			</div>
-			<TemplateList />
-			
+			<OrganizationList />
 		</main>
 	);
 }

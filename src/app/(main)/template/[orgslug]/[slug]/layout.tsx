@@ -18,7 +18,7 @@ export default function DetailTemplateLayout({
 		isLoading,
 		mutate,
 	}: SWRResponse<templateDetailType, Error> = useSWR(
-		"/api/templates/" + params.slug,
+		"/api/core/templates/" + params.slug,
 		fetcher.get
 	);
 

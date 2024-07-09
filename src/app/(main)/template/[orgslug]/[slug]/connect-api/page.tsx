@@ -14,7 +14,7 @@ import { useData } from "@/contexts/dataContext";
 export default function EditTemplatePage({
 	params,
 }: {
-	params: { slug: number };
+	params: { orgslug: number; slug: number };
 }) {
 	const router = useRouter();
 	const { data, mutate } = useData();
@@ -62,7 +62,7 @@ export default function EditTemplatePage({
 
 	const { trigger: connectAPI, isMutating: isConnectAPILoading } =
 		useSWRMutation(
-			"/api/templates/" + params.slug + "/connect-api",
+			"/api/core/templates/" + params.slug + "/connect-api",
 			fetcher.patch,
 			{
 				onError: (error, variables, context) =>
@@ -76,7 +76,7 @@ export default function EditTemplatePage({
 					),
 				onSuccess: (data, variables, context) => {
 					mutate();
-					router.push(`/template/${params.slug}`, {});
+					router.push(`/template/${params.orgslug}/${params.slug}`, {});
 				},
 			}
 		);

@@ -6,8 +6,10 @@ import React from "react";
 
 export default function Login() {
 	const router = useRouter();
+	const [error, setError] = React.useState<boolean>(false);
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setError(false);
 		const formData: FormData = new FormData(e.currentTarget);
 
 		const result = await signIn("credentials", {
@@ -17,11 +19,13 @@ export default function Login() {
 		});
 
 		if (result?.error) {
+			setError(true);
 			console.log(result.error);
 		} else {
 			router.push("/dashboard");
 		}
 	};
+
 	return (
 		<>
 			<div className="text-center text-2xl font-medium">Login</div>
@@ -43,13 +47,14 @@ export default function Login() {
 					}}
 				/>
 
-				<button className="w-full p-2 bg-slate-900 rounded mt-4">
-					Login
-				</button>
+				<button className="w-full p-2 bg-slate-900 rounded mt-4">Login</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm">
 				Don&apos;t have an account? <a href="/signup">Signup</a>
 			</aside>
+			{error && (
+				<div className="text-red-500 text-center text-sm pt-5">Loign failed. Please make sure you have entered the correct username or email and password.</div>
+			)}
 		</>
 	);
 }

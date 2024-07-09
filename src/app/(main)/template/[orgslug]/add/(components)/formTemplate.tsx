@@ -7,19 +7,19 @@ import { useRouter } from "next/navigation";
 import useSWRMutation from "swr/mutation";
 import { fetcher } from "@/utils/fetcher";
 
-export default function FormTemplate() {
+export default function FormTemplate({ orgid }: { orgid: number }) {
 	const router = useRouter();
 	const { selectedFile, selectedTags, tagsStatus } =
 		React.useContext(ContextSelectedFile);
 
 	const { trigger, isMutating } = useSWRMutation(
-		"/api/templates",
+		"/api/core/templates",
 		fetcher.post,
 		{
 			onError: (error, variables, context) =>
 				console.error(error, context, variables),
 			onSuccess: (data, variables, context) =>
-				router.push(`/template/${data.data.id}`),
+				router.push(`/template/${orgid}`),
 		}
 	);
 

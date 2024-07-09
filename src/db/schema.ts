@@ -20,6 +20,7 @@ export const templates = pgTable("templateTable", {
 	api_url: text("api_url"),
 	api_param: text("api_param").array(),
 	api_connected_tags: jsonb("api_connected_tags"),
+	organizationId: integer("organization_id").notNull().references(() => organizations.id).default(1),
 	createdAt: timestamp("created_at", { withTimezone: true })
 		.defaultNow()
 		.notNull(),
