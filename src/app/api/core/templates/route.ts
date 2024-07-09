@@ -1,7 +1,8 @@
 import db from "@/db/drizzle";
-import { templates } from "@/db/schema";
+import { organizations, organizationUsers, templates } from "@/db/schema";
 import { claudinaryUploadBuffer } from "@/utils/file-operations";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 cloudinary.config({
@@ -10,8 +11,35 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function GET() {
-	const result = await db.select().from(templates);
+export async function GET(request: NextRequest) {
+	const userid = request.headers.get("userid") as string;
+	const searchParams: URLSearchParams = new URLSearchParams(
+		request.nextUrl.searchParams
+	);
+
+	const orgid = searchParams.get("orgid") as string;
+
+	const authenticated = await db
+		.select()
+		.from(organizationUsers)
+		.where(
+			and(
+				eq(organizationUsers.userId, userid),
+				eq(organizationUsers.organizationId, Number(orgid))
+			)
+		);
+
+	if (authenticated.length === 0) {
+		throw NextResponse.json(
+			{ status: 401, message: "Unauthorized" },
+			{ status: 401 }
+		);
+	}
+
+	const result = await db
+		.select()
+		.from(templates)
+		.where(eq(templates.organizationId, Number(orgid)));
 
 	return NextResponse.json(result);
 }
