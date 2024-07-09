@@ -29,14 +29,10 @@ export default function DropdownOrganization() {
 				<option className="bg-neutral-800" key="new" value="new">
 					+ Create new organization
 				</option>
-				{/* <option className="bg-neutral-800" key="refresh" value="refresh"> */}
-				{/* </option> */}
 			</select>
 			<button
 				onClick={(e) => {
 					e.preventDefault();
-          console.log("refreshing")
-          
 					mutate();
 				}}
 			>

@@ -1,28 +1,14 @@
 "use client";
 import DropdownOrganization from "@/components/dropdownOrganization";
 import { ContextProviderUserOrg } from "@/contexts/userOrgContext";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function MainLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const router = useRouter();
-	const {
-		data: session,
-		update: updateSession,
-		status,
-	} = useSession({
-		required: true,
-		onUnauthenticated() {
-			router.push("/login");
-		},
-	});
-	if (!session) return <div>loading...</div>;
-
 	const handleLogOut = async () => {
 		await signOut({ redirect: true, callbackUrl: "/login" });
 	};
