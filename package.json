@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"next dev\" \"docker run --rm -p 8000:3000 gotenberg/gotenberg\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
