@@ -19,7 +19,7 @@ export default function MainLayout({
 				<div className="sticky top-0 z-10 bg-neutral-800 flex justify-between">
 					<div className="flex gap-4">
 						<Link href="/dashboard">Docxify</Link>
-						<DropdownOrganization />
+						{/* <DropdownOrganization /> */}
 					</div>
 					<button onClick={handleLogOut}>Logout</button>
 				</div>
