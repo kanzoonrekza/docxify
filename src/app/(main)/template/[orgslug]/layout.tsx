@@ -17,17 +17,22 @@ export default function TemplateLayout({
 	);
 
 	return (
-		<div>
-			{current && current.length === 1 && (
-				<div>
-					<Link href={"/dashboard"}>Dashboard</Link>
-					{" > "}
-					<Link href={"/template/" + params.orgslug}>
-						{current[0].organization.name}
-					</Link>
-				</div>
-			)}
-			<div>{children}</div>
+		<div className="px-10 py-5">
+			<div className="breadcrumbs text-sm">
+				{current && current.length === 1 && (
+					<ul>
+						<li>
+							<Link href={"/dashboard"}>Dashboard</Link>
+						</li>
+						<li>
+							<Link href={"/template/" + params.orgslug}>
+								{current[0].organization.name}
+							</Link>
+						</li>
+					</ul>
+				)}
+			</div>
+			<main className="flex flex-col gap-10">{children}</main>
 		</div>
 	);
 }
