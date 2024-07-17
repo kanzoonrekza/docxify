@@ -47,7 +47,7 @@ export default function Login() {
 					}}
 				/>
 
-				<button className="btn btn-block btn-primary">Login</button>
+				<button className="btn btn-block btn-neutral">Login</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm mt-2">
 				Don&apos;t have an account?{" "}

@@ -56,7 +56,7 @@ export default function Signup() {
 					}}
 				/>
 
-				<button className="btn btn-block btn-primary">Register</button>
+				<button className="btn btn-block btn-neutral">Register</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm mt-2">
 				Already have an account?{" "}
