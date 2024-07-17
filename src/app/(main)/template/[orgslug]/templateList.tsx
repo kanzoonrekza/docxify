@@ -18,25 +18,31 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 		<>
 			{data.length === 0 && <div>No templates found. Try adding one!</div>}
 			{data.length > 0 && (
-				<div className="grid grid-cols-4 gap-5">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 					{data.map((template: templateDetailType) => (
 						<Link
 							href={`/template/${orgid}/${template.id}`}
 							key={template.id}
-							className="p-3 border rounded-lg"
+							className="card-compact rounded border hover:border-neutral transition-colors duration-200"
 						>
-							<div className="flex items-center justify-start h-10 gap-3 mb-4">
-								<div className="grid h-full rounded aspect-square bg-slate-600 place-content-center">
-									T
-								</div>
+							<div className="card-body gap-0">
 								<div className="flex-grow">
-									<div>{template.title}</div>
-									<div className="text-sm">{`${template.category} ${
-										template.apiReady ? "- Api Ready" : ""
-									} `}</div>
+									<div className="flex gap-2 flex-wrap">
+										<div className="badge badge-sm badge-neutral">
+											{template.category}
+										</div>
+										{template.apiReady && (
+											<div className="badge badge-sm badge-accent">
+												Api Ready
+											</div>
+										)}
+									</div>
+									<div className="card-title">{template.title}</div>
 								</div>
+								{template.description && (
+									<p className="card-side">{template.description}</p>
+								)}
 							</div>
-							<p className="line-clamp-3">{template.description}</p>
 						</Link>
 					))}
 				</div>

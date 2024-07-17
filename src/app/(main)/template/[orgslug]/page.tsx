@@ -12,9 +12,9 @@ export default function TemplatePage({
 				<div className="text-4xl">All Templates</div>
 				<Link
 					href={`/template/${params.orgslug}/add`}
-					className="p-2 rounded-md bg-slate-700"
+					className="btn btn-wide btn-neutral"
 				>
-					Add New Template
+					Create Template
 				</Link>
 			</div>
 			<TemplateList orgid={params.orgslug} />
