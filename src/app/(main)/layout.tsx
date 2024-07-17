@@ -16,12 +16,15 @@ export default function MainLayout({
 	return (
 		<div className="h-screen flex flex-col">
 			<ContextProviderUserOrg>
-				<div className="sticky top-0 z-10 bg-neutral-800 flex justify-between">
-					<div className="flex gap-4">
-						<Link href="/dashboard">Docxify</Link>
-						{/* <DropdownOrganization /> */}
+				<div className="sticky top-0 z-10 bg-primary">
+					<div className="flex justify-between py-2 px-5 items-center max-w-screen-2xl mx-auto w-full">
+						<Link href="/dashboard" className="text-primary-content font-bold">
+							Docxify
+						</Link>
+						<button className="btn btn-accent btn-sm" onClick={handleLogOut}>
+							Logout
+						</button>
 					</div>
-					<button onClick={handleLogOut}>Logout</button>
 				</div>
 				<div className="flex-1 max-w-screen-2xl mx-auto w-full">{children}</div>
 			</ContextProviderUserOrg>

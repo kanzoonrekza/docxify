@@ -28,8 +28,8 @@ export default function Login() {
 
 	return (
 		<>
-			<div className="text-center text-2xl font-medium">Login</div>
-			<form onSubmit={handleSubmit}>
+			<div className="text-center text-2xl font-medium mb-4">Login</div>
+			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 				<FormField
 					item={{
 						name: "username-email",
@@ -47,13 +47,19 @@ export default function Login() {
 					}}
 				/>
 
-				<button className="w-full p-2 bg-slate-900 rounded mt-4">Login</button>
+				<button className="btn btn-block btn-primary">Login</button>
 			</form>
-			<aside className="ml-auto w-fit text-sm">
-				Don&apos;t have an account? <a href="/signup">Signup</a>
+			<aside className="ml-auto w-fit text-sm mt-2">
+				Don&apos;t have an account?{" "}
+				<a href="/signup" className="link link-secondary p-0">
+					Signup
+				</a>
 			</aside>
 			{error && (
-				<div className="text-red-500 text-center text-sm pt-5">Loign failed. Please make sure you have entered the correct username or email and password.</div>
+				<div className="text-red-500 text-center text-sm pt-5">
+					Loign failed. Please make sure you have entered the correct username
+					or email and password.
+				</div>
 			)}
 		</>
 	);

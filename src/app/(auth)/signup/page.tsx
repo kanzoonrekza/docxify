@@ -13,7 +13,7 @@ export default function Signup() {
 		{
 			onError: (error, variables, context) =>
 				console.error(error, context, variables),
-			onSuccess: (data, variables, context) => router.push(`/login`),
+			onSuccess: () => router.push(`/login`),
 		}
 	);
 
@@ -29,8 +29,8 @@ export default function Signup() {
 	};
 	return (
 		<>
-			<div className="text-center text-2xl font-medium">Sign up</div>
-			<form onSubmit={handleSubmit}>
+			<div className="text-center text-2xl font-medium mb-4">Sign up</div>
+			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 				<FormField
 					item={{
 						name: "username",
@@ -56,12 +56,13 @@ export default function Signup() {
 					}}
 				/>
 
-				<button className="w-full p-2 bg-slate-900 rounded mt-4">
-					Register
-				</button>
+				<button className="btn btn-block btn-primary">Register</button>
 			</form>
-			<aside className="ml-auto w-fit text-sm">
-				Already have an account? <a href="/login">Login</a>
+			<aside className="ml-auto w-fit text-sm mt-2">
+				Already have an account?{" "}
+				<a href="/login" className="link link-secondary p-0">
+					Login
+				</a>
 			</aside>
 		</>
 	);
