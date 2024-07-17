@@ -6,8 +6,9 @@ import useSWR from "swr";
 export const UserOrgContext = React.createContext<{
 	data: any | undefined;
 	mutate: () => void;
+	error: boolean;
 	isLoading: boolean;
-}>({ data: undefined, isLoading: true, mutate: () => {} });
+}>({ data: undefined, isLoading: true, error: false, mutate: () => {} });
 
 export const useUserOrg = () => React.useContext(UserOrgContext);
 
@@ -22,7 +23,7 @@ export const ContextProviderUserOrg = ({
 	);
 
 	return (
-		<UserOrgContext.Provider value={{ data, isLoading, mutate }}>
+		<UserOrgContext.Provider value={{ data, isLoading, error, mutate }}>
 			{children}
 		</UserOrgContext.Provider>
 	);

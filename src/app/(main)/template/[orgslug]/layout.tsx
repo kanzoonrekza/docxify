@@ -10,7 +10,7 @@ export default function TemplateLayout({
 	children: React.ReactNode;
 	params: { orgslug: number };
 }) {
-	const { data } = useUserOrg();
+	const { data, isLoading } = useUserOrg();
 
 	const current = data?.filter(
 		(org: any) => org.organizationId === Number(params.orgslug)
@@ -19,6 +19,16 @@ export default function TemplateLayout({
 	return (
 		<div className="px-10 py-5">
 			<div className="breadcrumbs text-sm">
+				{isLoading && (
+					<ul>
+						<li>
+							<div className="skeleton h-5 w-20" />
+						</li>
+						<li>
+							<div className="skeleton h-5 w-20" />
+						</li>
+					</ul>
+				)}
 				{current && current.length === 1 && (
 					<ul>
 						<li>

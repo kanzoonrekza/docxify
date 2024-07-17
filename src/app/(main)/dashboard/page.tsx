@@ -6,16 +6,21 @@ import OrganizationList from "./organizationList";
 export default function Dashboard() {
 	const session = useSession();
 
-	// @ts-ignore
-	if (!session.data?.user?.id) return <div>loading...</div>;
-
 	return (
 		<main className="flex flex-col gap-10 p-10">
 			<div className="flex items-center justify-between ">
 				{/* @ts-ignore */}
-				<div className="text-4xl">Hello, {session?.data?.user?.id}!</div>
+				{!session.data?.user?.id ? (
+					<div className="skeleton w-40 h-10" />
+				) : (
+					// @ts-ignore
+					<div className="text-4xl">Hello, {session?.data?.user?.id}!</div>
+				)}
 
-				<Link href={"/organization/add"} className="btn btn-wide btn-neutral">
+				<Link
+					href={"/organization/add"}
+					className="btn btn-wide btn-neutral disabled:btn-disabled"
+				>
 					Create Organization
 				</Link>
 			</div>
