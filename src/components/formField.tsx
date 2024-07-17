@@ -19,11 +19,9 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 			<textarea
 				id="tags"
 				name="tags"
-				className={`w-full rounded p-1 h-60 bg-base-100 ${
-					item.status === "Error" && "border border-red-500 bg-red-950"
-				} ${
-					item.status === "Success" && "border border-green-500 bg-green-950"
-				}`}
+				className={`w-full rounded p-1 border border-base-300 h-60 bg-opacity-30 ${
+					item.status === "Error" && "border border-error bg-error"
+				} ${item.status === "Success" && "border border-success bg-success"}`}
 				defaultValue={item.defaultValue}
 				value={item.value}
 				readOnly
