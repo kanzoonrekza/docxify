@@ -15,11 +15,8 @@ export default function Dashboard() {
 				{/* @ts-ignore */}
 				<div className="text-4xl">Hello, {session?.data?.user?.id}!</div>
 
-				<Link
-					href={"/organization/add"}
-					className="p-2 rounded-md bg-slate-700"
-				>
-					Add New Organization
+				<Link href={"/organization/add"} className="btn btn-wide btn-neutral">
+					Create Organization
 				</Link>
 			</div>
 			<OrganizationList />
