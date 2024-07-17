@@ -1,16 +1,39 @@
 "use client";
 import { ContextProviderUserOrg } from "@/contexts/userOrgContext";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function MainLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const session = useSession();
+	const router = useRouter();
+
 	const handleLogOut = async () => {
 		await signOut({ redirect: true, callbackUrl: "/login" });
 	};
+
+	if (session.status === "loading") {
+		return (
+			<div className="min-h-screen grid place-content-center">
+				<div className="loading loading-ring w-20" />
+			</div>
+		);
+	}
+
+	if (session.status === "unauthenticated") {
+		router.push("/login");
+		return (
+			<div className="min-h-screen grid place-content-center">
+				<h1 className="text-2xl font-bold">
+					User unauthenticated. Now redirecting to login page.
+				</h1>
+			</div>
+		);
+	}
 
 	return (
 		<div className="min-h-screen flex flex-col">
