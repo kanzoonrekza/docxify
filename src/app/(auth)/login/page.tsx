@@ -7,8 +7,10 @@ import React from "react";
 export default function Login() {
 	const router = useRouter();
 	const [error, setError] = React.useState<boolean>(false);
+	const [loading, setLoading] = React.useState<boolean>(false);
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setLoading(true);
 		setError(false);
 		const formData: FormData = new FormData(e.currentTarget);
 
@@ -17,6 +19,7 @@ export default function Login() {
 			password: formData.get("password") as string,
 			redirect: false,
 		});
+		setLoading(false);
 
 		if (result?.error) {
 			setError(true);
@@ -47,7 +50,9 @@ export default function Login() {
 					}}
 				/>
 
-				<button className="btn btn-block btn-neutral">Login</button>
+				<button className="btn btn-block btn-neutral" disabled={loading}>
+					{loading ? <span className="loading loading-dots" /> : "Login"}
+				</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm mt-2">
 				Don&apos;t have an account?{" "}
