@@ -30,6 +30,7 @@ export default function FormTemplate({ orgid }: { orgid: number }) {
 		formAddList.forEach((form) => {
 			formData.append(form.name, formData.get(form.name) as string);
 		});
+		formData.append("orgid", orgid.toString());
 		formData.append("file", selectedFile as File);
 
 		trigger(formData);
