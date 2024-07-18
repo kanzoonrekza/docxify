@@ -1,15 +1,13 @@
 "use client";
 import { FormField, TypeFormField } from "@/components/formField";
+import { useData } from "@/contexts/dataContext";
 import { templateDetailType } from "@/types";
 import fetcher from "@/utils/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import useSWRMutation from "swr/mutation";
-import {
-	getNestedValue
-} from "../generate-forms/connectedApiForm";
-import { useData } from "@/contexts/dataContext";
+import { getNestedValue } from "../generate-forms/connectedApiForm";
 
 export default function EditTemplatePage({
 	params,
@@ -17,7 +15,7 @@ export default function EditTemplatePage({
 	params: { orgslug: number; slug: number };
 }) {
 	const router = useRouter();
-	const { data, mutate } = useData();
+	const { data, mutate, isLoading } = useData();
 	const [connectApiTag, setConnectApiTag] = React.useState<any>({});
 	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const [connectApiTagValue, setConnectApiTagValue] = React.useState<any>({});
@@ -127,23 +125,31 @@ export default function EditTemplatePage({
 		}) || [];
 
 	return (
-		<main className="grid h-full max-w-screen-xl grid-cols-2 gap-10 p-10 mx-auto">
-			<div className="h-[640px] bg-slate-900">
-				Document Preview
-				<br />
-				<a href={data?.fileUrl} download>
-					Download document
-				</a>
-			</div>
-			<div>
-				<aside
-					className={`flex w-fit text-xs leading-snug rounded-full px-3 py-1 bg-gray-500`}
-				>
-					Editing API Connection
-				</aside>
-				<div className="text-4xl">{data?.title}</div>
+		<main className="flex gap-5 h-full">
+			{isLoading ? (
+				<div className="skeleton h-[640px] w-full max-w-sm" />
+			) : (
+				<div className="h-[640px] w-full max-w-sm bg-base-300 bg-opacity-5 hover:bg-opacity-10 border border-dashed rounded">
+					Document Preview
+					<br />
+					<a href={data?.fileUrl} download>
+						Download document
+					</a>
+				</div>
+			)}
+			<div className="pb-5 flex flex-col gap-3 max-w-2xl w-full">
+				{isLoading ? (
+					<aside className="skeleton w-20 h-5" />
+				) : (
+					<aside className="badge badge-info">Editing API Connection</aside>
+				)}
+				{isLoading ? (
+					<h1 className="skeleton w-full h-9 mb-2" />
+				) : (
+					<h1 className="text-3xl font-bold">{data?.title}</h1>
+				)}
 				<form onSubmit={handleGenerate}>
-					<section className="border px-2 py-1 relative rounded-lg">
+					<section className="relative px-2 border-l-4 border-primary flex flex-col gap-3 max-w-2xl w-full rounded-l">
 						<FormField
 							item={{
 								name: "api_url",
@@ -156,13 +162,13 @@ export default function EditTemplatePage({
 							<label htmlFor="" className="text-lg">
 								Params
 							</label>
-							<table className="w-full border divide-y bg-neutral-900 border-neutral-600 divide-neutral-600">
-								<tr className="divide-x divide-neutral-600 bg-neutral-950">
-									<th className="w-1/2">Key</th>
-									<th className="w-1/2">Value</th>
+							<table className="w-full border divide-y border-neutral divide-neutral">
+								<tr className="divide-x divide-neutral bg-neutral text-neutral-content">
+									<th>Key</th>
+									<th>Value</th>
 								</tr>
 								{fetchParams.map((param: string) => (
-									<tr className="divide-x divide-neutral-600" key={param}>
+									<tr className="divide-x divide-neutral" key={param}>
 										<td className="w-1/2">
 											<div className="flex">
 												<label
@@ -173,7 +179,7 @@ export default function EditTemplatePage({
 												</label>
 												<button
 													type="button"
-													className=" bg-neutral-500 px-2"
+													className="btn btn-square btn-sm btn-error btn-outline"
 													onClick={() => {
 														setFetchParams(
 															fetchParams.filter((item) => item !== param)
@@ -194,7 +200,7 @@ export default function EditTemplatePage({
 										</td>
 									</tr>
 								))}
-								<tr className="divide-x divide-neutral-600 bg-neutral-950">
+								<tr className="divide-x divide-neutral">
 									<td className="w-1/2">
 										<input
 											type="text"
@@ -205,10 +211,10 @@ export default function EditTemplatePage({
 											placeholder="Type param name"
 										/>
 									</td>
-									<td className="w-1/2 hover:bg-neutral-800">
+									<td className="w-1/2">
 										<button
 											type="button"
-											className="w-full h-full"
+											className="btn btn-block btn-sm btn-neutral btn-outline"
 											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
 												if (newParamRef.current.value === "") {
 													console.log("empty ref");
@@ -232,7 +238,7 @@ export default function EditTemplatePage({
 						<div className="flex justify-end w-full">
 							<button
 								type="button"
-								className="px-4 py-1 border border-neutral-400"
+								className="btn btn-sm btn-neutral btn-outline"
 								onClick={handleFetchAPI}
 							>
 								Fetch
@@ -258,12 +264,14 @@ export default function EditTemplatePage({
 							}}
 						/>
 					</section>
-					<section className="border px-2 py-1 mt-3">
+					<section className="px-2 mt-3 border-l-4 border-secondary flex flex-col gap-3 max-w-2xl w-full rounded-l">
 						{formGenerateList.map((item: TypeFormField) => (
 							<span key={item.name}>
-								<label htmlFor={item.name} className="text-lg">
+								<label htmlFor={item.name} className="flex items-stretch gap-1">
 									{item.label}
-									{item.required && <span className="text-red-500">*</span>}
+									{item.required && (
+										<span className="text-secondary text-sm">*</span>
+									)}
 								</label>
 								<div className="grid grid-cols-2 gap-x-2">
 									<input
@@ -272,7 +280,7 @@ export default function EditTemplatePage({
 										id={item.name}
 										name={item.name}
 										value={connectApiTag[item.name]}
-										className="w-full p-1 bg-gray-800 rounded"
+										className="w-full rounded px-1 border border-base-300"
 										placeholder="tag"
 										onChange={(e) => {
 											setConnectApiTag({
@@ -292,7 +300,7 @@ export default function EditTemplatePage({
 										name={`value_${item.name}`}
 										value={connectApiTagValue[item.name]}
 										placeholder="preview value"
-										className="w-full p-1 bg-gray-800 rounded"
+										className="w-full rounded px-1 border border-base-300"
 										readOnly
 									/>
 								</div>
@@ -303,13 +311,13 @@ export default function EditTemplatePage({
 					<div className="grid grid-cols-2 gap-5 pt-5">
 						<Link
 							href={`/template/${params.slug}`}
-							className="flex justify-center p-2 border border-red-600"
+							className="btn btn-outline btn-error"
 							type="button"
 							onClick={() => {}}
 						>
 							Cancel
 						</Link>
-						<button className="p-2 border border-gray-400" type="submit">
+						<button className="btn btn-neutral" type="submit">
 							Save
 						</button>
 					</div>
