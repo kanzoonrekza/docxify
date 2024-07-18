@@ -10,24 +10,39 @@ export default function TemplateLayout({
 	children: React.ReactNode;
 	params: { orgslug: number };
 }) {
-	const { data } = useUserOrg();
+	const { data, isLoading } = useUserOrg();
 
 	const current = data?.filter(
 		(org: any) => org.organizationId === Number(params.orgslug)
 	);
 
 	return (
-		<div>
-			{current && current.length === 1 && (
-				<div>
-					<Link href={"/dashboard"}>Dashboard</Link>
-					{" > "}
-					<Link href={"/template/" + params.orgslug}>
-						{current[0].organization.name}
-					</Link>
-				</div>
-			)}
-			<div>{children}</div>
+		<div className="px-10 py-5">
+			<div className="breadcrumbs text-sm">
+				{isLoading && (
+					<ul>
+						<li>
+							<div className="skeleton h-5 w-20" />
+						</li>
+						<li>
+							<div className="skeleton h-5 w-20" />
+						</li>
+					</ul>
+				)}
+				{current && current.length === 1 && (
+					<ul>
+						<li>
+							<Link href={"/dashboard"}>Dashboard</Link>
+						</li>
+						<li>
+							<Link href={"/template/" + params.orgslug}>
+								{current[0].organization.name}
+							</Link>
+						</li>
+					</ul>
+				)}
+			</div>
+			<main className="flex flex-col gap-10">{children}</main>
 		</div>
 	);
 }

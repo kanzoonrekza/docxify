@@ -7,13 +7,14 @@ import useSWRMutation from "swr/mutation";
 
 export default function Signup() {
 	const router = useRouter();
-	const { trigger, isMutating } = useSWRMutation(
+	const { trigger, isMutating, error } = useSWRMutation(
 		"/api/auth/users",
 		fetcher.post,
 		{
-			onError: (error, variables, context) =>
-				console.error(error, context, variables),
-			onSuccess: (data, variables, context) => router.push(`/login`),
+			onError: async (error, variables, config) => {
+				console.error(error, config, variables);
+			},
+			onSuccess: () => router.push(`/login`),
 		}
 	);
 
@@ -29,8 +30,8 @@ export default function Signup() {
 	};
 	return (
 		<>
-			<div className="text-center text-2xl font-medium">Sign up</div>
-			<form onSubmit={handleSubmit}>
+			<div className="text-center text-2xl font-medium mb-4">Sign up</div>
+			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 				<FormField
 					item={{
 						name: "username",
@@ -56,13 +57,25 @@ export default function Signup() {
 					}}
 				/>
 
-				<button className="w-full p-2 bg-slate-900 rounded mt-4">
-					Register
+				<button className="btn btn-block btn-neutral" disabled={isMutating}>
+					{isMutating ? <span className="loading loading-dots" /> : "Register"}
 				</button>
 			</form>
-			<aside className="ml-auto w-fit text-sm">
-				Already have an account? <a href="/login">Login</a>
+			<aside className="ml-auto w-fit text-sm mt-2">
+				Already have an account?{" "}
+				<a href="/login" className="link link-secondary p-0">
+					Login
+				</a>
 			</aside>
+			{error && !isMutating && (
+				<div className="text-red-500 text-center text-sm pt-5">
+					{error.body.error.detail.includes("already exists")
+						? error.body.error.detail.includes("email")
+							? "Email already used. Please use a different email or login with your existing account."
+							: "Username already used. Please use a different username or login with your existing account."
+						: "An error occurred. Try again later or contact support."}
+				</div>
+			)}
 		</>
 	);
 }

@@ -22,12 +22,9 @@ export default function DetailTemplateLayout({
 		fetcher.get
 	);
 
-	if (error) return <div>failed to load</div>;
-	if (isLoading) return <div>loading...</div>;
-
 	return (
-		<DataContext.Provider value={{ data, mutate }}>
-			<div className="h-screen flex flex-col">{children}</div>
+		<DataContext.Provider value={{ data, mutate, error, isLoading }}>
+			<div className="flex flex-col">{children}</div>
 		</DataContext.Provider>
 	);
 }

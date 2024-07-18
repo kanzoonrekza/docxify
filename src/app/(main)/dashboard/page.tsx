@@ -6,9 +6,6 @@ import OrganizationList from "./organizationList";
 export default function Dashboard() {
 	const session = useSession();
 
-	// @ts-ignore
-	if (!session.data?.user?.id) return <div>loading...</div>;
-
 	return (
 		<main className="flex flex-col gap-10 p-10">
 			<div className="flex items-center justify-between ">
@@ -17,9 +14,9 @@ export default function Dashboard() {
 
 				<Link
 					href={"/organization/add"}
-					className="p-2 rounded-md bg-slate-700"
+					className="btn btn-wide btn-neutral disabled:btn-disabled"
 				>
-					Add New Organization
+					Create Organization
 				</Link>
 			</div>
 			<OrganizationList />

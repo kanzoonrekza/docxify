@@ -10,7 +10,7 @@ import useSWRMutation from "swr/mutation";
 export default function FormOrganization() {
 	const router = useRouter();
 	const session = useSession();
-	const { trigger, isMutating } = useSWRMutation(
+	const { trigger, isMutating, error } = useSWRMutation(
 		"/api/core/organizations",
 		fetcher.post,
 		{
@@ -19,9 +19,6 @@ export default function FormOrganization() {
 			onSuccess: (data, variables, context) => router.push(`/dashboard`),
 		}
 	);
-
-	if (!session) return <div>Loading...</div>;
-
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -37,19 +34,24 @@ export default function FormOrganization() {
 		trigger(formData);
 	};
 
-	const formAddList: any[] = [{ name: "name", label: "Name", required: true }];
+	const formAddList: any[] = [
+		{ name: "name", label: "Organization Name", required: true },
+	];
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col gap-3">
+		<form
+			onSubmit={handleSubmit}
+			className="flex flex-col gap-3 max-w-2xl w-full"
+		>
 			{formAddList.map((item: TypeFormField) => (
 				<FormField item={item} key={item.name} />
 			))}
 			<button
-				className="p-2 mt-5 ml-auto bg-green-700 rounded disabled:bg-slate-500 disabled:cursor-not-allowed"
+				className="btn btn-neutral ml-auto btn-wide"
 				type="submit"
 				disabled={isMutating}
 			>
-				Create
+				{isMutating ? <span className="loading loading-dots" /> : "Create"}
 			</button>
 		</form>
 	);

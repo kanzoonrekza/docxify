@@ -11,19 +11,17 @@ export type TypeFormField = {
 };
 export const FormField = ({ item }: { item: TypeFormField }) => (
 	<span key={item.name}>
-		<label htmlFor={item.name} className="text-lg">
+		<label htmlFor={item.name} className="flex items-stretch gap-1">
 			{item.label}
-			{item.required && <span className="text-red-500">*</span>}
+			{item.required && <span className="text-secondary text-sm">*</span>}
 		</label>
 		{item.type === "textarea" ? (
 			<textarea
 				id="tags"
 				name="tags"
-				className={`w-full bg-gray-800 rounded p-1 h-60 ${
-					item.status === "Error" && "border border-red-500 bg-red-950"
-				} ${
-					item.status === "Success" && "border border-green-500 bg-green-950"
-				}`}
+				className={`w-full rounded px-1 border border-base-300 h-60 bg-opacity-30 ${
+					item.status === "Error" && "border border-error bg-error"
+				} ${item.status === "Success" && "border border-success bg-success"}`}
 				defaultValue={item.defaultValue}
 				value={item.value}
 				readOnly
@@ -36,7 +34,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 				name={item.name}
 				defaultValue={item.defaultValue}
 				value={item.value}
-				className="w-full bg-gray-800 rounded p-1"
+				className="w-full rounded px-1 border border-base-300"
 				readOnly={item.readonly}
 			/>
 		)}
