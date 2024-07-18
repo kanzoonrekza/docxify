@@ -47,7 +47,7 @@ export default function ConnectedApiForm({
 	});
 
 	const { trigger: triggerConvert, isMutating: isMutatingConvert } =
-		useSWRMutation("/api/convert", fetcher.post, {
+		useSWRMutation("/api/core/convert", fetcher.post, {
 			onError: (error, variables, context) =>
 				console.error(error, context, variables),
 			onSuccess: (data, variables, context) => {
