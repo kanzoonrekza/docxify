@@ -21,12 +21,34 @@ const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 	}
 
 	return fetch(url, options)
-		.then((r) => {
+		.then(async (r) => {
+			let errorBody;
+
+			if (r.status === 404 || r.status === 500) {
+				try {
+					errorBody = await r.json();
+				} catch (e) {
+					errorBody = {};
+				}
+			}
+
 			if (r.status === 404) {
-				throw new Error("URL Not Found");
+				const error: Error & { status?: number; body?: any } = new Error(
+					"URL Not Found"
+				);
+				error.status = r.status;
+				error.body = errorBody;
+				throw error;
 			}
 			if (r.status === 500) {
-				throw new Error("Internal Server Error");
+				const error: Error & { status?: number; body?: any } = new Error(
+					"Internal Server Error"
+				);
+				console.log(errorBody);
+
+				error.status = r.status;
+				error.body = errorBody;
+				throw error;
 			}
 
 			const contentType = r.headers.get("Content-Type");

@@ -33,10 +33,18 @@ export const ContextProviderSelectedFile = ({
 				self.findIndex((t) => t.code === tag.code) === index
 		);
 
-		if (uniqueTags.length < 0) {
-			setTagsStatus({ status: "Error", message: "No tags detected" });
+		if (uniqueTags.length == 0) {
+			setTagsStatus({
+				status: "Error",
+				message:
+					"No tags detected. Please make sure you have at least one tag in your document.",
+			});
 		} else if (uniqueTags.some((item) => item.code === "")) {
-			setTagsStatus({ status: "Error", message: "Empty tag detected" });
+			setTagsStatus({
+				status: "Error",
+				message:
+					"Empty tag detected. Please make sure all tags in your document are valid.",
+			});
 		} else {
 			setTagsStatus({ status: "Success", message: "All tags are valid!" });
 		}

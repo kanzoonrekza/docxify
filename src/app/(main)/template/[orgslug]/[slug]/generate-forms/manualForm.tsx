@@ -11,18 +11,22 @@ export default function ManualForm({
 }: {
 	data: templateDetailType | undefined;
 }) {
-	const { trigger, isMutating } = useSWRMutation("/api/core/convert", fetcher.post, {
-		onError: (error, variables, context) =>
-			console.error(error, context, variables),
-		onSuccess: (data, variables, context) => {
-			const url = URL.createObjectURL(data);
-			const link = document.createElement("a");
-			link.href = url;
-			link.download = `generated.pdf`;
-			link.click();
-			URL.revokeObjectURL(url);
-		},
-	});
+	const { trigger, isMutating } = useSWRMutation(
+		"/api/core/convert",
+		fetcher.post,
+		{
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: (data, variables, context) => {
+				const url = URL.createObjectURL(data);
+				const link = document.createElement("a");
+				link.href = url;
+				link.download = `generated.pdf`;
+				link.click();
+				URL.revokeObjectURL(url);
+			},
+		}
+	);
 
 	const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -64,19 +68,22 @@ export default function ManualForm({
 		})) || [];
 
 	return (
-		<form onSubmit={handleGenerate}>
+		<form
+			onSubmit={handleGenerate}
+			className="flex flex-col gap-3 max-w-2xl w-full"
+		>
 			{formGenerateList.map((tag: TypeFormField) => (
 				<FormField item={tag} key={tag.name} />
 			))}
 			<div className="grid grid-cols-2 gap-5 pt-5">
 				<button
-					className="p-2 border border-red-600"
+					className="btn btn-outline btn-error"
 					type="button"
 					onClick={() => {}}
 				>
 					Delete
 				</button>
-				<button className="p-2 border border-gray-400" type="submit">
+				<button className="btn btn-neutral" type="submit">
 					Generate
 				</button>
 			</div>

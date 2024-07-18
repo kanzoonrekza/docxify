@@ -47,7 +47,7 @@ export default function ConnectedApiForm({
 	});
 
 	const { trigger: triggerConvert, isMutating: isMutatingConvert } =
-		useSWRMutation("/api/convert", fetcher.post, {
+		useSWRMutation("/api/core/convert", fetcher.post, {
 			onError: (error, variables, context) =>
 				console.error(error, context, variables),
 			onSuccess: (data, variables, context) => {
@@ -134,7 +134,7 @@ export default function ConnectedApiForm({
 					There are no API connected to this template
 					<Link
 						href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-						className="px-3 text-sm border"
+						className="btn btn-neutral btn-outline btn-sm"
 					>
 						Connect Now
 					</Link>
@@ -142,10 +142,10 @@ export default function ConnectedApiForm({
 			)}
 			{data?.apiReady && (
 				<form onSubmit={handleGenerate}>
-					<section className="relative px-2 py-1 border rounded-lg">
+					<section className="relative px-2 border-l-4 border-primary flex flex-col gap-3 max-w-2xl w-full rounded-l">
 						<Link
 							href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-							className="absolute right-0 px-3 mr-2 text-sm border"
+							className="absolute right-0 mr-2 -top-1 btn btn-neutral btn-outline btn-xs"
 						>
 							Edit API
 						</Link>
@@ -162,13 +162,13 @@ export default function ConnectedApiForm({
 							<label htmlFor="" className="text-lg">
 								Params
 							</label>
-							<table className="w-full border divide-y bg-neutral-900 border-neutral-600 divide-neutral-600">
-								<tr className="divide-x divide-neutral-600 bg-neutral-950">
+							<table className="w-full border divide-y border-neutral divide-neutral">
+								<tr className="divide-x divide-neutral bg-neutral text-neutral-content">
 									<th>Key</th>
 									<th>Value</th>
 								</tr>
 								{data?.api_param.map((param: string) => (
-									<tr className="divide-x divide-neutral-600" key={param}>
+									<tr className="divide-x divide-neutral" key={param}>
 										<td className="w-1/2">
 											<label htmlFor={`api_params_${param}`} className="w-full">
 												<div className="w-full p-1">{param}</div>
@@ -189,8 +189,9 @@ export default function ConnectedApiForm({
 						<div className="flex justify-end w-full">
 							<button
 								type="button"
-								className="px-4 py-1 border border-neutral-400"
+								className="btn btn-neutral btn-sm"
 								onClick={handleFetchAPI}
+								disabled={isMutating}
 							>
 								Fetch
 							</button>
@@ -215,8 +216,7 @@ export default function ConnectedApiForm({
 							}}
 						/>
 					</section>
-					{/* <section className="grid grid-cols-2 px-2 py-1 mt-3 border gap-x-2"> */}
-					<section className="px-2 py-1 mt-3 border">
+					<section className="px-2 mt-3 border-l-4 border-secondary flex flex-col gap-3 max-w-2xl w-full rounded-l">
 						{formGenerateList.map((tag: TypeFormField) => (
 							<FormField item={tag} key={tag.name} />
 						))}
@@ -224,13 +224,13 @@ export default function ConnectedApiForm({
 
 					<div className="grid grid-cols-2 gap-5 pt-5">
 						<button
-							className="p-2 border border-red-600"
+							className="btn btn-outline btn-error"
 							type="button"
 							onClick={() => {}}
 						>
 							Delete
 						</button>
-						<button className="p-2 border border-gray-400" type="submit">
+						<button className="btn btn-neutral" type="submit">
 							Generate
 						</button>
 					</div>
