@@ -5,7 +5,7 @@ import {
 	templates,
 	users,
 } from "@/db/schema";
-import { count, eq } from "drizzle-orm";
+import { count, eq, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
 			name: organizations.name,
 			owner: organizations.owner,
 			templateCount: count(templates.organizationId),
+			connectedTemplateCount: sql<number>`cast(count(case when ${templates.apiReady} = true then 1 else null end) as integer)`,
 		})
 		.from(organizationUsers)
 		.leftJoin(
