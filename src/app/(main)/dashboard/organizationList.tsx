@@ -47,26 +47,27 @@ export default function OrganizationList() {
 		<div className={gridClassname}>
 			{data.map((organization: any) => (
 				<div
-					key={organization.organizationId}
+					key={organization.id}
 					className="rounded flex flex-col card-compact border hover:border-neutral transition-colors duration-200"
 				>
 					<div className="card-body gap-0">
-						<div className="card-title">{organization.organization.name}</div>
-						<div className="card-side">
-							Owner: {organization.organization.owner}
+						<div className="card-title">{organization.name}</div>
+						<div className="card-side text-sm">
+							<p>Owner: {organization.owner}</p>
+							<p>{organization.templateCount} Templates</p>
 						</div>
 						<div className="grid grid-cols-2 gap-2 mt-auto pt-3">
-							{organization.organization.owner === organization.userId && (
-								<Link
-									className="border btn btn-outline btn-sm btn-neutral"
-									href={`/organization/${organization.organizationId}`}
-								>
-									Organization
-								</Link>
-							)}
+							{/* {organization.owner === organization.id && ( */}
+							<Link
+								className="border btn btn-outline btn-sm btn-neutral"
+								href={`/organization/${organization.id}`}
+							>
+								Organization
+							</Link>
+							{/* )} */}
 							<Link
 								className="border btn btn-sm btn-neutral"
-								href={`/template/${organization.organizationId}`}
+								href={`/template/${organization.id}`}
 							>
 								Templates
 							</Link>
