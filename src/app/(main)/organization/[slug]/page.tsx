@@ -1,4 +1,5 @@
 "use client";
+import Modal from "@/components/modal";
 import { useUserOrg } from "@/contexts/userOrgContext";
 import fetcher from "@/utils/fetcher";
 import React from "react";
@@ -36,8 +37,8 @@ export default function OrganizationPage({
 			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
 				{isLoading ? (
 					<>
-						<div className="skeleton h-28 w-full" />
-						<div className="skeleton h-28 w-full" />
+						<div className="skeleton h-36 w-full" />
+						<div className="skeleton h-36 w-full" />
 					</>
 				) : (
 					<>
@@ -62,7 +63,7 @@ export default function OrganizationPage({
 					</>
 				)}
 				{isLoadingOrg ? (
-					<div className="skeleton h-28 w-full" />
+					<div className="skeleton h-36 w-full" />
 				) : (
 					<div className="card card-bordered">
 						<div className="card-body">
@@ -77,9 +78,12 @@ export default function OrganizationPage({
 			<div>
 				<div className="flex justify-between items-center mb-1">
 					<h2 className="font-bold text-xl">Members</h2>
-					<button className="btn btn-sm btn-outline" onClick={() => {}}>
+					<Modal.Button
+						id="add-organization-member"
+						className="btn btn-sm btn-outline"
+					>
 						Add Member
-					</button>
+					</Modal.Button>
 				</div>
 				<div className="overflow-x-auto">
 					<table className="w-full border border-neutral">
@@ -88,7 +92,7 @@ export default function OrganizationPage({
 								<th className="text-start px-2 py-1">Username</th>
 								<th className="text-start px-2 py-1">Email</th>
 								<th className="text-start px-2 py-1">Role</th>
-								<th className="text-start px-2 py-1"></th>
+								<th className="text-start px-2 py-1 w-0"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -104,7 +108,7 @@ export default function OrganizationPage({
 										<td className="p-1">
 											<div className="skeleton h-6" />
 										</td>
-										<td className="p-1">
+										<td className="p-1 w-min">
 											<div className="skeleton h-6" />
 										</td>
 									</tr>
@@ -115,12 +119,33 @@ export default function OrganizationPage({
 										<td className="px-2">{member.username}</td>
 										<td className="px-2">{member.email}</td>
 										<td className="px-2">{member.role}</td>
-										<td className="px-2 text-center">action</td>
+										<td className="px-5 w-0">
+											<Modal.Button
+												id="edit-organization-member"
+												className="btn btn-square btn-ghost btn-sm grid"
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="30"
+													height="30"
+													fill="#000000"
+													viewBox="0 0 256 256"
+												>
+													<path d="M128,96a32,32,0,1,0,32,32A32,32,0,0,0,128,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,128,144ZM48,96a32,32,0,1,0,32,32A32,32,0,0,0,48,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,48,144ZM208,96a32,32,0,1,0,32,32A32,32,0,0,0,208,96Zm0,48a16,16,0,1,1,16-16A16,16,0,0,1,208,144Z"></path>
+												</svg>
+											</Modal.Button>
+										</td>
 									</tr>
 								))}
 						</tbody>
 					</table>
 				</div>
+				<Modal id="add-organization-member">
+					<div>Inviting New Organization Member</div>
+				</Modal>
+				<Modal id="edit-organization-member">
+					<div>Editing Organization Member</div>
+				</Modal>
 			</div>
 		</main>
 	);
