@@ -4,6 +4,7 @@ import { useUserOrg } from "@/contexts/userOrgContext";
 import fetcher from "@/utils/fetcher";
 import useSWR, { SWRResponse } from "swr";
 import AddMemberModal from "./modals/addMember";
+import EditMemberModal from "./modals/editMember";
 
 export default function OrganizationPage({
 	params,
@@ -123,7 +124,7 @@ export default function OrganizationPage({
 										<td className="px-2">{member.role}</td>
 										<td className="px-5 w-0">
 											<Modal.Button
-												id="edit-organization-member"
+												id={`edit-organization-member-${member.username}`}
 												className="btn btn-square btn-ghost btn-sm grid disabled:btn-ghost disabled:opacity-20"
 												disabled={
 													current?.role === "member" || member?.role === "owner"
@@ -140,6 +141,23 @@ export default function OrganizationPage({
 												</svg>
 											</Modal.Button>
 										</td>
+										<Modal id={`edit-organization-member-${member.username}`}>
+											<EditMemberModal
+												orgid={params.slug}
+												data={member}
+												onClose={() => {
+													// @ts-ignore
+													document
+														.getElementById(
+															`edit-organization-member-${member.username}`
+														)
+														// @ts-ignore
+														.close();
+
+													mutateOrg();
+												}}
+											/>
+										</Modal>
 									</tr>
 								))}
 						</tbody>
@@ -155,9 +173,6 @@ export default function OrganizationPage({
 							mutateOrg();
 						}}
 					/>
-				</Modal>
-				<Modal id="edit-organization-member">
-					<div>Editing Organization Member</div>
 				</Modal>
 			</div>
 		</main>

@@ -20,6 +20,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 				id={item.name}
 				name={item.name}
 				className="select select-sm w-full rounded px-1 border border-base-300"
+				defaultValue={item.defaultValue}
 			>
 				<option value="member" selected>
 					Member
