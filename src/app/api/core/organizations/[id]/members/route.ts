@@ -91,3 +91,35 @@ export async function PATCH(
 		);
 	}
 }
+
+export async function DELETE(
+	request: NextRequest,
+	{ params }: { params: { id: string } }
+) {
+	const id = params.id;
+	const formData = await request.formData();
+	const userid = formData.get("username") as string;
+
+	const deleteOrganizationUser: any = async () => {
+		return db
+			.delete(organizationUsers)
+			.where(
+				and(
+					eq(organizationUsers.organizationId, Number(id)),
+					eq(organizationUsers.userId, userid)
+				)
+			);
+	};
+
+	try {
+		await deleteOrganizationUser();
+		return Response.json({
+			message: "Success deleting user in organization",
+		});
+	} catch (e) {
+		return Response.json(
+			{ message: `Failed deleting user in organization`, error: e },
+			{ status: 500 }
+		);
+	}
+}

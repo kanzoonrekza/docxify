@@ -27,6 +27,7 @@ export default function EditMemberModal({
 			},
 		}
 	);
+
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 
@@ -34,6 +35,31 @@ export default function EditMemberModal({
 		formData.set("username", data.username);
 
 		changeRole(formData);
+	};
+
+	const {
+		trigger: deleteMember,
+		isMutating: deleteMemberLoading,
+		// error,
+	} = useSWRMutation(
+		`/api/core/organizations/${orgid}/members`,
+		fetcher.delete,
+		{
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: (result, variables, context) => {
+				onClose();
+			},
+		}
+	);
+
+	const handleDelete = (e: any) => {
+		e.preventDefault();
+
+		const formData: FormData = new FormData();
+		formData.set("username", data.username);
+
+		deleteMember(formData);
 	};
 
 	return (
@@ -65,8 +91,17 @@ export default function EditMemberModal({
 					)}
 				</button>
 			</form>
-			<button className="btn btn-outline btn-error btn-sm btn-block bg-error bg-opacity-20">
-				Remove Member
+
+			<button
+				className="btn btn-outline btn-error btn-sm btn-block bg-error bg-opacity-20"
+				onClick={handleDelete}
+				disabled={deleteMemberLoading}
+			>
+				{deleteMemberLoading ? (
+					<span className="loading loading-dots" />
+				) : (
+					"Remove Member"
+				)}
 			</button>
 		</div>
 	);
