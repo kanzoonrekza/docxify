@@ -17,7 +17,7 @@ export default function AddMemberModal({
 				console.error(error, context, variables),
 			onSuccess: (data, variables, context) => {
 				// @ts-ignore
-				document.getElementById("add-organization-member").reset();
+				document.getElementById("add-organization-member-form").reset();
 				onClose();
 			},
 		}
@@ -32,7 +32,7 @@ export default function AddMemberModal({
 	};
 	return (
 		<form
-			id="add-organization-member"
+			id="add-organization-member-form"
 			onSubmit={handleSUbmit}
 			className="flex flex-col gap-3 max-w-2xl w-full"
 		>
