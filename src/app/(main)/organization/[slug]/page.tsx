@@ -127,7 +127,9 @@ export default function OrganizationPage({
 												id={`edit-organization-member-${member.username}`}
 												className="btn btn-square btn-ghost btn-sm grid disabled:btn-ghost disabled:opacity-20"
 												disabled={
-													current?.role === "member" || member?.role === "owner"
+													member?.role === "owner" ||
+													(current?.role === "admin" &&
+														member?.role === "admin")
 												}
 											>
 												<svg
