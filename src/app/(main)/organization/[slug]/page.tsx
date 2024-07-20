@@ -78,12 +78,14 @@ export default function OrganizationPage({
 			<div>
 				<div className="flex justify-between items-center mb-1">
 					<h2 className="font-bold text-xl">Members</h2>
-					<Modal.Button
-						id="add-organization-member"
-						className="btn btn-sm btn-outline"
-					>
-						Add Member
-					</Modal.Button>
+					{!isLoading && ["admin", "owner"].includes(current.role) && (
+						<Modal.Button
+							id="add-organization-member"
+							className="btn btn-sm btn-outline"
+						>
+							Add Member
+						</Modal.Button>
+					)}
 				</div>
 				<div className="overflow-x-auto">
 					<table className="w-full border border-neutral">
@@ -122,7 +124,10 @@ export default function OrganizationPage({
 										<td className="px-5 w-0">
 											<Modal.Button
 												id="edit-organization-member"
-												className="btn btn-square btn-ghost btn-sm grid"
+												className="btn btn-square btn-ghost btn-sm grid disabled:btn-ghost disabled:opacity-20"
+												disabled={
+													current.role === "member" || member.role === "owner"
+												}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"

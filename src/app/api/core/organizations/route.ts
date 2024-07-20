@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 			id: organizations.id,
 			name: organizations.name,
 			owner: organizations.owner,
+			role: organizationUsers.role,
 			templateCount: count(templates.organizationId),
 			connectedTemplateCount: sql<number>`cast(count(case when ${templates.apiReady} = true then 1 else null end) as integer)`,
 		})
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
 			eq(organizationUsers.organizationId, templates.organizationId)
 		)
 		.where(eq(organizationUsers.userId, userid))
-		.groupBy(organizations.id);
+		.groupBy(organizations.id, organizationUsers.role);
 
 	return NextResponse.json(result);
 }

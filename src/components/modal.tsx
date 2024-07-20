@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
 function Modal({ id, children }: { id: string; children: React.ReactNode }) {
 	return (
@@ -14,18 +14,18 @@ function Modal({ id, children }: { id: string; children: React.ReactNode }) {
 	);
 }
 
-function ModalButton({
+interface ModalButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+	id: string;
+}
+
+const ModalButton: React.FC<ModalButtonProps> = ({
 	id,
 	children,
-	className,
-}: {
-	id: string;
-	children: React.ReactNode;
-	className?: string;
-}) {
+	...props
+}) => {
 	return (
 		<button
-			className={className}
+			{...props}
 			onClick={() => {
 				// @ts-ignore
 				document.getElementById(id).showModal();
@@ -34,7 +34,7 @@ function ModalButton({
 			{children}
 		</button>
 	);
-}
+};
 
 Modal.Button = ModalButton;
 export default Modal;
