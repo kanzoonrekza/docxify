@@ -2,8 +2,8 @@
 import Modal from "@/components/modal";
 import { useUserOrg } from "@/contexts/userOrgContext";
 import fetcher from "@/utils/fetcher";
-import React from "react";
 import useSWR, { SWRResponse } from "swr";
+import AddMemberModal from "./modals/addMember";
 
 export default function OrganizationPage({
 	params,
@@ -14,7 +14,7 @@ export default function OrganizationPage({
 		data: dataOrg,
 		error,
 		isLoading: isLoadingOrg,
-		mutate,
+		mutate: mutateOrg,
 	}: SWRResponse<any, Error> = useSWR(
 		"/api/core/organizations/" + params.slug,
 		fetcher.get
@@ -126,7 +126,7 @@ export default function OrganizationPage({
 												id="edit-organization-member"
 												className="btn btn-square btn-ghost btn-sm grid disabled:btn-ghost disabled:opacity-20"
 												disabled={
-													current.role === "member" || member.role === "owner"
+													current?.role === "member" || member?.role === "owner"
 												}
 											>
 												<svg
@@ -146,7 +146,15 @@ export default function OrganizationPage({
 					</table>
 				</div>
 				<Modal id="add-organization-member">
-					<div>Inviting New Organization Member</div>
+					<AddMemberModal
+						orgid={params.slug}
+						onClose={() => {
+							// @ts-ignore
+							document.getElementById("add-organization-member").close();
+
+							mutateOrg();
+						}}
+					/>
 				</Modal>
 				<Modal id="edit-organization-member">
 					<div>Editing Organization Member</div>

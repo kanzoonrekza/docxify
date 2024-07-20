@@ -15,7 +15,19 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 			{item.label}
 			{item.required && <span className="text-secondary text-sm">*</span>}
 		</label>
-		{item.type === "textarea" ? (
+		{item.type === "select" && (
+			<select
+				id={item.name}
+				name={item.name}
+				className="select select-sm w-full rounded px-1 border border-base-300"
+			>
+				<option value="member" selected>
+					Member
+				</option>
+				<option value="admin">Admin</option>
+			</select>
+		)}
+		{item.type === "textarea" && (
 			<textarea
 				id="tags"
 				name="tags"
@@ -26,7 +38,8 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 				value={item.value}
 				readOnly
 			/>
-		) : (
+		)}
+		{item.type !== "textarea" && item.type !== "select" && (
 			<input
 				required={item.required}
 				type={item.type || "text"}
