@@ -5,7 +5,7 @@ import fetcher from "@/utils/fetcher";
 import createReport from "docx-templates";
 import Link from "next/link";
 import React from "react";
-import useSWRMutation from "swr/mutation";
+import useSWRMutation, { TriggerWithArgs } from "swr/mutation";
 
 export const getNestedValue = (obj: any, path: string) => {
 	if (!path) return "";
@@ -20,9 +20,13 @@ export const getNestedValue = (obj: any, path: string) => {
 export default function ConnectedApiForm({
 	data,
 	params,
+	handleDelete,
+	loadingDelete,
 }: {
 	data: templateDetailType | undefined;
 	params: { orgslug: number; slug: number };
+	handleDelete: TriggerWithArgs<any, any, string, object | FormData>;
+	loadingDelete: boolean;
 }) {
 	const [targetAPI, setTargetAPI] = React.useState<string>("");
 	const {
@@ -193,7 +197,11 @@ export default function ConnectedApiForm({
 								onClick={handleFetchAPI}
 								disabled={isMutating}
 							>
-								Fetch
+								{isMutating ? (
+									<span className="loading loading-dots" />
+								) : (
+									"Fetch"
+								)}
 							</button>
 						</div>
 						<FormField
@@ -226,12 +234,27 @@ export default function ConnectedApiForm({
 						<button
 							className="btn btn-outline btn-error"
 							type="button"
-							onClick={() => {}}
+							onClick={() => {
+								handleDelete({});
+							}}
+							disabled={loadingDelete || isMutatingConvert}
 						>
-							Delete
+							{loadingDelete ? (
+								<span className="loading loading-dots" />
+							) : (
+								"Delete"
+							)}
 						</button>
-						<button className="btn btn-neutral" type="submit">
-							Generate
+						<button
+							className="btn btn-neutral"
+							type="submit"
+							disabled={loadingDelete || isMutatingConvert}
+						>
+							{isMutatingConvert ? (
+								<span className="loading loading-dots" />
+							) : (
+								"Generate"
+							)}
 						</button>
 					</div>
 				</form>

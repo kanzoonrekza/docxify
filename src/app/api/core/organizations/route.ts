@@ -1,6 +1,11 @@
 import db from "@/db/drizzle";
-import { organizations, organizationUsers, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import {
+	organizations,
+	organizationUsers,
+	templates,
+	users,
+} from "@/db/schema";
+import { count, eq, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -13,28 +18,27 @@ export async function GET(request: NextRequest) {
 		);
 
 	const result = await db
-		.select()
+		.select({
+			id: organizations.id,
+			name: organizations.name,
+			owner: organizations.owner,
+			role: organizationUsers.role,
+			templateCount: count(templates.organizationId),
+			connectedTemplateCount: sql<number>`cast(count(case when ${templates.apiReady} = true then 1 else null end) as integer)`,
+		})
 		.from(organizationUsers)
-		.innerJoin(
+		.leftJoin(
 			organizations,
 			eq(organizationUsers.organizationId, organizations.id)
 		)
-		.where(eq(organizationUsers.userId, userid));
+		.leftJoin(
+			templates,
+			eq(organizationUsers.organizationId, templates.organizationId)
+		)
+		.where(eq(organizationUsers.userId, userid))
+		.groupBy(organizations.id, organizationUsers.role);
 
-	const transformedResult = result.map((row) => ({
-		userId: row.organizationUserTable.userId,
-		organizationId: row.organizationUserTable.organizationId,
-		organization: {
-			id: row.organizationTable.id,
-			name: row.organizationTable.name,
-			owner: row.organizationTable.owner,
-		},
-		role: row.organizationUserTable.role,
-		createdAt: row.organizationUserTable.createdAt,
-		updatedAt: row.organizationUserTable.updatedAt,
-	}));
-
-	return NextResponse.json(transformedResult);
+	return NextResponse.json(result);
 }
 
 export async function POST(request: NextRequest) {

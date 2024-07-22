@@ -3,16 +3,27 @@ import React from "react";
 import ConnectedApiForm from "./generate-forms/connectedApiForm";
 import ManualForm from "./generate-forms/manualForm";
 import { useData } from "@/contexts/dataContext";
+import useSWRMutation from "swr/mutation";
+import fetcher from "@/utils/fetcher";
+import { useRouter } from "next/navigation";
 
 export default function TemplateSlugPage({
 	params,
 }: {
 	params: { orgslug: number; slug: number };
 }) {
+	const router = useRouter();
 	const { data, isLoading } = useData();
 	const [generateMode, setGenerateMode] = React.useState<"manual" | "api">(
 		"manual"
 	);
+
+	const { trigger: triggerDelete, isMutating: isMutatingDelete } =
+		useSWRMutation("/api/core/templates/" + params.slug, fetcher.delete, {
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: () => router.push("/template/" + params.orgslug),
+		});
 
 	return (
 		<main className="flex gap-5 h-full">
@@ -76,9 +87,20 @@ export default function TemplateSlugPage({
 						))}
 					</>
 				)}
-				{!isLoading && generateMode === "manual" && <ManualForm data={data} />}
+				{!isLoading && generateMode === "manual" && (
+					<ManualForm
+						data={data}
+						handleDelete={triggerDelete}
+						loadingDelete={isMutatingDelete}
+					/>
+				)}
 				{!isLoading && generateMode === "api" && (
-					<ConnectedApiForm data={data} params={params} />
+					<ConnectedApiForm
+						data={data}
+						params={params}
+						handleDelete={triggerDelete}
+						loadingDelete={isMutatingDelete}
+					/>
 				)}
 			</div>
 		</main>

@@ -240,8 +240,13 @@ export default function EditTemplatePage({
 								type="button"
 								className="btn btn-sm btn-neutral btn-outline"
 								onClick={handleFetchAPI}
+								disabled={isMutating}
 							>
-								Fetch
+								{isMutating ? (
+									<span className="loading loading-dots" />
+								) : (
+									"Fetch"
+								)}
 							</button>
 						</div>
 						<FormField

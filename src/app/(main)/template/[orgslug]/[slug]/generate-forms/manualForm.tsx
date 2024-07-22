@@ -4,12 +4,16 @@ import { readFileBuffer } from "@/utils/docs-templates";
 import fetcher from "@/utils/fetcher";
 import createReport from "docx-templates";
 import React from "react";
-import useSWRMutation from "swr/mutation";
+import useSWRMutation, { TriggerWithArgs } from "swr/mutation";
 
 export default function ManualForm({
 	data,
+	handleDelete,
+	loadingDelete,
 }: {
 	data: templateDetailType | undefined;
+	handleDelete: TriggerWithArgs<any, any, string, object | FormData>;
+	loadingDelete: boolean;
 }) {
 	const { trigger, isMutating } = useSWRMutation(
 		"/api/core/convert",
@@ -79,12 +83,19 @@ export default function ManualForm({
 				<button
 					className="btn btn-outline btn-error"
 					type="button"
-					onClick={() => {}}
+					onClick={() => {
+						handleDelete({});
+					}}
+					disabled={loadingDelete || isMutating}
 				>
-					Delete
+					{loadingDelete ? <span className="loading loading-dots" /> : "Delete"}
 				</button>
-				<button className="btn btn-neutral" type="submit">
-					Generate
+				<button
+					className="btn btn-neutral"
+					type="submit"
+					disabled={loadingDelete || isMutating}
+				>
+					{isMutating ? <span className="loading loading-dots" /> : "Generate"}
 				</button>
 			</div>
 		</form>

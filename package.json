@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"docker run --rm -p 8000:3000 gotenberg/gotenberg\"",
+    "dev": "next dev",
+    "dev-all": "concurrently \"next dev\" \"docker run --name docxify-gotenberg --rm -p 8000:3000 gotenberg/gotenberg\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
