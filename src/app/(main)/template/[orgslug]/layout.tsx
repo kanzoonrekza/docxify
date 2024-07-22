@@ -12,9 +12,7 @@ export default function TemplateLayout({
 }) {
 	const { data, isLoading } = useUserOrg();
 
-	const current = data?.filter(
-		(org: any) => org.organizationId === Number(params.orgslug)
-	);
+	const current = data?.filter((org: any) => org.id === Number(params.orgslug));
 
 	return (
 		<div className="px-10 py-5">
@@ -36,7 +34,7 @@ export default function TemplateLayout({
 						</li>
 						<li>
 							<Link href={"/template/" + params.orgslug}>
-								{current[0].organization.name}
+								{current[0].name}
 							</Link>
 						</li>
 					</ul>
