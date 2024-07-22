@@ -5,12 +5,15 @@ import fetcher from "@/utils/fetcher";
 import useSWR, { SWRResponse } from "swr";
 import AddMemberModal from "./modals/addMember";
 import EditMemberModal from "./modals/editMember";
+import useSWRMutation from "swr/mutation";
+import { useRouter } from "next/navigation";
 
 export default function OrganizationPage({
 	params,
 }: {
 	params: { slug: number };
 }) {
+	const router = useRouter();
 	const {
 		data: dataOrg,
 		error,
@@ -24,6 +27,13 @@ export default function OrganizationPage({
 	const { data, isLoading } = useUserOrg();
 
 	const current = data?.filter((org: any) => org.id === Number(params.slug))[0];
+
+	const { trigger: triggerDelete, isMutating: isMutatingDelete } =
+		useSWRMutation("/api/core/organizations/" + params.slug, fetcher.delete, {
+			onError: (error, variables, context) =>
+				console.error(error, context, variables),
+			onSuccess: () => router.push("/dashboard"),
+		});
 
 	return (
 		<main className="flex flex-col gap-10 p-10">
@@ -177,6 +187,29 @@ export default function OrganizationPage({
 					/>
 				</Modal>
 			</div>
+			{current?.role === "owner" && (
+				<div>
+					<h2 className="font-bold text-xl">Delete Organization</h2>
+					<aside>
+						Please be careful, this action is irreversible.
+						<br />
+						You must delete all templates before deleting organization.
+					</aside>
+					<button
+						className="btn btn-error btn-wide mt-5"
+						disabled={current?.templateCount > 0 || isMutatingDelete}
+						onClick={() => {
+							triggerDelete({});
+						}}
+					>
+						{isMutatingDelete ? (
+							<span className="loading loading-dots" />
+						) : (
+							"Permanently Delete Organization"
+						)}
+					</button>
+				</div>
+			)}
 		</main>
 	);
 }
