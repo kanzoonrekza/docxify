@@ -22,6 +22,27 @@
       "when": 1719242377410,
       "tag": "0002_moaning_secret_warriors",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1719976931523,
+      "tag": "0003_shocking_pride",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1720535575909,
+      "tag": "0004_solid_carlie_cooper",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1721632226145,
+      "tag": "0005_shocking_moon_knight",
+      "breakpoints": true
     }
   ]
 }
