@@ -151,12 +151,14 @@ export default function ConnectedApiForm({
 			{data?.apiReady && (
 				<form onSubmit={handleGenerate}>
 					<section className="relative px-2 border-l-4 border-primary flex flex-col gap-3 max-w-2xl w-full rounded-l">
-						<Link
-							href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-							className="absolute right-0 mr-2 -top-1 btn btn-neutral btn-outline btn-xs"
-						>
-							Edit API
-						</Link>
+						{data?.role !== "member" && (
+							<Link
+								href={`/template/${params.orgslug}/${params.slug}/connect-api`}
+								className="absolute right-0 mr-2 -top-1 btn btn-neutral btn-outline btn-xs"
+							>
+								Edit API
+							</Link>
+						)}
 						<FormField
 							item={{
 								name: "api_url",
