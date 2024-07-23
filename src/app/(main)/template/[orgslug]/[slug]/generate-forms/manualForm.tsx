@@ -80,18 +80,24 @@ export default function ManualForm({
 				<FormField item={tag} key={tag.name} />
 			))}
 			<div className="grid grid-cols-2 gap-5 pt-5">
+				{data?.role !== "member" && (
+					<button
+						className="btn btn-outline btn-error"
+						type="button"
+						onClick={() => {
+							handleDelete({});
+						}}
+						disabled={loadingDelete || isMutating}
+					>
+						{loadingDelete ? (
+							<span className="loading loading-dots" />
+						) : (
+							"Delete"
+						)}
+					</button>
+				)}
 				<button
-					className="btn btn-outline btn-error"
-					type="button"
-					onClick={() => {
-						handleDelete({});
-					}}
-					disabled={loadingDelete || isMutating}
-				>
-					{loadingDelete ? <span className="loading loading-dots" /> : "Delete"}
-				</button>
-				<button
-					className="btn btn-neutral"
+					className="col-start-2 btn btn-neutral"
 					type="submit"
 					disabled={loadingDelete || isMutating}
 				>

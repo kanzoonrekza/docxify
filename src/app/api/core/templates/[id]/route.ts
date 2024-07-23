@@ -1,6 +1,6 @@
 import db from "@/db/drizzle";
-import { templates } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { organizationUsers, templates } from "@/db/schema";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -23,10 +23,21 @@ export async function GET(
 	request: NextRequest,
 	{ params }: { params: { id: string } }
 ) {
+	const userid = request.headers.get("userid") as string;
+
+	console.log(userid);
+
 	const id = params.id;
 	const response = await db
-		.select()
+		.select({ ...templates, role: organizationUsers.role } as any)
 		.from(templates)
+		.leftJoin(
+			organizationUsers,
+			and(
+				eq(templates.organizationId, organizationUsers.organizationId),
+				eq(organizationUsers.userId, userid)
+			)
+		)
 		.where(eq(templates.id, Number(id)));
 
 	return NextResponse.json(response[0]);
