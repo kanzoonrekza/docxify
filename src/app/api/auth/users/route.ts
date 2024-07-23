@@ -1,7 +1,8 @@
 import db from "@/db/drizzle";
 import { users } from "@/db/schema";
 import { HashPassword } from "@/utils/bcrypt";
-import { NextRequest } from "next/server";
+import { eq, sql } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
 	type NewUser = typeof users.$inferInsert;
@@ -11,15 +12,33 @@ export async function POST(request: NextRequest) {
 	};
 
 	const formData = await request.formData();
+	const username = formData.get("username") as string;
+
+	const user = await db
+		.select()
+		.from(users)
+		.where(sql`LOWER(${users.username}) = LOWER(${username})`);
+
+	if (user.length > 0) {
+		return NextResponse.json(
+			{
+				message: `Failed inserting data`,
+				error: {
+					detail: `Key (username)=(${username}) already exists.`,
+				},
+			},
+			{ status: 500 }
+		);
+	}
+
 	const newData: NewUser = {
-		username: formData.get("username") as string,
-		email: formData.get("email") as string,
+		username: username,
+		email: (formData.get("email") as string).toLowerCase(),
 		password: await HashPassword(formData.get("password") as string),
 	};
 
 	try {
 		const returnedData = await insertUser(newData);
-		console.log(returnedData);
 
 		return Response.json({
 			message: "Success inserting data",
