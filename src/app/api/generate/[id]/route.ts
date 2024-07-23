@@ -1,7 +1,7 @@
 import db from "@/db/drizzle";
 import { templates } from "@/db/schema";
 import createReport from "docx-templates";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 const getNestedValue = (obj: any, path: string) => {
@@ -23,13 +23,17 @@ export async function GET(
 		request.nextUrl.searchParams
 	);
 
+	const secret = searchParams.get("s") as string;
+
 	const response = await db
 		.select()
 		.from(templates)
-		.where(eq(templates.id, Number(id)));
+		.where(and(eq(templates.id, Number(id)), eq(templates.secret, secret)));
 
 	if (response.length === 0) {
-		return NextResponse.json({ message: "Template not found" });
+		return NextResponse.json({
+			message: "Template not found or your secret is incorrect",
+		});
 	}
 
 	if (!response[0].apiReady) {
