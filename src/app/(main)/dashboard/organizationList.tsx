@@ -24,7 +24,7 @@ export default function OrganizationList() {
 				Please wait a moment or try reloading the page.
 				<br />
 				Consider{" "}
-				<Link href={"/organization/add"} className="link link-secondary">
+				<Link href={"/login"} className="link link-secondary">
 					logging in
 				</Link>{" "}
 				again to see if that helps.
