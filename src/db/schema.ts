@@ -20,6 +20,7 @@ export const templates = pgTable("templateTable", {
 	api_url: text("api_url"),
 	api_param: text("api_param").array(),
 	api_connected_tags: jsonb("api_connected_tags"),
+	secret: text("secret").notNull(),
 	organizationId: integer("organization_id")
 		.notNull()
 		.references(() => organizations.id)
@@ -67,7 +68,9 @@ export const organizationUsers = pgTable(
 		organizationId: integer("organization_id")
 			.notNull()
 			.references(() => organizations.id, { onDelete: "cascade" }),
-		role: text("role").notNull().default("user"), // 'admin' or 'user'
+		role: text("role", { enum: ["owner", "admin", "user"] })
+			.notNull()
+			.default("user"),
 		createdAt: timestamp("created_at", { withTimezone: true })
 			.defaultNow()
 			.notNull(),

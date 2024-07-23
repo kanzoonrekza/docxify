@@ -43,6 +43,13 @@
       "when": 1721632226145,
       "tag": "0005_shocking_moon_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1721719784404,
+      "tag": "0006_material_blue_shield",
+      "breakpoints": true
     }
   ]
 }
