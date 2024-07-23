@@ -24,7 +24,7 @@ const handler = NextAuth({
 					.where(
 						or(
 							eq(users.username, credentials.username),
-							eq(users.email, credentials.username)
+							eq(users.email, credentials.username.toLowerCase())
 						)
 					)
 					.limit(1);
