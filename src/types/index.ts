@@ -16,4 +16,6 @@ export type templateDetailType = {
 		[key: string]: string;
 	};
 	api_param: string[];
+	secret: string;
+	role?: string;
 };
