@@ -6,6 +6,8 @@ import { useData } from "@/contexts/dataContext";
 import useSWRMutation from "swr/mutation";
 import fetcher from "@/utils/fetcher";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/modal";
+import { FormField } from "@/components/formField";
 
 export default function TemplateSlugPage({
 	params,
@@ -24,6 +26,21 @@ export default function TemplateSlugPage({
 				console.error(error, context, variables),
 			onSuccess: () => router.push("/template/" + params.orgslug),
 		});
+
+	const getCurrentBaseURL = (url: string) => {
+		const regex = /^(https|http?:\/\/[^/]+)/;
+		const match = url?.match(regex);
+
+		return match ? match[1] : "";
+	};
+
+	const shareLink = `${getCurrentBaseURL(
+		window?.location?.href
+	)}/api/generate/${params.slug}?s=${data?.secret}${data?.api_param
+		.map((param) => {
+			return "&" + param + "={{" + param + "}}";
+		})
+		.join("")}`;
 
 	return (
 		<main className="flex gap-5 h-full">
@@ -59,7 +76,28 @@ export default function TemplateSlugPage({
 				{isLoading ? (
 					<h1 className="skeleton w-full h-9 mb-2" />
 				) : (
-					<h1 className="text-3xl font-bold">{data?.title}</h1>
+					<h1 className="text-3xl font-bold flex items-center gap-2">
+						<span>{data?.title}</span>
+						<Modal.Button
+							id="share-template"
+							className="btn btn-square btn-ghost btn-xs"
+							onClick={() => {
+								console.log(
+									`${process.env.NEXTAUTH_URL}/api/generate/${params.orgslug}?secret=${data?.secret}&${params.slug}`
+								);
+							}}
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="#000000"
+								viewBox="0 0 256 256"
+							>
+								<path d="M237.66,106.35l-80-80A8,8,0,0,0,144,32V72.35c-25.94,2.22-54.59,14.92-78.16,34.91-28.38,24.08-46.05,55.11-49.76,87.37a12,12,0,0,0,20.68,9.58h0c11-11.71,50.14-48.74,107.24-52V192a8,8,0,0,0,13.66,5.65l80-80A8,8,0,0,0,237.66,106.35ZM160,172.69V144a8,8,0,0,0-8-8c-28.08,0-55.43,7.33-81.29,21.8a196.17,196.17,0,0,0-36.57,26.52c5.8-23.84,20.42-46.51,42.05-64.86C99.41,99.77,127.75,88,152,88a8,8,0,0,0,8-8V51.32L220.69,112Z"></path>
+							</svg>
+						</Modal.Button>
+					</h1>
 				)}
 				<div>{data?.description}</div>
 				<div className="flex justify-center p-1 m-1 mx-auto border rounded w-fit">
@@ -103,6 +141,33 @@ export default function TemplateSlugPage({
 					/>
 				)}
 			</div>
+			<Modal id="share-template">
+				<div className="flex flex-col gap-2">
+					<h2>Share Template</h2>
+					<FormField
+						item={{
+							label: "",
+							value: shareLink,
+							name: "share-link",
+							readonly: true,
+						}}
+					/>
+					<aside className="text-xs text-error">{`When integrating, replace the {{param}} with the value`}</aside>
+					<button
+						className="btn btn-block btn-sm btn-outline"
+						onClick={() => {
+							try {
+								navigator.clipboard.writeText(shareLink);
+								alert("Copied to clipboard!");
+							} catch (err) {
+								console.error("Failed to copy: ", err);
+							}
+						}}
+					>
+						Copy Link
+					</button>
+				</div>
+			</Modal>
 		</main>
 	);
 }

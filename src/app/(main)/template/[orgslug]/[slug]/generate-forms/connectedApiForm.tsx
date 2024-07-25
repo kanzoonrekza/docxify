@@ -136,23 +136,29 @@ export default function ConnectedApiForm({
 			{!data?.apiReady && (
 				<div className="grid text-center">
 					There are no API connected to this template
-					<Link
-						href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-						className="btn btn-neutral btn-outline btn-sm"
-					>
-						Connect Now
-					</Link>
+					{data?.role !== "member" ? (
+						<Link
+							href={`/template/${params.orgslug}/${params.slug}/connect-api`}
+							className="btn btn-neutral btn-outline btn-sm"
+						>
+							Connect Now
+						</Link>
+					) : (
+						<span>Ask your admin to connect the API</span>
+					)}
 				</div>
 			)}
 			{data?.apiReady && (
 				<form onSubmit={handleGenerate}>
 					<section className="relative px-2 border-l-4 border-primary flex flex-col gap-3 max-w-2xl w-full rounded-l">
-						<Link
-							href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-							className="absolute right-0 mr-2 -top-1 btn btn-neutral btn-outline btn-xs"
-						>
-							Edit API
-						</Link>
+						{data?.role !== "member" && (
+							<Link
+								href={`/template/${params.orgslug}/${params.slug}/connect-api`}
+								className="absolute right-0 mr-2 -top-1 btn btn-neutral btn-outline btn-xs"
+							>
+								Edit API
+							</Link>
+						)}
 						<FormField
 							item={{
 								name: "api_url",
@@ -231,22 +237,25 @@ export default function ConnectedApiForm({
 					</section>
 
 					<div className="grid grid-cols-2 gap-5 pt-5">
+						{data?.role !== "member" && (
+							<button
+								className="btn btn-outline btn-error"
+								type="button"
+								onClick={() => {
+									handleDelete({});
+								}}
+								disabled={loadingDelete || isMutatingConvert}
+							>
+								{loadingDelete ? (
+									<span className="loading loading-dots" />
+								) : (
+									"Delete"
+								)}
+							</button>
+						)}
+
 						<button
-							className="btn btn-outline btn-error"
-							type="button"
-							onClick={() => {
-								handleDelete({});
-							}}
-							disabled={loadingDelete || isMutatingConvert}
-						>
-							{loadingDelete ? (
-								<span className="loading loading-dots" />
-							) : (
-								"Delete"
-							)}
-						</button>
-						<button
-							className="btn btn-neutral"
+							className="col-start-2 btn btn-neutral"
 							type="submit"
 							disabled={loadingDelete || isMutatingConvert}
 						>

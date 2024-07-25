@@ -1,0 +1,1 @@
+ALTER TABLE "templateTable" ADD COLUMN "secret" text NOT NULL;

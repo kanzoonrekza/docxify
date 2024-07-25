@@ -1,7 +1,7 @@
 import db from "@/db/drizzle";
-import { organizations, organizationUsers, templates } from "@/db/schema";
+import { organizationUsers, templates } from "@/db/schema";
 import { claudinaryUploadBuffer } from "@/utils/file-operations";
-import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -45,6 +45,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+	const random = Math.random().toString(36).slice(2) + Date.now().toString(36);
 	type NewTemplate = typeof templates.$inferInsert;
 
 	const insertTemplate: any = async (NewData: NewTemplate) => {
@@ -89,6 +90,7 @@ export async function POST(request: NextRequest) {
 			apiReady: (formData.get("apiReady") as string) === "true" ? true : false,
 			tags: formData.get("tags") == "" ? null : uniqueTags,
 			organizationId: Number(formData.get("orgid") as string),
+			secret: random,
 		};
 
 		try {
