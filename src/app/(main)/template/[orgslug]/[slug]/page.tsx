@@ -28,10 +28,8 @@ export default function TemplateSlugPage({
 		});
 
 	const getCurrentBaseURL = (url: string) => {
-		const regex = /^(https|http?:\/\/[^/]+)/;
-		const match = url?.match(regex);
-
-		return match ? match[1] : "";
+		const { protocol, host } = new URL(url);
+		return `${protocol}//${host}`;
 	};
 
 	const shareLink = `${getCurrentBaseURL(
