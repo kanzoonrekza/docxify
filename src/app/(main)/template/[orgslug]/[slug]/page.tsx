@@ -35,7 +35,7 @@ export default function TemplateSlugPage({
 	const shareLink = `${getCurrentBaseURL(
 		window?.location?.href
 	)}/api/generate/${params.slug}?s=${data?.secret}${data?.api_param
-		.map((param) => {
+		?.map((param) => {
 			return "&" + param + "={{" + param + "}}";
 		})
 		.join("")}`;
