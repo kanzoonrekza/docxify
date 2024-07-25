@@ -24,7 +24,7 @@ export default function OrganizationList() {
 				Please wait a moment or try reloading the page.
 				<br />
 				Consider{" "}
-				<Link href={"/organization/add"} className="link link-secondary">
+				<Link href={"/login"} className="link link-secondary">
 					logging in
 				</Link>{" "}
 				again to see if that helps.
@@ -56,21 +56,21 @@ export default function OrganizationList() {
 							<p>Owner: {organization.owner}</p>
 							<p>{organization.templateCount} Templates</p>
 						</div>
-						<div className="flex flex-row-reverse gap-2 mt-auto pt-3">
-							<Link
-								className="basis-1/2 border btn btn-sm btn-neutral"
-								href={`/template/${organization.id}`}
-							>
-								Templates
-							</Link>
+						<div className="grid grid-cols-2 gap-2 mt-auto pt-3">
 							{organization.role !== "member" && (
 								<Link
-									className="basis-1/2 border btn btn-outline btn-sm btn-neutral"
+									className="border btn btn-outline btn-sm btn-neutral"
 									href={`/organization/${organization.id}`}
 								>
 									Organization
 								</Link>
 							)}
+							<Link
+								className="col-start-2 border btn btn-sm btn-neutral"
+								href={`/template/${organization.id}`}
+							>
+								Templates
+							</Link>
 						</div>
 					</div>
 				</div>

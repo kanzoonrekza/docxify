@@ -19,7 +19,7 @@ export async function POST(
 
 	const newDataUsers: NewOrganizationUsers = {
 		userId: formData.get("username") as string,
-		role: formData.get("role") as string,
+		role: formData.get("role") as any,
 		organizationId: Number(id),
 	};
 
