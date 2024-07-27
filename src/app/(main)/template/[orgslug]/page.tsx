@@ -8,8 +8,16 @@ export default function TemplatePage({
 }: {
 	params: { orgslug: number };
 }) {
-	const { data } = useUserOrg();
+	const { data, isLoading } = useUserOrg();
 	const current = data?.filter((org: any) => org.id === Number(params.orgslug));
+
+	if (isLoading) {
+		return (
+			<div className="min-h-screen grid place-content-center">
+				<div className="loading loading-ring w-20" />
+			</div>
+		);
+	}
 
 	return (
 		<>
