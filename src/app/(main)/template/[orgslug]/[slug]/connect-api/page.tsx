@@ -303,7 +303,11 @@ export default function EditTemplatePage({
 										type="text"
 										id={`value_${item.name}`}
 										name={`value_${item.name}`}
-										value={connectApiTagValue[item.name]}
+										value={
+											typeof connectApiTagValue[item.name] === "object"
+												? JSON.stringify(connectApiTagValue[item.name])
+												: connectApiTagValue[item.name]
+										}
 										placeholder="preview value"
 										className="w-full rounded px-1 border border-base-300"
 										readOnly
