@@ -43,8 +43,14 @@ export default function ConnectedApiForm({
 				const input = document.getElementById(form.name) as HTMLInputElement;
 				if (input) {
 					input.value =
-						getNestedValue(res, data?.api_connected_tags[form.name] || "") ||
-						"";
+						typeof getNestedValue(
+							res,
+							data?.api_connected_tags[form.name] || ""
+						) === "object"
+							? JSON.stringify(
+									getNestedValue(res, data?.api_connected_tags[form.name] || "")
+							  )
+							: getNestedValue(res, data?.api_connected_tags[form.name] || "");
 				}
 			});
 		},
@@ -69,7 +75,10 @@ export default function ConnectedApiForm({
 		const formData = new FormData(e.currentTarget);
 		let jsonData: any = {};
 		data?.tags.forEach((tag) => {
-			jsonData[tag.code] = formData.get(tag.code);
+			jsonData[tag.code] =
+				tag.type === "FOR"
+					? JSON.parse(formData.get(tag.code) as string)
+					: formData.get(tag.code);
 		});
 
 		const fetchedFile = await fetch(data?.fileUrl as string).then(
