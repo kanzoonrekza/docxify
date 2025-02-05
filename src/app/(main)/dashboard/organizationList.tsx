@@ -36,7 +36,10 @@ export default function OrganizationList() {
 			<p>
 				You have no organizations.
 				<br />
-				<Link href={"/organization/add"} className="link link-secondary">
+				<Link
+					href={"/organization/add"}
+					className="link link-secondary"
+				>
 					Create new
 				</Link>{" "}
 				or ask your admin to add you to one.

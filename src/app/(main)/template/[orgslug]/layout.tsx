@@ -12,7 +12,9 @@ export default function TemplateLayout({
 }) {
 	const { data, isLoading } = useUserOrg();
 
-	const current = data?.filter((org: any) => org.id === Number(params.orgslug));
+	const current = data?.filter(
+		(org: any) => org.id === Number(params.orgslug)
+	);
 
 	return (
 		<div className="px-10 py-5">

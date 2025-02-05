@@ -10,7 +10,9 @@ export async function POST(request: NextRequest) {
 		return await db
 			.select()
 			.from(users)
-			.where(or(eq(users.username, identifier), eq(users.email, identifier)))
+			.where(
+				or(eq(users.username, identifier), eq(users.email, identifier))
+			)
 			.limit(1);
 	};
 

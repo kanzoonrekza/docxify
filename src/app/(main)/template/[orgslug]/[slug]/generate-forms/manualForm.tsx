@@ -104,7 +104,11 @@ export default function ManualForm({
 					type="submit"
 					disabled={loadingDelete || isMutating}
 				>
-					{isMutating ? <span className="loading loading-dots" /> : "Generate"}
+					{isMutating ? (
+						<span className="loading loading-dots" />
+					) : (
+						"Generate"
+					)}
 				</button>
 			</div>
 		</form>

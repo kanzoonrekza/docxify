@@ -20,7 +20,7 @@ export async function PATCH(
 	}
 
 	const formData = await request.formData();
-	
+
 	const updatedData: any = {
 		api_url: formData.get("api_url") as string,
 		api_connected_tags: JSON.parse(

@@ -45,7 +45,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-	const random = Math.random().toString(36).slice(2) + Date.now().toString(36);
+	const random =
+		Math.random().toString(36).slice(2) + Date.now().toString(36);
 	type NewTemplate = typeof templates.$inferInsert;
 
 	const insertTemplate: any = async (NewData: NewTemplate) => {
@@ -70,14 +71,16 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json(
 			{
 				status: 400,
-				message: "No tags detected, please make sure your tags are correct",
+				message:
+					"No tags detected, please make sure your tags are correct",
 			},
 			{ status: 400 }
 		);
 	}
 
 	try {
-		const uploadResult: UploadApiResponse = await claudinaryUploadBuffer(file);
+		const uploadResult: UploadApiResponse =
+			await claudinaryUploadBuffer(file);
 		const uniqueTags = JSON.parse(formData.get("tags") as string).filter(
 			(tag: any, index: number, self: any[]) =>
 				self.findIndex((t) => t.code === tag.code) === index
@@ -87,7 +90,8 @@ export async function POST(request: NextRequest) {
 			fileUrl: uploadResult.secure_url,
 			description: formData.get("description") as string,
 			category: formData.get("category") as string,
-			apiReady: (formData.get("apiReady") as string) === "true" ? true : false,
+			apiReady:
+				(formData.get("apiReady") as string) === "true" ? true : false,
 			tags: formData.get("tags") == "" ? null : uniqueTags,
 			organizationId: Number(formData.get("orgid") as string),
 			secret: random,

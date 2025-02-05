@@ -53,8 +53,15 @@ export default function AddMemberModal({
 					required: true,
 				}}
 			/>
-			<button className="btn btn-sm btn-neutral ml-auto" disabled={isMutating}>
-				{isMutating ? <span className="loading loading-dots" /> : "Invite"}
+			<button
+				className="btn btn-sm btn-neutral ml-auto"
+				disabled={isMutating}
+			>
+				{isMutating ? (
+					<span className="loading loading-dots" />
+				) : (
+					"Invite"
+				)}
 			</button>
 			{error && !isMutating && (
 				<div className="text-red-500 text-center text-sm pt-1">

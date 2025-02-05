@@ -33,17 +33,15 @@ const makeRequest = async <T>(url: string, method: string, arg?: T) => {
 			}
 
 			if (r.status === 404) {
-				const error: Error & { status?: number; body?: any } = new Error(
-					"URL Not Found"
-				);
+				const error: Error & { status?: number; body?: any } =
+					new Error("URL Not Found");
 				error.status = r.status;
 				error.body = errorBody;
 				throw error;
 			}
 			if (r.status === 500) {
-				const error: Error & { status?: number; body?: any } = new Error(
-					"Internal Server Error"
-				);
+				const error: Error & { status?: number; body?: any } =
+					new Error("Internal Server Error");
 				console.log(errorBody);
 
 				error.status = r.status;

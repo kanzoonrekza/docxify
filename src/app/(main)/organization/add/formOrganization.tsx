@@ -51,7 +51,11 @@ export default function FormOrganization() {
 				type="submit"
 				disabled={isMutating}
 			>
-				{isMutating ? <span className="loading loading-dots" /> : "Create"}
+				{isMutating ? (
+					<span className="loading loading-dots" />
+				) : (
+					"Create"
+				)}
 			</button>
 		</form>
 	);

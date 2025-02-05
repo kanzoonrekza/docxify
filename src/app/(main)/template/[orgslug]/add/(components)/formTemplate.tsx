@@ -65,7 +65,11 @@ export default function FormTemplate({ orgid }: { orgid: number }) {
 				type="submit"
 				disabled={isMutating || tagsStatus?.status === "Error"}
 			>
-				{isMutating ? <span className="loading loading-dots" /> : "Create"}
+				{isMutating ? (
+					<span className="loading loading-dots" />
+				) : (
+					"Create"
+				)}
 			</button>
 		</form>
 	);

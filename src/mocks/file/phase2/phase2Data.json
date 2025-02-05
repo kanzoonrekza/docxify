@@ -1,18 +1,18 @@
 {
-  "short_name": "Jason",
-  "phone": "0812345678910",
-  "member_list": [
-    {
-      "name": "Bradd",
-      "position": "Dev Ops Trainee"
-    },
-    {
-      "name": "Dellise",
-      "position": "HR Consultant"
-    },
-    {
-      "name": "Timmy",
-      "position": "Lead Engineer"
-    }
-  ]
+	"short_name": "Jason",
+	"phone": "0812345678910",
+	"member_list": [
+		{
+			"name": "Bradd",
+			"position": "Dev Ops Trainee"
+		},
+		{
+			"name": "Dellise",
+			"position": "HR Consultant"
+		},
+		{
+			"name": "Timmy",
+			"position": "Lead Engineer"
+		}
+	]
 }
