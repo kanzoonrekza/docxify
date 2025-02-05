@@ -17,11 +17,14 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const response = await fetch(`${gotenberg_url}/forms/libreoffice/convert`, {
-			method: "POST",
-			body: formData,
-			headers: {},
-		});
+		const response = await fetch(
+			`${gotenberg_url}/forms/libreoffice/convert`,
+			{
+				method: "POST",
+				body: formData,
+				headers: {},
+			}
+		);
 
 		const blob = await response.blob();
 		const pdf = new Blob([blob], {

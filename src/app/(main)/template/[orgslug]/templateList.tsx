@@ -10,7 +10,8 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 		"/api/core/templates?orgid=" + orgid,
 		fetcher.get
 	);
-	const gridClassname = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2";
+	const gridClassname =
+		"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2";
 
 	if (isLoading)
 		return (
@@ -29,7 +30,10 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 				Please wait a moment or try reloading the page.
 				<br />
 				Consider{" "}
-				<Link href={"/organization/add"} className="link link-secondary">
+				<Link
+					href={"/organization/add"}
+					className="link link-secondary"
+				>
 					logging in
 				</Link>{" "}
 				again to see if that helps.
@@ -41,7 +45,10 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 			<p className="">
 				You have no templates.
 				<br />
-				<Link href={`/template/${orgid}/add`} className="link link-secondary">
+				<Link
+					href={`/template/${orgid}/add`}
+					className="link link-secondary"
+				>
 					Create new
 				</Link>{" "}
 				or ask your admin to add you to one.
@@ -70,10 +77,14 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 											</div>
 										)}
 									</div>
-									<div className="card-title">{template.title}</div>
+									<div className="card-title">
+										{template.title}
+									</div>
 								</div>
 								{template.description && (
-									<p className="card-side">{template.description}</p>
+									<p className="card-side">
+										{template.description}
+									</p>
 								)}
 							</div>
 						</Link>

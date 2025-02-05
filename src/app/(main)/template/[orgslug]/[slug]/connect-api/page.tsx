@@ -44,11 +44,17 @@ export default function EditTemplatePage({
 		error: fetchApiError,
 	} = useSWRMutation(targetAPI, fetcher.get, {
 		onError: (error, variables, context) => {
-			console.log("Error on fetch conenction API", error, context, variables);
+			console.log(
+				"Error on fetch conenction API",
+				error,
+				context,
+				variables
+			);
 		},
 		onSuccess: (data, variables, context) => {
 			const newValues = formGenerateList.reduce((acc: any, item) => {
-				acc[item.name] = getNestedValue(data, connectApiTag[item.name]) || "";
+				acc[item.name] =
+					getNestedValue(data, connectApiTag[item.name]) || "";
 				return acc;
 			}, {});
 			setConnectApiTagValue((prevValues: any) => ({
@@ -74,7 +80,10 @@ export default function EditTemplatePage({
 					),
 				onSuccess: (data, variables, context) => {
 					mutate();
-					router.push(`/template/${params.orgslug}/${params.slug}`, {});
+					router.push(
+						`/template/${params.orgslug}/${params.slug}`,
+						{}
+					);
 				},
 			}
 		);
@@ -141,7 +150,9 @@ export default function EditTemplatePage({
 				{isLoading ? (
 					<aside className="skeleton w-20 h-5" />
 				) : (
-					<aside className="badge badge-info">Editing API Connection</aside>
+					<aside className="badge badge-info">
+						Editing API Connection
+					</aside>
 				)}
 				{isLoading ? (
 					<h1 className="skeleton w-full h-9 mb-2" />
@@ -168,21 +179,30 @@ export default function EditTemplatePage({
 									<th>Value</th>
 								</tr>
 								{fetchParams.map((param: string) => (
-									<tr className="divide-x divide-neutral" key={param}>
+									<tr
+										className="divide-x divide-neutral"
+										key={param}
+									>
 										<td className="w-1/2">
 											<div className="flex">
 												<label
 													htmlFor={`api_params_${param}`}
 													className="w-full"
 												>
-													<div className="w-full p-1">{param}</div>
+													<div className="w-full p-1">
+														{param}
+													</div>
 												</label>
 												<button
 													type="button"
 													className="btn btn-square btn-sm btn-error btn-outline"
 													onClick={() => {
 														setFetchParams(
-															fetchParams.filter((item) => item !== param)
+															fetchParams.filter(
+																(item) =>
+																	item !==
+																	param
+															)
 														);
 													}}
 												>
@@ -215,15 +235,26 @@ export default function EditTemplatePage({
 										<button
 											type="button"
 											className="btn btn-block btn-sm btn-neutral btn-outline"
-											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-												if (newParamRef.current.value === "") {
+											onClick={(
+												e: React.MouseEvent<HTMLButtonElement>
+											) => {
+												if (
+													newParamRef.current
+														.value === ""
+												) {
 													console.log("empty ref");
 													return;
 												}
-												if (!fetchParams.includes(newParamRef.current.value)) {
+												if (
+													!fetchParams.includes(
+														newParamRef.current
+															.value
+													)
+												) {
 													setFetchParams([
 														...fetchParams,
-														newParamRef.current.value,
+														newParamRef.current
+															.value,
 													]);
 												}
 												newParamRef.current.value = "";
@@ -262,20 +293,25 @@ export default function EditTemplatePage({
 									!fetchApiData && !fetchApiError
 										? undefined
 										: fetchApiError
-										? "Error"
-										: fetchApiData.status === 200
-										? "Success"
-										: "Error",
+											? "Error"
+											: fetchApiData.status === 200
+												? "Success"
+												: "Error",
 							}}
 						/>
 					</section>
 					<section className="px-2 mt-3 border-l-4 border-secondary flex flex-col gap-3 max-w-2xl w-full rounded-l">
 						{formGenerateList.map((item: TypeFormField) => (
 							<span key={item.name}>
-								<label htmlFor={item.name} className="flex items-stretch gap-1">
+								<label
+									htmlFor={item.name}
+									className="flex items-stretch gap-1"
+								>
 									{item.label}
 									{item.required && (
-										<span className="text-secondary text-sm">*</span>
+										<span className="text-secondary text-sm">
+											*
+										</span>
 									)}
 								</label>
 								<div className="grid grid-cols-2 gap-x-2">
@@ -295,7 +331,10 @@ export default function EditTemplatePage({
 											setConnectApiTagValue({
 												...connectApiTagValue,
 												[item.name]:
-													getNestedValue(fetchApiData, e.target.value) || "",
+													getNestedValue(
+														fetchApiData,
+														e.target.value
+													) || "",
 											});
 										}}
 									/>
@@ -304,8 +343,14 @@ export default function EditTemplatePage({
 										id={`value_${item.name}`}
 										name={`value_${item.name}`}
 										value={
-											typeof connectApiTagValue[item.name] === "object"
-												? JSON.stringify(connectApiTagValue[item.name])
+											typeof connectApiTagValue[
+												item.name
+											] === "object"
+												? JSON.stringify(
+														connectApiTagValue[
+															item.name
+														]
+													)
 												: connectApiTagValue[item.name]
 										}
 										placeholder="preview value"

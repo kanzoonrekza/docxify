@@ -57,7 +57,10 @@ export async function POST(request: NextRequest) {
 	const formData = await request.formData();
 	const userid = formData.get("owner") as string;
 
-	const user = await db.select().from(users).where(eq(users.username, userid));
+	const user = await db
+		.select()
+		.from(users)
+		.where(eq(users.username, userid));
 
 	if (user.length === 0) {
 		return NextResponse.json({
@@ -79,7 +82,8 @@ export async function POST(request: NextRequest) {
 			organizationId: returnedData[0].id,
 		};
 		try {
-			const returnedDataUsers = await insertOrganizationUsers(newDataUsers);
+			const returnedDataUsers =
+				await insertOrganizationUsers(newDataUsers);
 			return Response.json({
 				message: "Success inserting data",
 				data: returnedDataUsers[0],

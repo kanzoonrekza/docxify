@@ -9,7 +9,9 @@ export default function TemplatePage({
 	params: { orgslug: number };
 }) {
 	const { data, isLoading } = useUserOrg();
-	const current = data?.filter((org: any) => org.id === Number(params.orgslug));
+	const current = data?.filter(
+		(org: any) => org.id === Number(params.orgslug)
+	);
 
 	if (isLoading) {
 		return (

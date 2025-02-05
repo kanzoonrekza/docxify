@@ -57,8 +57,15 @@ export default function Signup() {
 					}}
 				/>
 
-				<button className="btn btn-block btn-neutral" disabled={isMutating}>
-					{isMutating ? <span className="loading loading-dots" /> : "Register"}
+				<button
+					className="btn btn-block btn-neutral"
+					disabled={isMutating}
+				>
+					{isMutating ? (
+						<span className="loading loading-dots" />
+					) : (
+						"Register"
+					)}
 				</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm mt-2">

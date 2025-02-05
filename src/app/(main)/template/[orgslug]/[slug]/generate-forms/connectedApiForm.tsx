@@ -36,11 +36,18 @@ export default function ConnectedApiForm({
 		error: fetchApiError,
 	} = useSWRMutation(targetAPI, fetcher.get, {
 		onError: (error, variables, context) => {
-			console.log("Error on fetch conenction API", error, context, variables);
+			console.log(
+				"Error on fetch conenction API",
+				error,
+				context,
+				variables
+			);
 		},
 		onSuccess: (res, variables, context) => {
 			formGenerateList.map((form: any) => {
-				const input = document.getElementById(form.name) as HTMLInputElement;
+				const input = document.getElementById(
+					form.name
+				) as HTMLInputElement;
 				if (input) {
 					input.value =
 						typeof getNestedValue(
@@ -48,9 +55,16 @@ export default function ConnectedApiForm({
 							data?.api_connected_tags[form.name] || ""
 						) === "object"
 							? JSON.stringify(
-									getNestedValue(res, data?.api_connected_tags[form.name] || "")
-							  )
-							: getNestedValue(res, data?.api_connected_tags[form.name] || "");
+									getNestedValue(
+										res,
+										data?.api_connected_tags[form.name] ||
+											""
+									)
+								)
+							: getNestedValue(
+									res,
+									data?.api_connected_tags[form.name] || ""
+								);
 				}
 			});
 		},
@@ -187,10 +201,18 @@ export default function ConnectedApiForm({
 									<th>Value</th>
 								</tr>
 								{data?.api_param.map((param: string) => (
-									<tr className="divide-x divide-neutral" key={param}>
+									<tr
+										className="divide-x divide-neutral"
+										key={param}
+									>
 										<td className="w-1/2">
-											<label htmlFor={`api_params_${param}`} className="w-full">
-												<div className="w-full p-1">{param}</div>
+											<label
+												htmlFor={`api_params_${param}`}
+												className="w-full"
+											>
+												<div className="w-full p-1">
+													{param}
+												</div>
 											</label>
 										</td>
 										<td className="w-1/2">
@@ -232,10 +254,10 @@ export default function ConnectedApiForm({
 									!fetchApiData && !fetchApiError
 										? undefined
 										: fetchApiError
-										? "Error"
-										: fetchApiData.status === 200
-										? "Success"
-										: "Error",
+											? "Error"
+											: fetchApiData.status === 200
+												? "Success"
+												: "Error",
 							}}
 						/>
 					</section>

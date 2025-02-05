@@ -40,7 +40,10 @@ export default function MainLayout({
 			<ContextProviderUserOrg>
 				<div className="sticky top-0 z-10 bg-neutral">
 					<div className="flex justify-between py-2 px-5 items-center max-w-screen-2xl mx-auto w-full">
-						<Link href="/dashboard" className="text-base-100 font-bold">
+						<Link
+							href="/dashboard"
+							className="text-base-100 font-bold"
+						>
 							Docxify
 						</Link>
 						<button
@@ -52,7 +55,9 @@ export default function MainLayout({
 						</button>
 					</div>
 				</div>
-				<div className="flex-1 max-w-screen-2xl mx-auto w-full">{children}</div>
+				<div className="flex-1 max-w-screen-2xl mx-auto w-full">
+					{children}
+				</div>
 				<div className="divider py-10 divider-neutral">
 					<button
 						className="link link-hover"

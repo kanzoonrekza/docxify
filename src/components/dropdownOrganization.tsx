@@ -14,7 +14,12 @@ export default function DropdownOrganization() {
 				id="organization"
 				className="bg-inherit border"
 			>
-				<option className="bg-neutral-800" key="placeholder" value="" hidden>
+				<option
+					className="bg-neutral-800"
+					key="placeholder"
+					value=""
+					hidden
+				>
 					Select an Organization
 				</option>
 				{data?.map((org: any) => (

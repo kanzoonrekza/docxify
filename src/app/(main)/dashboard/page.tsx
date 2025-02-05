@@ -10,7 +10,9 @@ export default function Dashboard() {
 		<main className="flex flex-col gap-10 p-10">
 			<div className="flex items-center justify-between ">
 				{/* @ts-ignore */}
-				<div className="text-4xl">Hello, {session?.data?.user?.id}!</div>
+				<div className="text-4xl">
+					Hello, {session?.data?.user?.id}!
+				</div>
 
 				<Link
 					href={"/organization/add"}

@@ -50,8 +50,15 @@ export default function Login() {
 					}}
 				/>
 
-				<button className="btn btn-block btn-neutral" disabled={loading}>
-					{loading ? <span className="loading loading-dots" /> : "Login"}
+				<button
+					className="btn btn-block btn-neutral"
+					disabled={loading}
+				>
+					{loading ? (
+						<span className="loading loading-dots" />
+					) : (
+						"Login"
+					)}
 				</button>
 			</form>
 			<aside className="ml-auto w-fit text-sm mt-2">
@@ -62,8 +69,8 @@ export default function Login() {
 			</aside>
 			{error && (
 				<div className="text-red-500 text-center text-sm pt-5">
-					Loign failed. Please make sure you have entered the correct username
-					or email and password.
+					Loign failed. Please make sure you have entered the correct
+					username or email and password.
 				</div>
 			)}
 		</>

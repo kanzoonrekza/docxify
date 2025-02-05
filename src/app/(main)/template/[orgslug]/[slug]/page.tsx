@@ -46,11 +46,11 @@ export default function TemplateSlugPage({
 				<div className="skeleton h-[640px] w-full max-w-sm" />
 			) : (
 				<div className="h-[640px] w-full max-w-sm bg-base-300 bg-opacity-5 hover:bg-opacity-10 border border-dashed rounded">
-					Document Preview
-					<br />
-					<a href={data?.fileUrl} download>
-						Download document
-					</a>
+					<iframe
+						src={`https://view.officeapps.live.com/op/view.aspx?src=${data?.fileUrl}`}
+						width="100%"
+						height="600px"
+					></iframe>
 				</div>
 			)}
 			<div className="pb-5 flex flex-col gap-3 max-w-2xl w-full">
@@ -61,7 +61,9 @@ export default function TemplateSlugPage({
 					</span>
 				) : (
 					<span className="flex gap-1">
-						<aside className="badge badge-neutral">{data?.category}</aside>
+						<aside className="badge badge-neutral">
+							{data?.category}
+						</aside>
 						<aside
 							className={`flex badge  ${
 								data?.apiReady ? "badge-success" : "badge-error"
@@ -101,7 +103,8 @@ export default function TemplateSlugPage({
 				<div className="flex justify-center p-1 m-1 mx-auto border rounded w-fit">
 					<button
 						className={`px-3 py-1 text-sm leading-snug rounded ${
-							generateMode === "manual" && "bg-neutral text-neutral-content"
+							generateMode === "manual" &&
+							"bg-neutral text-neutral-content"
 						}`}
 						onClick={() => setGenerateMode("manual")}
 					>
@@ -109,7 +112,8 @@ export default function TemplateSlugPage({
 					</button>
 					<button
 						className={`px-3 py-1 text-sm leading-snug rounded ${
-							generateMode === "api" && "bg-neutral text-neutral-content"
+							generateMode === "api" &&
+							"bg-neutral text-neutral-content"
 						}`}
 						onClick={() => setGenerateMode("api")}
 					>

@@ -69,7 +69,9 @@ export async function GET(
 	const jsonData: any = {};
 
 	if (response[0].api_connected_tags) {
-		for (const [key, path] of Object.entries(response[0].api_connected_tags)) {
+		for (const [key, path] of Object.entries(
+			response[0].api_connected_tags
+		)) {
 			jsonData[key] = getNestedValue(resultFetch, path);
 		}
 	}
