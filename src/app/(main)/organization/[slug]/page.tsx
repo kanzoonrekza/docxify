@@ -204,6 +204,7 @@ export default function OrganizationPage({
 							// @ts-ignore
 							document
 								.getElementById("add-organization-member")
+								// @ts-ignore
 								.close();
 
 							mutateOrg();
