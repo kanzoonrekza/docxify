@@ -51,7 +51,7 @@ export default function OrganizationPage({
 					<h1 className="text-4xl">{current.name}</h1>
 				)}
 			</div>
-			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+			<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
 				{isLoading ? (
 					<>
 						<div className="skeleton h-36 w-full" />
@@ -97,13 +97,13 @@ export default function OrganizationPage({
 				)}
 			</div>
 			<div>
-				<div className="flex justify-between items-center mb-1">
-					<h2 className="font-bold text-xl">Members</h2>
+				<div className="mb-1 flex items-center justify-between">
+					<h2 className="text-xl font-bold">Members</h2>
 					{!isLoading &&
 						["admin", "owner"].includes(current.role) && (
 							<Modal.Button
 								id="add-organization-member"
-								className="btn btn-sm btn-outline"
+								className="btn btn-outline btn-sm"
 							>
 								Add Member
 							</Modal.Button>
@@ -113,12 +113,12 @@ export default function OrganizationPage({
 					<table className="w-full border border-neutral">
 						<thead className="bg-neutral text-neutral-content">
 							<tr>
-								<th className="text-start px-2 py-1">
+								<th className="px-2 py-1 text-start">
 									Username
 								</th>
-								<th className="text-start px-2 py-1">Email</th>
-								<th className="text-start px-2 py-1">Role</th>
-								<th className="text-start px-2 py-1 w-0"></th>
+								<th className="px-2 py-1 text-start">Email</th>
+								<th className="px-2 py-1 text-start">Role</th>
+								<th className="w-0 px-2 py-1 text-start"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -134,7 +134,7 @@ export default function OrganizationPage({
 										<td className="p-1">
 											<div className="skeleton h-6" />
 										</td>
-										<td className="p-1 w-min">
+										<td className="w-min p-1">
 											<div className="skeleton h-6" />
 										</td>
 									</tr>
@@ -150,7 +150,7 @@ export default function OrganizationPage({
 										</td>
 										<td className="px-2">{member.email}</td>
 										<td className="px-2">{member.role}</td>
-										<td className="px-5 w-0">
+										<td className="w-0 px-5">
 											<Modal.Button
 												id={`edit-organization-member-${member.username}`}
 												className="btn btn-square btn-ghost btn-sm grid disabled:btn-ghost disabled:opacity-20"
@@ -214,7 +214,7 @@ export default function OrganizationPage({
 			</div>
 			{current?.role === "owner" && (
 				<div>
-					<h2 className="font-bold text-xl">Delete Organization</h2>
+					<h2 className="text-xl font-bold">Delete Organization</h2>
 					<aside>
 						Please be careful, this action is irreversible.
 						<br />

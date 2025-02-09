@@ -63,16 +63,16 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 						<Link
 							href={`/template/${orgid}/${template.id}`}
 							key={template.id}
-							className="card-compact rounded border hover:border-neutral transition-colors duration-200"
+							className="card-compact rounded border transition-colors duration-200 hover:border-neutral"
 						>
 							<div className="card-body gap-0">
 								<div className="flex-grow">
-									<div className="flex gap-2 flex-wrap">
-										<div className="badge badge-sm badge-neutral">
+									<div className="flex flex-wrap gap-2">
+										<div className="badge badge-neutral badge-sm">
 											{template.category}
 										</div>
 										{template.apiReady && (
-											<div className="badge badge-sm badge-accent">
+											<div className="badge badge-accent badge-sm">
 												Api Ready
 											</div>
 										)}

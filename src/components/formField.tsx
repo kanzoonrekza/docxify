@@ -13,13 +13,13 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 	<span key={item.name}>
 		<label htmlFor={item.name} className="flex items-stretch gap-1">
 			{item.label}
-			{item.required && <span className="text-secondary text-sm">*</span>}
+			{item.required && <span className="text-sm text-secondary">*</span>}
 		</label>
 		{item.type === "select" && (
 			<select
 				id={item.name}
 				name={item.name}
-				className="select select-sm w-full rounded px-1 border border-base-300"
+				className="select select-sm w-full rounded border border-base-300 px-1"
 				defaultValue={item.defaultValue}
 			>
 				<option value="member" selected>
@@ -32,7 +32,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 			<textarea
 				id="tags"
 				name="tags"
-				className={`w-full rounded px-1 border border-base-300 h-60 bg-opacity-30 ${
+				className={`h-60 w-full rounded border border-base-300 bg-opacity-30 px-1 ${
 					item.status === "Error" && "border border-error bg-error"
 				} ${item.status === "Success" && "border border-success bg-success"}`}
 				defaultValue={item.defaultValue}
@@ -48,7 +48,7 @@ export const FormField = ({ item }: { item: TypeFormField }) => (
 				name={item.name}
 				defaultValue={item.defaultValue}
 				value={item.value}
-				className="w-full rounded px-1 border border-base-300"
+				className="w-full rounded border border-base-300 px-1"
 				readOnly={item.readonly}
 			/>
 		)}

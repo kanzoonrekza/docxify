@@ -12,7 +12,7 @@ export default function DropdownOrganization() {
 			<select
 				name="organization"
 				id="organization"
-				className="bg-inherit border"
+				className="border bg-inherit"
 			>
 				<option
 					className="bg-neutral-800"

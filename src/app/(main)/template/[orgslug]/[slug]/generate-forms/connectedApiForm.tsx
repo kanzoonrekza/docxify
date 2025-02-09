@@ -162,7 +162,7 @@ export default function ConnectedApiForm({
 					{data?.role !== "member" ? (
 						<Link
 							href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-							className="btn btn-neutral btn-outline btn-sm"
+							className="btn btn-outline btn-neutral btn-sm"
 						>
 							Connect Now
 						</Link>
@@ -173,11 +173,11 @@ export default function ConnectedApiForm({
 			)}
 			{data?.apiReady && (
 				<form onSubmit={handleGenerate}>
-					<section className="relative px-2 border-l-4 border-primary flex flex-col gap-3 max-w-2xl w-full rounded-l">
+					<section className="relative flex w-full max-w-2xl flex-col gap-3 rounded-l border-l-4 border-primary px-2">
 						{data?.role !== "member" && (
 							<Link
 								href={`/template/${params.orgslug}/${params.slug}/connect-api`}
-								className="absolute right-0 mr-2 -top-1 btn btn-neutral btn-outline btn-xs"
+								className="btn btn-outline btn-neutral btn-xs absolute -top-1 right-0 mr-2"
 							>
 								Edit API
 							</Link>
@@ -195,7 +195,7 @@ export default function ConnectedApiForm({
 							<label htmlFor="" className="text-lg">
 								Params
 							</label>
-							<table className="w-full border divide-y border-neutral divide-neutral">
+							<table className="w-full divide-y divide-neutral border border-neutral">
 								<tr className="divide-x divide-neutral bg-neutral text-neutral-content">
 									<th>Key</th>
 									<th>Value</th>
@@ -220,14 +220,14 @@ export default function ConnectedApiForm({
 												type="text"
 												id={`api_params_${param}`}
 												name={`api_params_${param}`}
-												className="w-full p-1 bg-inherit"
+												className="w-full bg-inherit p-1"
 											/>
 										</td>
 									</tr>
 								))}
 							</table>
 						</span>
-						<div className="flex justify-end w-full">
+						<div className="flex w-full justify-end">
 							<button
 								type="button"
 								className="btn btn-neutral btn-sm"
@@ -261,7 +261,7 @@ export default function ConnectedApiForm({
 							}}
 						/>
 					</section>
-					<section className="px-2 mt-3 border-l-4 border-secondary flex flex-col gap-3 max-w-2xl w-full rounded-l">
+					<section className="mt-3 flex w-full max-w-2xl flex-col gap-3 rounded-l border-l-4 border-secondary px-2">
 						{formGenerateList.map((tag: TypeFormField) => (
 							<FormField item={tag} key={tag.name} />
 						))}
@@ -286,7 +286,7 @@ export default function ConnectedApiForm({
 						)}
 
 						<button
-							className="col-start-2 btn btn-neutral"
+							className="btn btn-neutral col-start-2"
 							type="submit"
 							disabled={loadingDelete || isMutatingConvert}
 						>

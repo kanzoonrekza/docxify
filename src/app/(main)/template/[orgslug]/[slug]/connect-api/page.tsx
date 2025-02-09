@@ -134,11 +134,11 @@ export default function EditTemplatePage({
 		}) || [];
 
 	return (
-		<main className="flex gap-5 h-full">
+		<main className="flex h-full gap-5">
 			{isLoading ? (
 				<div className="skeleton h-[640px] w-full max-w-sm" />
 			) : (
-				<div className="h-[640px] w-full max-w-sm bg-base-300 bg-opacity-5 hover:bg-opacity-10 border border-dashed rounded">
+				<div className="h-[640px] w-full max-w-sm rounded border border-dashed bg-base-300 bg-opacity-5 hover:bg-opacity-10">
 					Document Preview
 					<br />
 					<a href={data?.fileUrl} download>
@@ -146,21 +146,21 @@ export default function EditTemplatePage({
 					</a>
 				</div>
 			)}
-			<div className="pb-5 flex flex-col gap-3 max-w-2xl w-full">
+			<div className="flex w-full max-w-2xl flex-col gap-3 pb-5">
 				{isLoading ? (
-					<aside className="skeleton w-20 h-5" />
+					<aside className="skeleton h-5 w-20" />
 				) : (
 					<aside className="badge badge-info">
 						Editing API Connection
 					</aside>
 				)}
 				{isLoading ? (
-					<h1 className="skeleton w-full h-9 mb-2" />
+					<h1 className="skeleton mb-2 h-9 w-full" />
 				) : (
 					<h1 className="text-3xl font-bold">{data?.title}</h1>
 				)}
 				<form onSubmit={handleGenerate}>
-					<section className="relative px-2 border-l-4 border-primary flex flex-col gap-3 max-w-2xl w-full rounded-l">
+					<section className="relative flex w-full max-w-2xl flex-col gap-3 rounded-l border-l-4 border-primary px-2">
 						<FormField
 							item={{
 								name: "api_url",
@@ -173,7 +173,7 @@ export default function EditTemplatePage({
 							<label htmlFor="" className="text-lg">
 								Params
 							</label>
-							<table className="w-full border divide-y border-neutral divide-neutral">
+							<table className="w-full divide-y divide-neutral border border-neutral">
 								<tr className="divide-x divide-neutral bg-neutral text-neutral-content">
 									<th>Key</th>
 									<th>Value</th>
@@ -195,7 +195,7 @@ export default function EditTemplatePage({
 												</label>
 												<button
 													type="button"
-													className="btn btn-square btn-sm btn-error btn-outline"
+													className="btn btn-square btn-outline btn-error btn-sm"
 													onClick={() => {
 														setFetchParams(
 															fetchParams.filter(
@@ -215,7 +215,7 @@ export default function EditTemplatePage({
 												type="text"
 												id={`api_params_${param}`}
 												name={`api_params_${param}`}
-												className="w-full p-1 bg-inherit"
+												className="w-full bg-inherit p-1"
 											/>
 										</td>
 									</tr>
@@ -227,14 +227,14 @@ export default function EditTemplatePage({
 											id={`new_param`}
 											name={`new_param`}
 											ref={newParamRef}
-											className="w-full p-1 bg-inherit"
+											className="w-full bg-inherit p-1"
 											placeholder="Type param name"
 										/>
 									</td>
 									<td className="w-1/2">
 										<button
 											type="button"
-											className="btn btn-block btn-sm btn-neutral btn-outline"
+											className="btn btn-outline btn-neutral btn-sm btn-block"
 											onClick={(
 												e: React.MouseEvent<HTMLButtonElement>
 											) => {
@@ -266,10 +266,10 @@ export default function EditTemplatePage({
 								</tr>
 							</table>
 						</span>
-						<div className="flex justify-end w-full">
+						<div className="flex w-full justify-end">
 							<button
 								type="button"
-								className="btn btn-sm btn-neutral btn-outline"
+								className="btn btn-outline btn-neutral btn-sm"
 								onClick={handleFetchAPI}
 								disabled={isMutating}
 							>
@@ -300,7 +300,7 @@ export default function EditTemplatePage({
 							}}
 						/>
 					</section>
-					<section className="px-2 mt-3 border-l-4 border-secondary flex flex-col gap-3 max-w-2xl w-full rounded-l">
+					<section className="mt-3 flex w-full max-w-2xl flex-col gap-3 rounded-l border-l-4 border-secondary px-2">
 						{formGenerateList.map((item: TypeFormField) => (
 							<span key={item.name}>
 								<label
@@ -309,7 +309,7 @@ export default function EditTemplatePage({
 								>
 									{item.label}
 									{item.required && (
-										<span className="text-secondary text-sm">
+										<span className="text-sm text-secondary">
 											*
 										</span>
 									)}
@@ -321,7 +321,7 @@ export default function EditTemplatePage({
 										id={item.name}
 										name={item.name}
 										value={connectApiTag[item.name]}
-										className="w-full rounded px-1 border border-base-300"
+										className="w-full rounded border border-base-300 px-1"
 										placeholder="tag"
 										onChange={(e) => {
 											setConnectApiTag({
@@ -354,7 +354,7 @@ export default function EditTemplatePage({
 												: connectApiTagValue[item.name]
 										}
 										placeholder="preview value"
-										className="w-full rounded px-1 border border-base-300"
+										className="w-full rounded border border-base-300 px-1"
 										readOnly
 									/>
 								</div>

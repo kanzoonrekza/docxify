@@ -77,7 +77,7 @@ export default function ManualForm({
 	return (
 		<form
 			onSubmit={handleGenerate}
-			className="flex flex-col gap-3 max-w-2xl w-full"
+			className="flex w-full max-w-2xl flex-col gap-3"
 		>
 			{formGenerateList.map((tag: TypeFormField) => (
 				<FormField item={tag} key={tag.name} />
@@ -100,7 +100,7 @@ export default function ManualForm({
 					</button>
 				)}
 				<button
-					className="col-start-2 btn btn-neutral"
+					className="btn btn-neutral col-start-2"
 					type="submit"
 					disabled={loadingDelete || isMutating}
 				>
