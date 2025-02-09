@@ -15,7 +15,7 @@ export default function TemplatePage({
 
 	if (isLoading) {
 		return (
-			<div className="min-h-screen grid place-content-center">
+			<div className="grid min-h-screen place-content-center">
 				<div className="loading loading-ring w-20" />
 			</div>
 		);
@@ -28,7 +28,7 @@ export default function TemplatePage({
 				{current[0]?.role !== "member" && (
 					<Link
 						href={`/template/${params.orgslug}/add`}
-						className="btn btn-wide btn-neutral"
+						className="btn btn-neutral btn-wide"
 					>
 						Create Template
 					</Link>

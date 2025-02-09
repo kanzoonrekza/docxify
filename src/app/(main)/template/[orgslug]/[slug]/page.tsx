@@ -41,23 +41,27 @@ export default function TemplateSlugPage({
 		.join("")}`;
 
 	return (
-		<main className="flex gap-5 h-full">
-			{isLoading ? (
-				<div className="skeleton h-[640px] w-full max-w-sm" />
-			) : (
-				<div className="h-[640px] w-full max-w-sm bg-base-300 bg-opacity-5 hover:bg-opacity-10 border border-dashed rounded">
-					<iframe
-						src={`https://view.officeapps.live.com/op/view.aspx?src=${data?.fileUrl}`}
-						width="100%"
-						height="600px"
-					></iframe>
+		<main className="grid h-full grid-cols-5 gap-5 pt-5">
+			<div className="relative col-span-2 h-full w-full">
+				<div className="sticky top-14 aspect-[10/15] w-full border-2 border-black bg-[#D1D1D1]">
+					{isLoading ? (
+						<div className="skeleton w-full max-w-sm" />
+					) : (
+						<iframe
+							src={`https://docs.google.com/viewer?url=${encodeURIComponent(
+								data?.fileUrl || ""
+							)}&embedded=true`}
+							width="100%"
+							height="100%"
+						></iframe>
+					)}
 				</div>
-			)}
-			<div className="pb-5 flex flex-col gap-3 max-w-2xl w-full">
+			</div>
+			<div className="col-span-3 flex w-full max-w-2xl flex-col gap-3">
 				{isLoading ? (
 					<span className="flex gap-1">
-						<aside className="skeleton w-20 h-5" />
-						<aside className="skeleton w-20 h-5" />
+						<aside className="skeleton h-5 w-20" />
+						<aside className="skeleton h-5 w-20" />
 					</span>
 				) : (
 					<span className="flex gap-1">
@@ -65,7 +69,7 @@ export default function TemplateSlugPage({
 							{data?.category}
 						</aside>
 						<aside
-							className={`flex badge  ${
+							className={`badge flex ${
 								data?.apiReady ? "badge-success" : "badge-error"
 							}`}
 						>
@@ -74,9 +78,9 @@ export default function TemplateSlugPage({
 					</span>
 				)}
 				{isLoading ? (
-					<h1 className="skeleton w-full h-9 mb-2" />
+					<h1 className="skeleton mb-2 h-9 w-full" />
 				) : (
-					<h1 className="text-3xl font-bold flex items-center gap-2">
+					<h1 className="flex items-center gap-2 text-3xl font-bold">
 						<span>{data?.title}</span>
 						<Modal.Button
 							id="share-template"
@@ -100,9 +104,9 @@ export default function TemplateSlugPage({
 					</h1>
 				)}
 				<div>{data?.description}</div>
-				<div className="flex justify-center p-1 m-1 mx-auto border rounded w-fit">
+				<div className="m-1 mx-auto flex w-fit justify-center rounded border p-1">
 					<button
-						className={`px-3 py-1 text-sm leading-snug rounded ${
+						className={`rounded px-3 py-1 text-sm leading-snug ${
 							generateMode === "manual" &&
 							"bg-neutral text-neutral-content"
 						}`}
@@ -111,7 +115,7 @@ export default function TemplateSlugPage({
 						Manual
 					</button>
 					<button
-						className={`px-3 py-1 text-sm leading-snug rounded ${
+						className={`rounded px-3 py-1 text-sm leading-snug ${
 							generateMode === "api" &&
 							"bg-neutral text-neutral-content"
 						}`}
@@ -156,7 +160,7 @@ export default function TemplateSlugPage({
 					/>
 					<aside className="text-xs text-error">{`When integrating, replace the {{param}} with the value`}</aside>
 					<button
-						className="btn btn-block btn-sm btn-outline"
+						className="btn btn-outline btn-sm btn-block"
 						onClick={() => {
 							try {
 								navigator.clipboard.writeText(shareLink);

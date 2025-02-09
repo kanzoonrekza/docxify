@@ -31,7 +31,7 @@ export default function Login() {
 
 	return (
 		<>
-			<div className="text-center text-2xl font-medium mb-4">Login</div>
+			<div className="mb-4 text-center text-2xl font-medium">Login</div>
 			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 				<FormField
 					item={{
@@ -51,7 +51,7 @@ export default function Login() {
 				/>
 
 				<button
-					className="btn btn-block btn-neutral"
+					className="btn btn-neutral btn-block"
 					disabled={loading}
 				>
 					{loading ? (
@@ -61,14 +61,14 @@ export default function Login() {
 					)}
 				</button>
 			</form>
-			<aside className="ml-auto w-fit text-sm mt-2">
+			<aside className="ml-auto mt-2 w-fit text-sm">
 				Don&apos;t have an account?{" "}
 				<a href="/signup" className="link link-secondary p-0">
 					Signup
 				</a>
 			</aside>
 			{error && (
-				<div className="text-red-500 text-center text-sm pt-5">
+				<div className="pt-5 text-center text-sm text-red-500">
 					Loign failed. Please make sure you have entered the correct
 					username or email and password.
 				</div>

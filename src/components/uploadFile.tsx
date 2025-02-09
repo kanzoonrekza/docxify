@@ -18,7 +18,7 @@ export default function UploadFile() {
 		<div className="w-full max-w-sm">
 			<label
 				htmlFor="fileInput"
-				className="border border-dashed rounded grid place-items-center hover:cursor-pointer  bg-opacity-5 hover:bg-opacity-10 h-full max-h-[1000px] bg-base-300 "
+				className="grid h-full max-h-[1000px] place-items-center rounded border border-dashed bg-base-300 bg-opacity-5 hover:cursor-pointer hover:bg-opacity-10"
 			>
 				Upload .docx or .doc file
 			</label>

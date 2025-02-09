@@ -34,9 +34,9 @@ export default function AddMemberModal({
 		<form
 			id="add-organization-member-form"
 			onSubmit={handleSUbmit}
-			className="flex flex-col gap-3 max-w-2xl w-full"
+			className="flex w-full max-w-2xl flex-col gap-3"
 		>
-			<h3 className="font-bold text-lg">Invite New Member</h3>
+			<h3 className="text-lg font-bold">Invite New Member</h3>
 			<FormField
 				item={{
 					label: "Username",
@@ -54,7 +54,7 @@ export default function AddMemberModal({
 				}}
 			/>
 			<button
-				className="btn btn-sm btn-neutral ml-auto"
+				className="btn btn-neutral btn-sm ml-auto"
 				disabled={isMutating}
 			>
 				{isMutating ? (
@@ -64,7 +64,7 @@ export default function AddMemberModal({
 				)}
 			</button>
 			{error && !isMutating && (
-				<div className="text-red-500 text-center text-sm pt-1">
+				<div className="pt-1 text-center text-sm text-red-500">
 					{error?.body?.error?.detail?.includes("is not present")
 						? "Username does not exist. Please check the username spelling and try again."
 						: "An error occurred. Try again later or contact support."}

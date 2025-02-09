@@ -67,9 +67,9 @@ export default function EditMemberModal({
 			<form
 				id={`edit-organization-member-${data.username}`}
 				onSubmit={handleSubmit}
-				className="flex flex-col gap-3 max-w-2xl w-full"
+				className="flex w-full max-w-2xl flex-col gap-3"
 			>
-				<h3 className="font-bold text-lg">Edit {data.username}</h3>
+				<h3 className="text-lg font-bold">Edit {data.username}</h3>
 				<FormField
 					item={{
 						label: "Role",
@@ -81,7 +81,7 @@ export default function EditMemberModal({
 				/>
 
 				<button
-					className="btn btn-sm btn-neutral ml-auto"
+					className="btn btn-neutral btn-sm ml-auto"
 					disabled={changeRoleLoading}
 				>
 					{changeRoleLoading ? (
