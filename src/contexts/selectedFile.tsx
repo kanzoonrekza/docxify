@@ -22,7 +22,8 @@ const tagFilterForLoop = (tags: any) => {
 		console.log(i, loopObject, tag);
 
 		if (tag.type === "END-FOR" && !loopObject) {
-			errMessage = "Mismatched END-FOR: expected ${FOR} but got ${END-FOR}";
+			errMessage =
+				"Mismatched END-FOR: expected ${FOR} but got ${END-FOR}";
 		}
 
 		// Normal tags
@@ -76,7 +77,10 @@ export const ContextProviderSelectedFile = ({
 	const getTemplateTags = async (file: File) => {
 		if (!file) return;
 		const fileBuffer = await readFileBuffer(file);
-		const rawTags = await listCommands(fileBuffer as ArrayBuffer, ["{{", "}}"]);
+		const rawTags = await listCommands(fileBuffer as ArrayBuffer, [
+			"{{",
+			"}}",
+		]);
 
 		// Returning error if no tags detected
 		if (rawTags.length == 0) {

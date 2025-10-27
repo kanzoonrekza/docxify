@@ -55,17 +55,21 @@ export default function FormTemplate({ orgid }: { orgid: number }) {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-3 max-w-2xl w-full"
+			className="flex w-full max-w-2xl flex-col gap-3"
 		>
 			{formAddList.map((item: TypeFormField) => (
 				<FormField item={item} key={item.name} />
 			))}
 			<button
-				className="btn btn-neutral ml-auto btn-wide"
+				className="btn btn-neutral btn-wide ml-auto"
 				type="submit"
 				disabled={isMutating || tagsStatus?.status === "Error"}
 			>
-				{isMutating ? <span className="loading loading-dots" /> : "Create"}
+				{isMutating ? (
+					<span className="loading loading-dots" />
+				) : (
+					"Create"
+				)}
 			</button>
 		</form>
 	);

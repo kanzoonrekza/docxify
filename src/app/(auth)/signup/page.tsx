@@ -30,7 +30,7 @@ export default function Signup() {
 	};
 	return (
 		<>
-			<div className="text-center text-2xl font-medium mb-4">Sign up</div>
+			<div className="mb-4 text-center text-2xl font-medium">Sign up</div>
 			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 				<FormField
 					item={{
@@ -57,18 +57,25 @@ export default function Signup() {
 					}}
 				/>
 
-				<button className="btn btn-block btn-neutral" disabled={isMutating}>
-					{isMutating ? <span className="loading loading-dots" /> : "Register"}
+				<button
+					className="btn btn-neutral btn-block"
+					disabled={isMutating}
+				>
+					{isMutating ? (
+						<span className="loading loading-dots" />
+					) : (
+						"Register"
+					)}
 				</button>
 			</form>
-			<aside className="ml-auto w-fit text-sm mt-2">
+			<aside className="ml-auto mt-2 w-fit text-sm">
 				Already have an account?{" "}
 				<a href="/login" className="link link-secondary p-0">
 					Login
 				</a>
 			</aside>
 			{error && !isMutating && (
-				<div className="text-red-500 text-center text-sm pt-5">
+				<div className="pt-5 text-center text-sm text-red-500">
 					{error.body.error.detail.includes("already exists")
 						? error.body.error.detail.includes("email")
 							? "Email already used. Please use a different email or login with your existing account."

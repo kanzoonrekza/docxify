@@ -36,7 +36,10 @@ export default function OrganizationList() {
 			<p>
 				You have no organizations.
 				<br />
-				<Link href={"/organization/add"} className="link link-secondary">
+				<Link
+					href={"/organization/add"}
+					className="link link-secondary"
+				>
 					Create new
 				</Link>{" "}
 				or ask your admin to add you to one.
@@ -48,7 +51,7 @@ export default function OrganizationList() {
 			{data.map((organization: any) => (
 				<div
 					key={organization.id}
-					className="rounded flex flex-col card-compact border hover:border-neutral transition-colors duration-200"
+					className="card-compact flex flex-col rounded border transition-colors duration-200 hover:border-neutral"
 				>
 					<div className="card-body gap-0">
 						<div className="card-title">{organization.name}</div>
@@ -56,17 +59,17 @@ export default function OrganizationList() {
 							<p>Owner: {organization.owner}</p>
 							<p>{organization.templateCount} Templates</p>
 						</div>
-						<div className="grid grid-cols-2 gap-2 mt-auto pt-3">
+						<div className="mt-auto grid grid-cols-2 gap-2 pt-3">
 							{organization.role !== "member" && (
 								<Link
-									className="border btn btn-outline btn-sm btn-neutral"
+									className="btn btn-outline btn-neutral btn-sm border"
 									href={`/organization/${organization.id}`}
 								>
 									Organization
 								</Link>
 							)}
 							<Link
-								className="col-start-2 border btn btn-sm btn-neutral"
+								className="btn btn-neutral btn-sm col-start-2 border"
 								href={`/template/${organization.id}`}
 							>
 								Templates

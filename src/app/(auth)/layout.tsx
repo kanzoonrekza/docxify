@@ -16,8 +16,10 @@ export default function AuthLayout({
 
 	return (
 		<div className="h-screen">
-			<section className="mx-auto max-w-lg h-full place-content-center">
-				<div className="text-center text-4xl font-bold mx-auto">Docxify</div>
+			<section className="mx-auto h-full max-w-lg place-content-center">
+				<div className="mx-auto text-center text-4xl font-bold">
+					Docxify
+				</div>
 				{children}
 			</section>
 		</div>

@@ -8,7 +8,8 @@ export async function GET(request: NextRequest) {
 		return NextResponse.json(
 			{
 				status: 400,
-				message: "No nip detected, please make sure your nip is correct",
+				message:
+					"No nip detected, please make sure your nip is correct",
 				nip,
 			},
 			{ status: 400 }

@@ -18,7 +18,7 @@ export default function MainLayout({
 
 	if (session.status === "loading") {
 		return (
-			<div className="min-h-screen grid place-content-center">
+			<div className="grid min-h-screen place-content-center">
 				<div className="loading loading-ring w-20" />
 			</div>
 		);
@@ -27,7 +27,7 @@ export default function MainLayout({
 	if (session.status === "unauthenticated") {
 		router.push("/login");
 		return (
-			<div className="min-h-screen grid place-content-center">
+			<div className="grid min-h-screen place-content-center">
 				<h1 className="text-2xl font-bold">
 					User unauthenticated. Now redirecting to login page.
 				</h1>
@@ -36,15 +36,18 @@ export default function MainLayout({
 	}
 
 	return (
-		<div className="min-h-screen flex flex-col">
+		<div className="flex min-h-screen flex-col">
 			<ContextProviderUserOrg>
 				<div className="sticky top-0 z-10 bg-neutral">
-					<div className="flex justify-between py-2 px-5 items-center max-w-screen-2xl mx-auto w-full">
-						<Link href="/dashboard" className="text-base-100 font-bold">
+					<div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-5 py-2">
+						<Link
+							href="/dashboard"
+							className="font-bold text-base-100"
+						>
 							Docxify
 						</Link>
 						<button
-							className="btn btn-content btn-xs"
+							className="btn-content btn btn-xs"
 							onClick={handleLogOut}
 							type="button"
 						>
@@ -52,10 +55,12 @@ export default function MainLayout({
 						</button>
 					</div>
 				</div>
-				<div className="flex-1 max-w-screen-2xl mx-auto w-full">{children}</div>
-				<div className="divider py-10 divider-neutral">
+				<div className="mx-auto w-full max-w-screen-2xl flex-1">
+					{children}
+				</div>
+				<div className="divider divider-neutral py-10">
 					<button
-						className="link link-hover"
+						className="link-hover link"
 						onClick={() => {
 							window.scrollTo({ top: 0, behavior: "smooth" });
 						}}

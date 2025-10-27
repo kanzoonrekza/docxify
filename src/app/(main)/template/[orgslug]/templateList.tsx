@@ -10,7 +10,8 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 		"/api/core/templates?orgid=" + orgid,
 		fetcher.get
 	);
-	const gridClassname = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2";
+	const gridClassname =
+		"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2";
 
 	if (isLoading)
 		return (
@@ -29,7 +30,10 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 				Please wait a moment or try reloading the page.
 				<br />
 				Consider{" "}
-				<Link href={"/organization/add"} className="link link-secondary">
+				<Link
+					href={"/organization/add"}
+					className="link link-secondary"
+				>
 					logging in
 				</Link>{" "}
 				again to see if that helps.
@@ -41,7 +45,10 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 			<p className="">
 				You have no templates.
 				<br />
-				<Link href={`/template/${orgid}/add`} className="link link-secondary">
+				<Link
+					href={`/template/${orgid}/add`}
+					className="link link-secondary"
+				>
 					Create new
 				</Link>{" "}
 				or ask your admin to add you to one.
@@ -56,24 +63,28 @@ export default function TemplateList({ orgid }: { orgid: number }) {
 						<Link
 							href={`/template/${orgid}/${template.id}`}
 							key={template.id}
-							className="card-compact rounded border hover:border-neutral transition-colors duration-200"
+							className="card-compact rounded border transition-colors duration-200 hover:border-neutral"
 						>
 							<div className="card-body gap-0">
 								<div className="flex-grow">
-									<div className="flex gap-2 flex-wrap">
-										<div className="badge badge-sm badge-neutral">
+									<div className="flex flex-wrap gap-2">
+										<div className="badge badge-neutral badge-sm">
 											{template.category}
 										</div>
 										{template.apiReady && (
-											<div className="badge badge-sm badge-accent">
+											<div className="badge badge-accent badge-sm">
 												Api Ready
 											</div>
 										)}
 									</div>
-									<div className="card-title">{template.title}</div>
+									<div className="card-title">
+										{template.title}
+									</div>
 								</div>
 								{template.description && (
-									<p className="card-side">{template.description}</p>
+									<p className="card-side">
+										{template.description}
+									</p>
 								)}
 							</div>
 						</Link>
