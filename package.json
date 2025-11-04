@@ -6,17 +6,29 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "studio": "drizzle-kit studio",
+    "dblocal:up": "docker compose --env-file .env.local up -d db",
+    "dblocal:down": "docker compose --env-file .env.local down",
+    "dblocal:reset": "docker compose --env-file .env.local down -v",
+    "dbdev:up": "docker compose --env-file .env.dev up -d db",
+    "dbdev:down": "docker compose --env-file .env.dev down",
+    "dbdev:reset": "docker compose --env-file .env.dev down -v"
   },
   "dependencies": {
     "drizzle-orm": "^0.44.7",
     "next": "16.0.0",
+    "pg": "^8.16.3",
+    "postgres": "^3.4.7",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.15.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
