@@ -10,7 +10,9 @@ export default defineConfig({
     user: process.env.POSTGRES_USER!,
     password: process.env.POSTGRES_PASSWORD!,
     database: process.env.POSTGRES_DB!,
+    ssl: false,
   },
+  casing: "snake_case",
   verbose: true,
   strict: true,
 });

@@ -10,6 +10,7 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "studio": "drizzle-kit studio",
+    "seed": "tsx ./src/db/seed.ts",
     "dblocal:up": "docker compose --env-file .env.local up -d db",
     "dblocal:down": "docker compose --env-file .env.local down",
     "dblocal:reset": "docker compose --env-file .env.local down -v",
@@ -36,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
     "tailwindcss": "^4",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }
