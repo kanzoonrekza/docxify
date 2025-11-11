@@ -10,7 +10,7 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "studio": "drizzle-kit studio",
-    "seed": "tsx ./src/db/seed.ts",
+    "seed": "tsx --env-file=.env ./src/db/seed.ts",
     "dblocal:up": "docker compose --env-file .env.local up -d db",
     "dblocal:down": "docker compose --env-file .env.local down",
     "dblocal:reset": "docker compose --env-file .env.local down -v",
