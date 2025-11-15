@@ -13,7 +13,8 @@
     "seed": "tsx --env-file=.env ./src/db/seed.ts",
     "db:up": "docker compose --env-file .env up -d db",
     "db:down": "docker compose --env-file .env down",
-    "db:reset": "docker compose --env-file .env down -v"
+    "db:reset": "docker compose --env-file .env down -v",
+    "db:fullreset": "pnpm db:reset && pnpm db:up && rm -rf ./drizzle && pnpm generate && sleep 2 && pnpm migrate && pnpm seed"
   },
   "dependencies": {
     "drizzle-orm": "^0.44.7",
