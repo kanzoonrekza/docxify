@@ -11,12 +11,9 @@
     "migrate": "drizzle-kit migrate",
     "studio": "drizzle-kit studio",
     "seed": "tsx --env-file=.env ./src/db/seed.ts",
-    "dblocal:up": "docker compose --env-file .env.local up -d db",
-    "dblocal:down": "docker compose --env-file .env.local down",
-    "dblocal:reset": "docker compose --env-file .env.local down -v",
-    "dbdev:up": "docker compose --env-file .env.dev up -d db",
-    "dbdev:down": "docker compose --env-file .env.dev down",
-    "dbdev:reset": "docker compose --env-file .env.dev down -v"
+    "db:up": "docker compose --env-file .env up -d db",
+    "db:down": "docker compose --env-file .env down",
+    "db:reset": "docker compose --env-file .env down -v"
   },
   "dependencies": {
     "drizzle-orm": "^0.44.7",
