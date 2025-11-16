@@ -13,10 +13,12 @@ export const organizations = pgTable(
     id: serial().notNull().primaryKey().unique(),
     slug: varchar().notNull(),
     name: varchar().notNull(),
-    createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp({ withTimezone: true }).defaultNow(),
-    archivedAt: timestamp({ withTimezone: true }),
-    deletedAt: timestamp({ withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (organizations) => [
     uniqueIndex().on(organizations.slug).where(isNull(organizations.deletedAt)),

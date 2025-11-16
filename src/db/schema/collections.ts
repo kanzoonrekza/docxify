@@ -14,14 +14,16 @@ export const collections = pgTable(
   {
     id: serial().notNull().primaryKey().unique(),
     slug: varchar().notNull(),
-    organizationId: integer()
+    organizationId: integer("organization_id")
       .notNull()
       .references(() => organizations.id),
     name: varchar().notNull(),
-    createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp({ withTimezone: true }).defaultNow(),
-    archivedAt: timestamp({ withTimezone: true }),
-    deletedAt: timestamp({ withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (collections) => [
     uniqueIndex().on(collections.slug).where(isNull(collections.deletedAt)),

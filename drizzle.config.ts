@@ -12,7 +12,6 @@ export default defineConfig({
     database: process.env.POSTGRES_DB!,
     ssl: false,
   },
-  casing: "snake_case",
   verbose: true,
   strict: true,
 });

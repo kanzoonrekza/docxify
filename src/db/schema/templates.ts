@@ -16,16 +16,18 @@ export const templates = pgTable(
   {
     id: serial().notNull().primaryKey().unique(),
     slug: varchar().notNull(),
-    collectionId: integer()
+    collectionId: integer("collection_id")
       .notNull()
       .references(() => collections.id),
     name: text().notNull(),
     description: text(),
-    fileUrl: text().notNull(),
-    createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp({ withTimezone: true }).defaultNow(),
-    archivedAt: timestamp({ withTimezone: true }),
-    deletedAt: timestamp({ withTimezone: true }),
+    fileUrl: text("file_url").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (templates) => [
     uniqueIndex().on(templates.slug).where(isNull(templates.deletedAt)),

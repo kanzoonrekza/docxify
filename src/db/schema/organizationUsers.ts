@@ -7,18 +7,20 @@ import { isNull } from "drizzle-orm";
 export const organizationUsers = pgTable(
   "organization_users",
   {
-    userId: integer()
+    userId: integer("user_id")
       .notNull()
       .references(() => users.id),
-    organizationId: integer()
+    organizationId: integer("organization_id")
       .notNull()
       .references(() => organizations.id, { onDelete: "cascade" }),
-    roleId: integer()
+    roleId: integer("role_id")
       .notNull()
       .references(() => roles.id, { onDelete: "cascade" }),
-    createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-    archivedAt: timestamp({ withTimezone: true }),
-    deletedAt: timestamp({ withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (organizationUsers) => [
     uniqueIndex()

@@ -1,8 +1,10 @@
+import { seedGuestUsers } from "./seeds/guestUsers";
 import { seedRoles } from "./seeds/roles";
 
 async function seed() {
   console.log("seeding");
   await seedRoles();
+  await seedGuestUsers();
 }
 
 seed()
