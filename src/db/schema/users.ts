@@ -1,9 +1,26 @@
-// import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 
-// export const users = pgTable("users", {
-//   username: text().notNull().primaryKey().unique(),
-//   email: text().notNull().unique(),
-//   password: text().notNull(),
-//   createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-//   updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-// });
+export const users = pgTable("users", {
+  id: serial().notNull().primaryKey().unique(),
+  username: varchar().notNull().unique(),
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp({ withTimezone: true }).defaultNow(),
+  archivedAt: timestamp({ withTimezone: true }),
+});
+
+export const userProfiles = pgTable("user_profiles", {
+  userId: integer()
+    .notNull()
+    .primaryKey()
+    .references(() => users.id),
+  email: varchar().notNull().unique(),
+  fullName: text(),
+  referal: varchar(),
+});
