@@ -6,11 +6,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-screen grid place-items-center">
-      <div className="text-center gap-20 grid">
-        AuthLayout
+    <div className="h-screen">
+      <section className="mx-auto h-full max-w-lg place-content-center">
+        <div className="mx-auto text-center text-4xl font-bold">Docxify</div>
         {children}
-      </div>
+      </section>
     </div>
   );
 }
