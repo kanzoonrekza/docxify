@@ -29,7 +29,12 @@ export default function LoginPage() {
             defaultValue={state?.data?.username || ""}
           />
         </div>
-        <button className="btn mt-4" type="submit" disabled={isPending}>
+        <button
+          style={{ viewTransitionName: "login-button" }}
+          className="btn mt-4"
+          type="submit"
+          disabled={isPending}
+        >
           Login
         </button>
         {!isPending && <aside>{state?.data?.username}</aside>}

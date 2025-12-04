@@ -8,7 +8,12 @@ export default function AuthLayout({
   return (
     <div className="h-screen">
       <section className="mx-auto h-full max-w-lg place-content-center">
-        <div className="mx-auto text-center text-4xl font-bold">Docxify</div>
+        <div
+          style={{ viewTransitionName: "logo" }}
+          className="mx-auto text-center text-4xl font-bold"
+        >
+          Docxeaze
+        </div>
         {children}
       </section>
     </div>
