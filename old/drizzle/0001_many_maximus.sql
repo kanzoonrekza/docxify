@@ -1,1 +1,0 @@
-ALTER TABLE "templateTable" ADD COLUMN "file_url" text DEFAULT '' NOT NULL;
