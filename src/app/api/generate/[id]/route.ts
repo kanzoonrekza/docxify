@@ -54,17 +54,18 @@ export async function GET(
 		}
 	}
 
-	const resultFetch = await fetch(
+	const apiResponse = await fetch(
 		`${response[0].api_url as string}${request.nextUrl.search}`
-	).then((res) => res.json());
+	);
 
-	if (resultFetch.status !== 200) {
+	if (!apiResponse.ok) {
 		return NextResponse.json({
 			message: "Error fetching data from API",
-			status: resultFetch.status,
-			returned: resultFetch,
+			status: apiResponse.status,
 		});
 	}
+
+	const resultFetch = await apiResponse.json();
 
 	const jsonData: any = {};
 
