@@ -255,9 +255,7 @@ export default function ConnectedApiForm({
 										? undefined
 										: fetchApiError
 											? "Error"
-											: fetchApiData.status === 200
-												? "Success"
-												: "Error",
+											: "Success",
 							}}
 						/>
 					</section>
