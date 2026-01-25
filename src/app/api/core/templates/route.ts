@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
 		// DEMO: Skip Cloudinary upload and use placeholder URL
 		// const uploadResult: UploadApiResponse =
 		// 	await claudinaryUploadBuffer(file);
-		const demoFileUrl = `${process.env.DEMO_FILE_UPLOAD_LINK}`;
+		const demoFileUrl = process.env.NEXT_PUBLIC_DEMO_FILE_UPLOAD_LINK;
 
 		const uniqueTags = JSON.parse(formData.get("tags") as string).filter(
 			(tag: any, index: number, self: any[]) =>
