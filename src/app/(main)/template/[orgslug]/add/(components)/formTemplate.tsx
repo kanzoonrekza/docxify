@@ -25,6 +25,16 @@ export default function FormTemplate({ orgid }: { orgid: number }) {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		// Alert user about demo mode
+		alert(
+			"⚠️ Demo Mode Notice\n\n" +
+				"Access to object storage (Cloudinary) is disabled for this preview version.\n\n" +
+				"Your template will be created with a placeholder file URL to demonstrate the app flow, " +
+				"but the actual file will not be uploaded to cloud storage.\n\n" +
+				"This allows you to explore the full functionality without consuming storage resources."
+		);
+
 		const formData: FormData = new FormData(e.currentTarget);
 
 		formAddList.forEach((form) => {

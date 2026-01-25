@@ -79,15 +79,19 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const uploadResult: UploadApiResponse =
-			await claudinaryUploadBuffer(file);
+		// DEMO: Skip Cloudinary upload and use placeholder URL
+		// const uploadResult: UploadApiResponse =
+		// 	await claudinaryUploadBuffer(file);
+		const demoFileUrl = `${process.env.DEMO_FILE_UPLOAD_LINK}`;
+
 		const uniqueTags = JSON.parse(formData.get("tags") as string).filter(
 			(tag: any, index: number, self: any[]) =>
 				self.findIndex((t) => t.code === tag.code) === index
 		);
 		const newData: NewTemplate = {
 			title: formData.get("title") as string,
-			fileUrl: uploadResult.secure_url,
+			// fileUrl: uploadResult.secure_url
+			fileUrl: demoFileUrl,
 			description: formData.get("description") as string,
 			category: formData.get("category") as string,
 			apiReady:

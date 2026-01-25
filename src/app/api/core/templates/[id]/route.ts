@@ -95,17 +95,19 @@ export async function DELETE(
 		return NextResponse.json({ message: "Data not found" });
 	}
 
-	const publicId = getPublicIdFromUrl(response[0].fileUrl);
+	// DEMO MODE: Skip Cloudinary deletion since files are not actually uploaded
+	// const publicId = getPublicIdFromUrl(response[0].fileUrl);
 
-	if (!publicId) {
-		return NextResponse.json({ message: "Invalid file url" });
-	}
+	// if (!publicId) {
+	// 	return NextResponse.json({ message: "Invalid file url" });
+	// }
 
 	try {
-		const returnedData = await cloudinary.api.delete_resources([publicId], {
-			type: "upload",
-			resource_type: "raw",
-		});
+		// Skip Cloudinary deletion in demo mode
+		// const returnedData = await cloudinary.api.delete_resources([publicId], {
+		// 	type: "upload",
+		// 	resource_type: "raw",
+		// });
 
 		try {
 			await deleteTemplate();
