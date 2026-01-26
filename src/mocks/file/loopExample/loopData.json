@@ -1,0 +1,56 @@
+{
+	"jason": {
+		"short_name": "Jason",
+		"phone": "0812345678910",
+		"member_list": [
+			{
+				"name": "Bradd",
+				"position": "Dev Ops Trainee"
+			},
+			{
+				"name": "Dellise",
+				"position": "HR Consultant"
+			},
+			{
+				"name": "Timmy",
+				"position": "Lead Engineer"
+			}
+		]
+	},
+	"brawn": {
+		"short_name": "Brawn",
+		"phone": "0812345678911",
+		"member_list": [
+			{
+				"name": "Jane",
+				"position": "Dev Ops Trainee"
+			},
+			{
+				"name": "Doe",
+				"position": "HR Consultant"
+			},
+			{
+				"name": "Smith",
+				"position": "Lead Engineer"
+			},
+			{
+				"name": "Joseph",
+				"position": "Accountant"
+			}
+		]
+	},
+	"mike": {
+		"short_name": "Mike",
+		"phone": "0812345678912",
+		"member_list": [
+			{
+				"name": "Alice",
+				"position": "Dev Ops Trainee"
+			},
+			{
+				"name": "Bob",
+				"position": "HR Consultant"
+			}
+		]
+	}
+}

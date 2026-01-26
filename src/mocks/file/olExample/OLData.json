@@ -1,0 +1,38 @@
+{
+	"tim": {
+		"offer_date": "January 1, 2023",
+		"candidate_name": "Tim D. Smith",
+		"job_title": "Lead Engineer",
+		"company_name": "TechCorp Inc.",
+		"employment_type": "Full-time",
+		"start_date": "January 15, 2023",
+		"salary_amount": "$34,000",
+		"probation_duration": "3 months",
+		"signer_name": "John Slimmy Joe",
+		"signer_title": "CEO"
+	},
+	"brian": {
+		"offer_date": "March 6, 2024",
+		"candidate_name": "Brian J. Johnson",
+		"job_title": "HR Consultant",
+		"company_name": "DataCorp Limited",
+		"employment_type": "Full-time",
+		"start_date": "April 1, 2023",
+		"salary_amount": "$23,000",
+		"probation_duration": "6 months",
+		"signer_name": "Richard Johnson",
+		"signer_title": "Head of Consulting Division"
+	},
+	"jane": {
+		"offer_date": "May 1, 2023",
+		"candidate_name": "Jane M. Doe",
+		"job_title": "Software Developer",
+		"company_name": "XBN Technologies LLC",
+		"employment_type": "Full-time",
+		"start_date": "May 25, 2023",
+		"salary_amount": "$46,000",
+		"probation_duration": "12 months",
+		"signer_name": "Junniper Laurence",
+		"signer_title": "CEO"
+	}
+}
