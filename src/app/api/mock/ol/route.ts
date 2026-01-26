@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 		);
 	}
 
-	const selectedData = rawData[mockdata];
+	const selectedData = rawData[mockdata as keyof typeof rawData];
 
 	if (!selectedData) {
 		return NextResponse.json(
